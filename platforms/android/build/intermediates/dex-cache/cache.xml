@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/Users/alexrainman/Desktop/NativeScript/CarouselView/platforms/android/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/23.4.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="c2c594cace5d83a3227b2b6e658ecbfd586d3ed9">
+        <dex dex="/Users/alexrainman/Desktop/NativeScript/CarouselView/platforms/android/build/intermediates/pre-dexed/F0/debug/com.android.support-support-vector-drawable-23.4.0_918b4ea357dedf7ce873e3cdab42a586cce141ad.jar" />
+    </item>
+    <item
+        jar="/Users/alexrainman/Desktop/NativeScript/CarouselView/platforms/android/build/intermediates/exploded-aar/com.android.support/animated-vector-drawable/23.4.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="de4db3785756bfb0915a9f59a9b3f2fea7407be4">
+        <dex dex="/Users/alexrainman/Desktop/NativeScript/CarouselView/platforms/android/build/intermediates/pre-dexed/F0/debug/com.android.support-animated-vector-drawable-23.4.0_b84f5d018be6050aebe05473eb73c5e0920fc17a.jar" />
+    </item>
+    <item
+        jar="/Users/alexrainman/Desktop/NativeScript/CarouselView/platforms/android/build/intermediates/exploded-aar/com.android.support/support-v4/23.4.0/jars/libs/internal_impl-23.4.0.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="ea3c07504d2c8f4b13aa17c45c1b68ed9c1c3674">
+        <dex dex="/Users/alexrainman/Desktop/NativeScript/CarouselView/platforms/android/build/intermediates/pre-dexed/F0/debug/internal_impl-23.4.0_ce659adc70a43db71785e7c2501db1bbd542613f.jar" />
+    </item>
+    <item
+        jar="/Users/alexrainman/Desktop/NativeScript/CarouselView/platforms/android/build/intermediates/exploded-aar/widgets-release/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="f3064a6bb3bf091d8ef08a38816df98e4c033ce2">
+        <dex dex="/Users/alexrainman/Desktop/NativeScript/CarouselView/platforms/android/build/intermediates/pre-dexed/F0/debug/intermediates-exploded-aar-widgets-release_faa24686977adbbc73da87a3567d931bff57c1d1.jar" />
+    </item>
+    <item
+        jar="/Users/alexrainman/Desktop/NativeScript/CarouselView/platforms/android/build/intermediates/exploded-aar/CarouselViewDemo/runtime/unspecified/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="9909ad5fcc13fcc60529cfa340ee7e0abc79af38">
+        <dex dex="/Users/alexrainman/Desktop/NativeScript/CarouselView/platforms/android/build/intermediates/pre-dexed/F0/debug/CarouselViewDemo-runtime-unspecified_6525fd55ada669d39bd7ccbb4114c10d5552983d.jar" />
+    </item>
+    <item
+        jar="/Users/alexrainman/Desktop/NativeScript/CarouselView/platforms/android/build/intermediates/exploded-aar/CarouselViewDemo/runtime/unspecified/jars/libs/binding-generator.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="4290aba11bda501dbadc2dd5c4b08282c0bbfeb8">
+        <dex dex="/Users/alexrainman/Desktop/NativeScript/CarouselView/platforms/android/build/intermediates/pre-dexed/F0/debug/binding-generator_57a765de53f4379c069179f13962d5b5226ea5a7.jar" />
+    </item>
+    <item
+        jar="/Users/alexrainman/Desktop/NativeScript/CarouselView/platforms/android/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.4.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="548f06de403a9409f00554b3ee12a9fdea0e236c">
+        <dex dex="/Users/alexrainman/Desktop/NativeScript/CarouselView/platforms/android/build/intermediates/pre-dexed/F0/debug/com.android.support-appcompat-v7-23.4.0_0b2fa6f9cf8b56f08bcdd1068e9699dd603425c8.jar" />
+    </item>
+    <item
+        jar="/Users/alexrainman/Desktop/NativeScript/CarouselView/platforms/android/build/intermediates/exploded-aar/com.android.support/support-v4/23.4.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="67bd36ee9340ec7c254108936ad16b24bed160cc">
+        <dex dex="/Users/alexrainman/Desktop/NativeScript/CarouselView/platforms/android/build/intermediates/pre-dexed/F0/debug/com.android.support-support-v4-23.4.0_deb3c6ad72f7a5c71c783f9464cfd72562a61235.jar" />
+    </item>
+    <item
+        jar="/Users/alexrainman/Library/Developer/Xamarin/android-sdk-macosx/extras/android/m2repository/com/android/support/support-annotations/23.4.0/support-annotations-23.4.0.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="ffbe55fdb2bb456b1485831706a9eac3300bb6b8">
+        <dex dex="/Users/alexrainman/Desktop/NativeScript/CarouselView/platforms/android/build/intermediates/pre-dexed/F0/debug/support-annotations-23.4.0_4cf7ea4096a8058736995969560a8dceef4d2cbb.jar" />
+    </item>
+
+</items>

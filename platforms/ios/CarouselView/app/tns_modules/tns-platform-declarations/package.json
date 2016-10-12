@@ -1,0 +1,78 @@
+{
+  "name": "tns-platform-declarations",
+  "version": "2.2.0",
+  "description": "Platform-specific TypeScript declarations for NativeScript for accessing native objects",
+  "main": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/NativeScript/NativeScript.git"
+  },
+  "keywords": [
+    "NativeScript",
+    "TypeScript",
+    "declarations",
+    "native",
+    "platform-specific",
+    "tns",
+    "ts",
+    "ns"
+  ],
+  "author": {
+    "name": "Telerik",
+    "email": "support@telerik.com",
+    "url": "http://www.telerik.com"
+  },
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/NativeScript/NativeScript/issues"
+  },
+  "homepage": "https://github.com/NativeScript/NativeScript#readme",
+  "_id": "tns-platform-declarations@2.2.0",
+  "_shasum": "264dad652c547c57a3356fef5343d16e3ad6d770",
+  "_resolved": "https://registry.npmjs.org/tns-platform-declarations/-/tns-platform-declarations-2.2.0.tgz",
+  "_from": "tns-platform-declarations@2.2.0",
+  "_npmVersion": "2.15.5",
+  "_nodeVersion": "4.4.5",
+  "_npmUser": {
+    "name": "enchev",
+    "email": "vladimir.enchev@gmail.com"
+  },
+  "dist": {
+    "shasum": "264dad652c547c57a3356fef5343d16e3ad6d770",
+    "tarball": "https://registry.npmjs.org/tns-platform-declarations/-/tns-platform-declarations-2.2.0.tgz"
+  },
+  "maintainers": [
+    {
+      "name": "enchev",
+      "email": "vladimir.enchev@gmail.com"
+    },
+    {
+      "name": "erjangavalji",
+      "email": "erjan.gavalji@gmail.com"
+    },
+    {
+      "name": "hamorphis",
+      "email": "rossen.hristov@progress.com"
+    },
+    {
+      "name": "hdeshev",
+      "email": "hristo@deshev.com"
+    },
+    {
+      "name": "ligaz",
+      "email": "stefan.dobrev@gmail.com"
+    },
+    {
+      "name": "sdobrev",
+      "email": "stefan.dobrev@gmail.com"
+    }
+  ],
+  "_npmOperationalInternal": {
+    "host": "packages-16-east.internal.npmjs.com",
+    "tmp": "tmp/tns-platform-declarations-2.2.0.tgz_1470832717028_0.2830832083709538"
+  },
+  "directories": {}
+}

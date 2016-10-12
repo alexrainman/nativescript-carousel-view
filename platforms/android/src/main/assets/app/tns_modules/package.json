@@ -1,0 +1,106 @@
+{
+  "name": "tns-core-modules",
+  "description": "Telerik NativeScript Core Modules",
+  "version": "2.3.0",
+  "homepage": "https://www.nativescript.org",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NativeScript/NativeScript/commit/dbeb0360c8567a803bb92d104f2683fed61aa541"
+  },
+  "files": [
+    "**/*.d.ts",
+    "**/*.js",
+    "!android17.d.ts",
+    "!ios.d.ts",
+    "!bin/",
+    "!apps/",
+    "!build/",
+    "!node-tests/",
+    "!declarations.android.d.ts",
+    "!declarations.ios.d.ts",
+    "!gruntfile.js",
+    "!org.nativescript.widgets.d.ts"
+  ],
+  "license": "Apache-2.0",
+  "typings": "tns-core-modules.d.ts",
+  "dependencies": {
+    "tns-core-modules-widgets": "2.3.0"
+  },
+  "nativescript": {
+    "platforms": {
+      "ios": "2.1.1",
+      "android": "2.1.1"
+    }
+  },
+  "_id": "tns-core-modules@2.3.0",
+  "_shasum": "8484a6a639cdcf845326e874f438b081a1c35900",
+  "_resolved": "https://registry.npmjs.org/tns-core-modules/-/tns-core-modules-2.3.0.tgz",
+  "_from": "tns-core-modules@latest",
+  "scripts": {},
+  "_npmVersion": "3.10.3",
+  "_nodeVersion": "6.4.0",
+  "_npmUser": {
+    "name": "hdeshev",
+    "email": "hristo@deshev.com"
+  },
+  "dist": {
+    "shasum": "8484a6a639cdcf845326e874f438b081a1c35900",
+    "tarball": "https://registry.npmjs.org/tns-core-modules/-/tns-core-modules-2.3.0.tgz"
+  },
+  "maintainers": [
+    {
+      "name": "enchev",
+      "email": "vladimir.enchev@gmail.com"
+    },
+    {
+      "name": "erjangavalji",
+      "email": "erjan.gavalji@gmail.com"
+    },
+    {
+      "name": "fatme",
+      "email": "hfatme@gmail.com"
+    },
+    {
+      "name": "hdeshev",
+      "email": "hristo@deshev.com"
+    },
+    {
+      "name": "hhristov",
+      "email": "hristo.hristov@outlook.com"
+    },
+    {
+      "name": "ligaz",
+      "email": "stefan.dobrev@gmail.com"
+    },
+    {
+      "name": "nsndeck",
+      "email": "nedyalko.nikolov@telerik.com"
+    },
+    {
+      "name": "panayot.cankov",
+      "email": "panayot.cankov@telerik.com"
+    },
+    {
+      "name": "sdobrev",
+      "email": "stefan.dobrev@gmail.com"
+    },
+    {
+      "name": "tzraikov",
+      "email": "tsvetan.raikov@telerik.com"
+    },
+    {
+      "name": "vakrilov",
+      "email": "alexander.vakrilov@gmail.com"
+    },
+    {
+      "name": "valio.stoychev",
+      "email": "valio.stoychev@gmail.com"
+    }
+  ],
+  "_npmOperationalInternal": {
+    "host": "packages-12-west.internal.npmjs.com",
+    "tmp": "tmp/tns-core-modules-2.3.0.tgz_1473938931074_0.6924647802952677"
+  },
+  "directories": {},
+  "readme": "ERROR: No README data found!"
+}
