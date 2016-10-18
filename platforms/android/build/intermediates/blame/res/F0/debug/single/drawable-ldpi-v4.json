@@ -4,18 +4,6 @@
         "source": "/Users/alexrainman/Desktop/NativeScript/CarouselView/platforms/android/src/main/res/drawable-ldpi/logo.png"
     },
     {
-        "merged": "/Users/alexrainman/Desktop/CarouselViewDemo/platforms/android/build/intermediates/res/merged/F0/debug/drawable-ldpi-v4/logo.png",
-        "source": "/Users/alexrainman/Desktop/CarouselViewDemo/platforms/android/src/main/res/drawable-ldpi/logo.png"
-    },
-    {
-        "merged": "/Users/alexrainman/Desktop/CarouselViewDemo/platforms/android/build/intermediates/res/merged/F0/debug/drawable-ldpi-v4/background.png",
-        "source": "/Users/alexrainman/Desktop/CarouselViewDemo/platforms/android/src/main/res/drawable-ldpi/background.png"
-    },
-    {
-        "merged": "/Users/alexrainman/Desktop/CarouselViewDemo/platforms/android/build/intermediates/res/merged/F0/debug/drawable-ldpi-v4/icon.png",
-        "source": "/Users/alexrainman/Desktop/CarouselViewDemo/platforms/android/src/main/res/drawable-ldpi/icon.png"
-    },
-    {
         "merged": "/Users/alexrainman/Desktop/NativeScript/CarouselView/platforms/android/build/intermediates/res/merged/F0/debug/drawable-ldpi-v4/background.png",
         "source": "/Users/alexrainman/Desktop/NativeScript/CarouselView/platforms/android/src/main/res/drawable-ldpi/background.png"
     },

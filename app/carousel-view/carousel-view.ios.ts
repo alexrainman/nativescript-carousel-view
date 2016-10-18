@@ -1,33 +1,48 @@
 import * as application from 'application';
 import common = require("./carousel-view-common");
-import observable= require("data/observable");
+import observable = require("data/observable");
+import dependencyObservable = require("ui/core/dependency-observable");
+import proxy = require("ui/core/proxy");
+import observableArrayModule = require("data/observable-array");
+var colorModule = require("color");
 
 export class CarouselView extends common.CarouselView
 {
     private _ios: UIPageViewController;
 
-    get ios(): UIPageViewController{
-        return this._ios;
+    get ios(): UIView{
+        return this._ios.view;
+    }
+
+    // We will need this for the view to show up
+    // However, if you uncomment an run with this, it will crash with:
+    // -[UIPageViewController superview]: unrecognized selector sent to instance 0x7f9d21804000
+    // Some of the docs linked by core team should provide a way forward 
+    // Basically we need to extend UIPageViewController properly
+    get _nativeView(): any {
+        return this._ios.view;
     }
 
     constructor()
     {
         super();
-
+        
         this._ios = new UIPageViewController(
             UIPageViewControllerTransitionStyle.UIPageViewControllerTransitionStyleScroll,
             UIPageViewControllerNavigationOrientation.UIPageViewControllerNavigationOrientationHorizontal,
             NSDictionary.dictionaryWithObjectForKey(UIPageViewControllerSpineLocation.UIPageViewControllerSpineLocationNone, "spineLocation"));
-
-        /*this._ios = UIPageViewController.alloc().initWithTransitionStyleNavigationOrientationOptions(
-            UIPageViewControllerTransitionStyle.UIPageViewControllerTransitionStyleScroll,
-            UIPageViewControllerNavigationOrientation.UIPageViewControllerNavigationOrientationHorizontal,
-            NSDictionary.dictionaryWithObjectForKey(UIPageViewControllerSpineLocation.UIPageViewControllerSpineLocationNone, "spineLocation"));*/
-
+        
         var that = new WeakRef(this);
         this._ios.dataSource = DataSourceClass.initWithOwner(that);
-        this._ios.delegate = new DelegateClass();
-        
+        this._ios.delegate = DelegateClass.initWithOwner(that);
+    }
+
+    public onLoaded() {
+
+        let firstViewController = this.createViewController(this.position);
+        let direction = UIPageViewControllerNavigationDirection.UIPageViewControllerNavigationDirectionForward;
+        this._ios.setViewControllersDirectionAnimatedCompletion (<any>[firstViewController], direction, false, (arg1) => {});
+
         var eventData: observable.EventData = {
             eventName: "positionSelected",
             object: this
@@ -39,13 +54,17 @@ export class CarouselView extends common.CarouselView
         if (this._ios != null) {
 				
             if (position == -1)
-				this.itemsSource.push (bindingContext);
+				this.itemsSource.push(bindingContext);
 			else
 				this.itemsSource.splice(position, 0, bindingContext);
 
-			var firstViewController = this._ios.viewControllers [0];
+            let firstViewController = this._ios.viewControllers[0];
             var direction = UIPageViewControllerNavigationDirection.UIPageViewControllerNavigationDirectionForward;
-			this._ios.setViewControllersDirectionAnimatedCompletion (new NSArray(firstViewController), direction, false, (arg1) => {});
+
+            // can use a standard JS Array here (just type-cast to any to suffice TypeScript)
+            // {N} will auto-marshall this into a NSArray when making the call since the metadata knows its
+            // supposed to be an NSArray :)
+			this._ios.setViewControllersDirectionAnimatedCompletion(<any>[firstViewController], direction, false, (arg1) => {});
 
             await this.delay(100);
         }
@@ -65,16 +84,16 @@ export class CarouselView extends common.CarouselView
                 var reverse = UIPageViewControllerNavigationDirection.UIPageViewControllerNavigationDirectionReverse;
                 let direction = position == 0 ? forward : reverse;
                 
-                let firstViewController = this.createViewController (newPos);
-                this._ios.setViewControllersDirectionAnimatedCompletion (new NSArray(firstViewController), direction, true, (arg1) => {});
+                let firstViewController = this.createViewController(newPos);
+                this._ios.setViewControllersDirectionAnimatedCompletion(<any>[firstViewController], direction, true, (arg1) => {});
 
                 this.position = newPos;
 
             } else {
 
-                let firstViewController = this._ios.viewControllers [0];
+                let firstViewController = this._ios.viewControllers[0];
                 let direction = UIPageViewControllerNavigationDirection.UIPageViewControllerNavigationDirectionForward;
-                this._ios.setViewControllersDirectionAnimatedCompletion (new NSArray(firstViewController), direction, false, (arg1) => {});
+                this._ios.setViewControllersDirectionAnimatedCompletion (<any>[firstViewController], direction, false, (arg1) => {});
 
             }
         }
@@ -88,24 +107,27 @@ export class CarouselView extends common.CarouselView
 
 			this.position = position;
 
-			var firstViewController = this.createViewController (position);
-			this._ios.setViewControllersDirectionAnimatedCompletion (new NSArray(firstViewController), direction, true, (arg1) => {});
+            var firstViewController = this.createViewController(position);
+			this._ios.setViewControllersDirectionAnimatedCompletion(<any>[firstViewController], direction, true, (arg1) => {});
         }
     }
 
-   public createViewController(position: number) : UIViewController 
-   {
-       var item;
+    public createViewController(position: number) : UIViewController 
+    {
+        var item;
         if (this.itemsSource != null)
             item = this.itemsSource.getItem(position);
 
         var view = this.templateSelector.OnSelectTemplate(position, item);
         var obj = <any>view;
-        //obj._onAttached();
+        obj._onAttached();
+
+        //var red = new colorModule.Color("#ff0000");
+        //obj._view.backgroundColor = red.ios;
 
         var viewController = new ViewContainer();
         viewController.tag = position;
-        //viewController.view = obj.ios;
+        viewController.view = obj._view;
 
         return viewController;
     }
@@ -119,121 +141,14 @@ class DataSourceClass implements UIPageViewControllerDataSource
 {
     private _owner: WeakRef<CarouselView>;
 
+    get owner(): CarouselView{
+        return this._owner.get();
+    }
+
     public static initWithOwner(owner: WeakRef<CarouselView>): DataSourceClass {
         let datasource = new DataSourceClass();
         datasource._owner = owner;
         return datasource;
-    }
-
-    pageViewControllerViewControllerBeforeViewController(pageViewController: UIPageViewController, viewController: UIViewController): UIViewController
-    {
-        var controller = <ViewContainer>viewController;
-        var position = controller.tag;
-
-        // Determine if we are on the first page
-        if (position == 0)
-        {
-            // We are on the first page, so there is no need for a controller before that
-            return null;
-        }
-        else {
-            var previousPageIndex = position - 1;
-            let owner = this._owner.get();
-            return owner.createViewController(previousPageIndex);
-        }
-    }
-
-    pageViewControllerViewControllerAfterViewController(pageViewController: UIPageViewController, viewController: UIViewController): UIViewController
-    {
-        var controller = <ViewContainer>viewController;
-        var position = controller.tag;
-
-        // Determine if we are on the last page
-        var count = this.presentationCountForPageViewController(pageViewController);
-        if (position == count - 1)
-        {
-            // We are on the last page, so there is no need for a controller after that
-            return null;
-        }
-        else {
-            var nextPageIndex = position + 1;
-            let owner = this._owner.get();
-            return owner.createViewController(nextPageIndex);
-        }
-    }
-
-    presentationCountForPageViewController?(pageViewController: UIPageViewController): number
-    {
-        let owner = this._owner.get();
-
-        // FIX: populate the carousel with data after being loaded in UI
-        if (owner.itemsSource == null)
-            return 0;
-        return owner.itemsSource.length;
-    }
-
-    presentationIndexForPageViewController?(pageViewController: UIPageViewController): number
-    {
-        let owner = this._owner.get();
-        return owner.position;
-    }
-}
-
-export class DelegateClass implements UIPageViewControllerDelegate
-{
-    pageViewControllerDidFinishAnimatingPreviousViewControllersTransitionCompleted?(pageViewController: UIPageViewController, finished: boolean, previousViewControllers: NSArray, completed: boolean): void
-    {
-        /*var eventData: observable.EventData = {
-            eventName: "positionSelected",
-            object: this
-        }
-        this.notify(eventData);*/
-    }
-}
-
-/*export class PageViewController extends UIPageViewController implements UIPageViewControllerDataSource
-{
-    private _owner: WeakRef<CarouselView>;
-
-    get owner(): CarouselView {
-        return this._owner.get();
-    }
-
-    public static initWithOwner(owner: WeakRef<CarouselView>): PageViewController {
-        let controller = new PageViewController(
-            UIPageViewControllerTransitionStyle.UIPageViewControllerTransitionStyleScroll,
-            UIPageViewControllerNavigationOrientation.UIPageViewControllerNavigationOrientationHorizontal,
-            NSDictionary.dictionaryWithObjectForKey(UIPageViewControllerSpineLocation.UIPageViewControllerSpineLocationNone, "spineLocation"))
-        controller._owner = owner;
-        return controller;
-    }
-
-    viewDidLoad() {
-
-        super.viewDidLoad();
-
-        this.dataSource = this;
-        
-        var firstViewController = this.createViewController(this.owner.position);
-		var direction = UIPageViewControllerNavigationDirection.UIPageViewControllerNavigationDirectionForward;
-        this.setViewControllersDirectionAnimatedCompletion (new NSArray(firstViewController), direction, false, (arg1) => {});
-    }
-
-    public createViewController(position: number) : UIViewController 
-   {
-       var item;
-        if (this.owner.itemsSource != null)
-            item = this.owner.itemsSource.getItem(position);
-
-        var view = this.owner.templateSelector.OnSelectTemplate(position, item);
-        var obj = <any>view;
-        //obj._onAttached();
-
-        var viewController = new ViewContainer();
-        viewController.tag = position;
-        //viewController.view = obj.ios;
-
-        return viewController;
     }
 
     pageViewControllerViewControllerBeforeViewController(pageViewController: UIPageViewController, viewController: UIViewController): UIViewController
@@ -271,7 +186,7 @@ export class DelegateClass implements UIPageViewControllerDelegate
         }
     }
 
-    presentationCountForPageViewController?(pageViewController: UIPageViewController): number
+    presentationCountForPageViewController(pageViewController: UIPageViewController): number
     {
         // FIX: populate the carousel with data after being loaded in UI
         if (this.owner.itemsSource == null)
@@ -279,13 +194,40 @@ export class DelegateClass implements UIPageViewControllerDelegate
         return this.owner.itemsSource.length;
     }
 
-    presentationIndexForPageViewController?(pageViewController: UIPageViewController): number
+    presentationIndexForPageViewController(pageViewController: UIPageViewController): number
     {
         return this.owner.position;
     }
-}*/
+}
+
+class DelegateClass implements UIPageViewControllerDelegate
+{
+    private _owner: WeakRef<CarouselView>;
+
+    get owner(): CarouselView{
+        return this._owner.get();
+    }
+
+    public static initWithOwner(owner: WeakRef<CarouselView>): DelegateClass {
+        let delegate = new DelegateClass();
+        delegate._owner = owner;
+        return delegate;
+    }
+
+    pageViewControllerDidFinishAnimatingPreviousViewControllersTransitionCompleted(pageViewController: UIPageViewController, finished: boolean, previousViewControllers: NSArray, completed: boolean): void
+    {
+        if (finished)
+        {
+            var eventData: observable.EventData = {
+                eventName: "positionSelected",
+                object: this.owner
+            }
+            this.owner.notify(eventData);
+        }
+    }
+}
 
 export class ViewContainer extends UIViewController
 {
-    tag: number;
+    public tag: number;
 }

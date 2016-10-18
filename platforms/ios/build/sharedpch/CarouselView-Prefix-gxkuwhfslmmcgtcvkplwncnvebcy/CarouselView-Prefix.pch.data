@@ -6,9 +6,9 @@ Environment  LANG=en_US.US-ASCII PATH=/Applications/Xcode.app/Contents/Developer
 BuilderIdent ProcessPCH\ /Users/alexrainman/Desktop/NativeScript/CarouselView/platforms/ios/build/sharedpch/CarouselView-Prefix-gxkuwhfslmmcgtcvkplwncnvebcy/CarouselView-Prefix.pch.pch\ CarouselView/CarouselView-Prefix.pch\ normal\ i386\ objective-c\ com.apple.compilers.llvm.clang.1_0.compiler
 InputFile    /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator10.0.sdk/SDKSettings.plist 0 1472076198 1604 33204
 InputFile    /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator10.0.sdk/System/Library/CoreServices/SystemVersion.plist 0 1471482880 415 33188
-InputFile    /Users/alexrainman/Desktop/NativeScript/CarouselView/platforms/ios/CarouselView/CarouselView-Prefix.pch 0 1476192877 236 33188
+InputFile    /Users/alexrainman/Desktop/NativeScript/CarouselView/platforms/ios/CarouselView/CarouselView-Prefix.pch 0 1476283298 236 33188
 InputFile    /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator10.0.sdk/SDKSettings.plist 0 1472076198 1604 33204
-InputFile    /Users/alexrainman/Desktop/NativeScript/CarouselView/platforms/ios/CarouselView/CarouselView-Prefix.pch 0 1476192877 236 33188
+InputFile    /Users/alexrainman/Desktop/NativeScript/CarouselView/platforms/ios/CarouselView/CarouselView-Prefix.pch 0 1476283298 236 33188
 InputFile    /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator10.0.sdk/usr/include/Availability.h 0 1469751632 15800 33188
 InputFile    /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator10.0.sdk/usr/include/AvailabilityInternal.h 0 1469912452 1946161 33188
 InputFile    /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator10.0.sdk/System/Library/Frameworks/UIKit.framework/Headers/UIKit.h 0 1471413625 6943 33188

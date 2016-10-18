@@ -22,15 +22,13 @@ export function navigatingTo(args: EventData) {
     var addpage = <Label>page.getViewById("addPage");
 
     var observer = addpage.on(gestures.GestureTypes.tap, async function (args: gestures.GestureEventData) {
-        //console.log("Tap");
-        //var slider = <CarouselView>page.getViewById("carouselView");
 
         var person = new Person();
         person.first = "Alex";
         person.last = "Rainman";
 
-        await slider.insertPage(3, person);
-        slider.setCurrentPage(3);
+        await slider.insertPage(slider.itemsSource.length, person);
+        slider.setCurrentPage(slider.itemsSource.length - 1);
     });
 }
 

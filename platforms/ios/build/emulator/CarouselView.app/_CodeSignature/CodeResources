@@ -86,7 +86,7 @@
 		</data>
 		<key>Assets.car</key>
 		<data>
-		KVGgpbdgRLo6Hpi8LIdZs395Q1E=
+		a3YQ5z+mDkEIgjMa6L68BUm3PWs=
 		</data>
 		<key>Frameworks/NativeScript.framework/Info.plist</key>
 		<data>
@@ -194,7 +194,7 @@
 		</data>
 		<key>LaunchScreen.storyboardc/01J-lp-oVM-view-Ze5-6b-2t3.nib</key>
 		<data>
-		e6gew+BvhHhZAh+0cig/lGRq1ek=
+		Z5L519qjQokH/xzwM/llyigCxOM=
 		</data>
 		<key>LaunchScreen.storyboardc/Info.plist</key>
 		<data>
@@ -202,7 +202,7 @@
 		</data>
 		<key>LaunchScreen.storyboardc/UIViewController-01J-lp-oVM.nib</key>
 		<data>
-		zu+AUs4yfWvLcloHu+mooCtDkww=
+		G6q+08xW2bszpfhH2KTp3CDJfSc=
 		</data>
 		<key>PkgInfo</key>
 		<data>
@@ -302,15 +302,15 @@
 		</data>
 		<key>app/carousel-view/carousel-view.js</key>
 		<data>
-		7KJLYJm7BQW62PG8NZcY85ye5Xw=
+		haBVYUdLs1sHRPBcGgf1S2iwKxU=
 		</data>
 		<key>app/carousel-view/carousel-view.js.map</key>
 		<data>
-		iLIZxPVXrn388x6WjgRgYbEx5cg=
+		ORRilfMjjhO0rH+iane2tSIUNwE=
 		</data>
 		<key>app/carousel-view/carousel-view.ts</key>
 		<data>
-		N82VL54c3Qm/XGkJhgRRFi7AraY=
+		RfBaAOBsSGdGKzlcmQHm44eg4tk=
 		</data>
 		<key>app/helpers.js</key>
 		<data>
@@ -462,7 +462,7 @@
 		</data>
 		<key>app/tns_modules/debugger/webinspector.js</key>
 		<data>
-		uwlC96yf2v+4tpr5nDvr6iIwk78=
+		WfsAw+SPGcn17m/X93GnBbCvQlI=
 		</data>
 		<key>app/tns_modules/fetch/fetch.js</key>
 		<data>
@@ -1876,11 +1876,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			KVGgpbdgRLo6Hpi8LIdZs395Q1E=
+			a3YQ5z+mDkEIgjMa6L68BUm3PWs=
 			</data>
 			<key>hash2</key>
 			<data>
-			MupLoe8aJcn5G+OHVN6od9CDplJo7UNSEWMoriCLP5Q=
+			kTJh2kMOzzvzt85Th4jlCL6eFnTx61SsJgQvk7vBfSs=
 			</data>
 		</dict>
 		<key>Frameworks/NativeScript.framework/Info.plist</key>
@@ -2162,11 +2162,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			e6gew+BvhHhZAh+0cig/lGRq1ek=
+			Z5L519qjQokH/xzwM/llyigCxOM=
 			</data>
 			<key>hash2</key>
 			<data>
-			FxTAckTduY3PoEF0f7CsVtwRVHACYtQSxjxD3uwxCFE=
+			nJHO6Wsi2RWDPLw2A+XbonvoGqmcZ/N45RQZVaWQc/w=
 			</data>
 		</dict>
 		<key>LaunchScreen.storyboardc/Info.plist</key>
@@ -2184,11 +2184,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			zu+AUs4yfWvLcloHu+mooCtDkww=
+			G6q+08xW2bszpfhH2KTp3CDJfSc=
 			</data>
 			<key>hash2</key>
 			<data>
-			570pmZ7mQos8EHszsZkThENqBFVLE/MFr4/J4xXBGEQ=
+			3/77VV9FBOajT388HRmqmyJYJr95w77W0zbFyrvodtM=
 			</data>
 		</dict>
 		<key>app/README.md</key>
@@ -2448,33 +2448,33 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			7KJLYJm7BQW62PG8NZcY85ye5Xw=
+			haBVYUdLs1sHRPBcGgf1S2iwKxU=
 			</data>
 			<key>hash2</key>
 			<data>
-			AQPlUayQzNm2ZBN+llrZnjNt/xmp3oBUk0yrivGtu+k=
+			X2OP9bTii6PqXO3ACuLPvebPVZmUp2v1ahbpARxLYVM=
 			</data>
 		</dict>
 		<key>app/carousel-view/carousel-view.js.map</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			iLIZxPVXrn388x6WjgRgYbEx5cg=
+			ORRilfMjjhO0rH+iane2tSIUNwE=
 			</data>
 			<key>hash2</key>
 			<data>
-			Z4C7n5ScWIqpftji6iIS8px/0dg0j9A5ZB8vk6JQSDs=
+			Yngk2USOV+l7MOjHt3/+Ks8Ab6EHqdmwrlX2GJUc/q4=
 			</data>
 		</dict>
 		<key>app/carousel-view/carousel-view.ts</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			N82VL54c3Qm/XGkJhgRRFi7AraY=
+			RfBaAOBsSGdGKzlcmQHm44eg4tk=
 			</data>
 			<key>hash2</key>
 			<data>
-			ABpbrOnwqCnd4M9XETK/VjF5tyGLFWasYh1qGlqnqZ8=
+			oEWiyiKU28WiJDUlQQOxw8H119uIFYM6YjqHYSA99x0=
 			</data>
 		</dict>
 		<key>app/helpers.js</key>
@@ -2888,11 +2888,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			uwlC96yf2v+4tpr5nDvr6iIwk78=
+			WfsAw+SPGcn17m/X93GnBbCvQlI=
 			</data>
 			<key>hash2</key>
 			<data>
-			qazIxyrZaMdUsLwjutKJsm5LTa71bVT9rBQCLHmHcks=
+			vb5zRlEs/EkA4VnTFyIQ+O6vd8+Ql01+QOjF/4CXB4g=
 			</data>
 		</dict>
 		<key>app/tns_modules/fetch/fetch.js</key>

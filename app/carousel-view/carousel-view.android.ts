@@ -16,12 +16,14 @@ export class CarouselView extends common.CarouselView
         this._android = new android.support.v4.view.ViewPager(this._context);
         //this._android = new verticalViewPager(this._context);
 
-        //var that = new WeakRef(this);
+        var that = new WeakRef(this);
         ensurePagerAdapterClass();
         this._android.setAdapter(new PagerAdapterClass(this));
         ensurePageChangedListenerClass();
         this._android.setOnPageChangeListener(new PageChangedListenerClass(this));
+    }
 
+    public onLoaded() {
         var eventData: observable.EventData = {
             eventName: "positionSelected",
             object: this

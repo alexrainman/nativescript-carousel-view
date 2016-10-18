@@ -22,10 +22,10 @@ function navigatingTo(args) {
                         person = new main_view_model_2.Person();
                         person.first = "Alex";
                         person.last = "Rainman";
-                        return [4 /*yield*/, slider.insertPage(3, person)];
+                        return [4 /*yield*/, slider.insertPage(slider.itemsSource.length, person)];
                     case 1:
                         _a.sent();
-                        slider.setCurrentPage(3);
+                        slider.setCurrentPage(slider.itemsSource.length - 1);
                         return [2 /*return*/];
                 }
             });

@@ -1,6 +1,6 @@
 var inspectorCommands = require("./InspectorBackendCommands");
 var debuggerDomains = require("./debugger");
-var utils = require("utils/utils");
+//var utils = require("utils/utils");
 var frameId = "NativeScriptMainFrameIdentifier";
 var loaderId = "Loader Identifier";
 var resources_datas = [];
