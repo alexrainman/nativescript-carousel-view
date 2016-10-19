@@ -10,6 +10,9 @@ export class CarouselView extends common.CarouselView
 {
     private _ios: UIPageViewController;
 
+    private _dataSource: any;
+    private _delegate: any;
+
     get ios(): UIView{
         return this._ios.view;
     }
@@ -27,17 +30,17 @@ export class CarouselView extends common.CarouselView
     {
         super();
         
-        this._ios = new UIPageViewController(
+        this._ios = UIPageViewController.alloc().initWithTransitionStyleNavigationOrientationOptions(
             UIPageViewControllerTransitionStyle.UIPageViewControllerTransitionStyleScroll,
             UIPageViewControllerNavigationOrientation.UIPageViewControllerNavigationOrientationHorizontal,
             NSDictionary.dictionaryWithObjectForKey(UIPageViewControllerSpineLocation.UIPageViewControllerSpineLocationNone, "spineLocation"));
-        
-        var that = new WeakRef(this);
-        this._ios.dataSource = DataSourceClass.initWithOwner(that);
-        this._ios.delegate = DelegateClass.initWithOwner(that);
     }
 
     public onLoaded() {
+
+        var that = new WeakRef(this);
+        this._ios.dataSource = DataSourceClass.initWithOwner(that);
+        this._ios.delegate = DelegateClass.initWithOwner(that);
 
         let firstViewController = this.createViewController(this.position);
         let direction = UIPageViewControllerNavigationDirection.UIPageViewControllerNavigationDirectionForward;
@@ -122,12 +125,14 @@ export class CarouselView extends common.CarouselView
         var obj = <any>view;
         obj._onAttached();
 
-        //var red = new colorModule.Color("#ff0000");
-        //obj._view.backgroundColor = red.ios;
-
         var viewController = new ViewContainer();
         viewController.tag = position;
-        viewController.view = obj._view;
+        //viewController.view = <UIView>obj._view;
+
+        var frame = CGRectMake(0,0,200,200);
+        var label = new UILabel(frame);
+        label.text = "This is a native label :(";
+        viewController.view.addSubview(label);
 
         return viewController;
     }
@@ -137,8 +142,10 @@ export class CarouselView extends common.CarouselView
     }
 }
 
-class DataSourceClass implements UIPageViewControllerDataSource
+class DataSourceClass extends NSObject implements UIPageViewControllerDataSource
 {
+    public static ObjCProtocols = [UIPageViewControllerDataSource];
+
     private _owner: WeakRef<CarouselView>;
 
     get owner(): CarouselView{
@@ -154,7 +161,7 @@ class DataSourceClass implements UIPageViewControllerDataSource
     pageViewControllerViewControllerBeforeViewController(pageViewController: UIPageViewController, viewController: UIViewController): UIViewController
     {
         var controller = <ViewContainer>viewController;
-        var position = controller.tag;
+        var position = Number(controller.tag);
 
         // Determine if we are on the first page
         if (position == 0)
@@ -171,7 +178,7 @@ class DataSourceClass implements UIPageViewControllerDataSource
     pageViewControllerViewControllerAfterViewController(pageViewController: UIPageViewController, viewController: UIViewController): UIViewController
     {
         var controller = <ViewContainer>viewController;
-        var position = controller.tag;
+        var position = Number(controller.tag);
 
         // Determine if we are on the last page
         var count = this.presentationCountForPageViewController(pageViewController);
@@ -200,8 +207,10 @@ class DataSourceClass implements UIPageViewControllerDataSource
     }
 }
 
-class DelegateClass implements UIPageViewControllerDelegate
+class DelegateClass extends NSObject implements UIPageViewControllerDelegate
 {
+    public static ObjCProtocols = [UIPageViewControllerDelegate];
+
     private _owner: WeakRef<CarouselView>;
 
     get owner(): CarouselView{
