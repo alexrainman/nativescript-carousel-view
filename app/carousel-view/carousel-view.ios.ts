@@ -10,9 +10,6 @@ export class CarouselView extends common.CarouselView
 {
     private _ios: UIPageViewController;
 
-    private _dataSource: any;
-    private _delegate: any;
-
     get ios(): UIView{
         return this._ios.view;
     }
