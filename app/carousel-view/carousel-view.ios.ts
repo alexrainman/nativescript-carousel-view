@@ -4,7 +4,6 @@ import observable = require("data/observable");
 import dependencyObservable = require("ui/core/dependency-observable");
 import proxy = require("ui/core/proxy");
 import observableArrayModule = require("data/observable-array");
-var colorModule = require("color");
 
 export class CarouselView extends common.CarouselView
 {
