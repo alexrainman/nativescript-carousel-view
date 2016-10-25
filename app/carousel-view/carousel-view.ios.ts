@@ -13,11 +13,7 @@ export class CarouselView extends common.CarouselView
         return this._ios.view;
     }
 
-    // We will need this for the view to show up
-    // However, if you uncomment an run with this, it will crash with:
-    // -[UIPageViewController superview]: unrecognized selector sent to instance 0x7f9d21804000
-    // Some of the docs linked by core team should provide a way forward 
-    // Basically we need to extend UIPageViewController properly
+    // Thanks to NathanWalker for the _nativeView tip
     get _nativeView(): any {
         return this._ios.view;
     }
@@ -34,7 +30,8 @@ export class CarouselView extends common.CarouselView
             UIPageViewControllerNavigationOrientation.UIPageViewControllerNavigationOrientationHorizontal,
             NSDictionary.dictionaryWithObjectsForKeys(objects,keys));
     }
-
+    
+    // Thanks to NathanWalker for the onLoaded tip
     public onLoaded() {
 
         var that = new WeakRef(this);
@@ -69,9 +66,10 @@ export class CarouselView extends common.CarouselView
             let firstViewController = this._ios.viewControllers[0];
             var direction = UIPageViewControllerNavigationDirection.UIPageViewControllerNavigationDirectionForward;
 
-            // can use a standard JS Array here (just type-cast to any to suffice TypeScript)
+            // Using a standard JS Array here (just type-cast to any to suffice TypeScript)
             // {N} will auto-marshall this into a NSArray when making the call since the metadata knows its
             // supposed to be an NSArray :)
+            // Thanks to NathanWalker for the auto-marshall tip for NSArray
 			this._ios.setViewControllersDirectionAnimatedCompletion(<any>[firstViewController], direction, false, (arg1) => {});
 
             await this.delay(100);
@@ -289,7 +287,8 @@ export class ViewContainer extends UIViewController
 {
     public tag: number;
     public owner: any;
-
+    
+    // FIX by tzraikov
     public viewDidLoad(): void {
         super.viewDidLoad();
         if (this.owner) {
@@ -297,6 +296,7 @@ export class ViewContainer extends UIViewController
         }
     }
 
+    // FIX by tzraikov
     public viewDidLayoutSubviews(): void {
         if (this.owner) {
             var width = this.view.frame.size.width;
