@@ -34,6 +34,8 @@ Then add the control:
 
 ```templateSelector```: a class implementing the provided ITemplateSelector interface.
 
+ViewModel example:
+
 ```
 import observable = require("data/observable");
 import observableArrayModule = require("data/observable-array");
