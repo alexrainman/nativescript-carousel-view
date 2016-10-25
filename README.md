@@ -68,7 +68,9 @@ export class Person {
 }
 ```
 
-Template selector: it should return a {N} view. As you can see in the example, i put each page view in separate file and i load them using builder. Also, notice that you have to assign the bindingContext of the returning view.
+**Template selector** 
+
+Template selector should return a valid {N} view. As you can see in the example, i put each page in separate file and i load them using builder. Also, notice that you have to assign the bindingContext of the returning view.
 
 ```
 import { ITemplateSelector } from "nativescript-carousel-view";
