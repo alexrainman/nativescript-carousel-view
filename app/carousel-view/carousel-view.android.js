@@ -1,6 +1,7 @@
 "use strict";
 var application = require("application");
 var common = require("./carousel-view-common");
+var VIEWS_STATES = "_viewStates";
 var CarouselView = (function (_super) {
     __extends(CarouselView, _super);
     function CarouselView() {
@@ -16,13 +17,15 @@ var CarouselView = (function (_super) {
     CarouselView.prototype._createUI = function () {
         this._android = new android.support.v4.view.ViewPager(this._context);
         //this._android = new verticalViewPager(this._context);
+        this._android.setPageMargin(this.interPageSpacing * 2);
+    };
+    CarouselView.prototype.onLoaded = function () {
         var that = new WeakRef(this);
         ensurePagerAdapterClass();
         this._android.setAdapter(new PagerAdapterClass(this));
         ensurePageChangedListenerClass();
         this._android.setOnPageChangeListener(new PageChangedListenerClass(this));
-    };
-    CarouselView.prototype.onLoaded = function () {
+        this._android.setCurrentItem(this.position, false);
         var eventData = {
             eventName: "positionSelected",
             object: this
@@ -36,7 +39,11 @@ var CarouselView = (function (_super) {
                     case 0:
                         if (!(this._android != null))
                             return [3 /*break*/, 2];
-                        if (position == -1)
+                        if (position > this.itemsSource.length)
+                            position = this.itemsSource.length;
+                        if (position < 0)
+                            position = 0;
+                        if (position == this.itemsSource.length)
                             this.itemsSource.push(bindingContext);
                         else
                             this.itemsSource.splice(position, 0, bindingContext);
@@ -61,6 +68,10 @@ var CarouselView = (function (_super) {
                     case 0:
                         if (!(this._android != null))
                             return [3 /*break*/, 6];
+                        if (position > this.itemsSource.length - 1)
+                            position = this.itemsSource.length - 1;
+                        if (position < 0)
+                            position = 0;
                         if (!(position == this.position))
                             return [3 /*break*/, 5];
                         newPos = position - 1;
@@ -105,9 +116,25 @@ var CarouselView = (function (_super) {
     };
     CarouselView.prototype.setCurrentPage = function (position) {
         if (this._android != null) {
+            if (position > this.itemsSource.length - 1)
+                position = this.itemsSource.length - 1;
+            if (position < 0)
+                position = 0;
             this.position = position;
             this._android.setCurrentItem(position, true);
         }
+    };
+    CarouselView.prototype.itemsSourceChanged = function () {
+        if (this.position > this.itemsSource.length - 1)
+            this.position = this.itemsSource.length - 1;
+        ensurePagerAdapterClass();
+        this._android.setAdapter(new PagerAdapterClass(this));
+        this._android.setCurrentItem(this.position, false);
+        var eventData = {
+            eventName: "positionSelected",
+            object: this
+        };
+        this.notify(eventData);
     };
     CarouselView.prototype.delay = function (ms) {
         return new Promise(function (resolve) { return setTimeout(resolve, ms); });
@@ -145,6 +172,9 @@ function ensurePagerAdapterClass() {
             var obj = view;
             obj._onAttached(application.android.currentContext);
             obj.android.tag = position;
+            if (this[VIEWS_STATES]) {
+                obj.android.restoreHierarchyState(this[VIEWS_STATES]);
+            }
             container.addView(obj.android);
             return obj.android;
         };
@@ -158,6 +188,28 @@ function ensurePagerAdapterClass() {
             if (tag == position)
                 return tag;
             return android.support.v4.view.PagerAdapter.POSITION_NONE;
+        };
+        PagerAdapterInner.prototype.saveState = function () {
+            if (!this[VIEWS_STATES]) {
+                this[VIEWS_STATES] = new android.util.SparseArray();
+            }
+            var mViewStates = this[VIEWS_STATES];
+            var mViewPager = this._owner.android;
+            var count = mViewPager.getChildCount();
+            for (var i = 0; i < count; i++) {
+                var c = mViewPager.getChildAt(i);
+                if (c.isSaveFromParentEnabled()) {
+                    c.saveHierarchyState(mViewStates);
+                }
+            }
+            var bundle = new android.os.Bundle();
+            bundle.putSparseParcelableArray(VIEWS_STATES, mViewStates);
+            return bundle;
+        };
+        PagerAdapterInner.prototype.restoreState = function (state, loader) {
+            var bundle = state;
+            bundle.setClassLoader(loader);
+            this[VIEWS_STATES] = bundle.getSparseParcelableArray(VIEWS_STATES);
         };
         return PagerAdapterInner;
     }(android.support.v4.view.PagerAdapter));
@@ -234,5 +286,5 @@ export class DefaultTransformer implements android.support.v4.view.ViewPager.Pag
         var yPosition = position * page.getHeight();
         page.setTranslationY(yPosition);
     }
-}*/
+}*/ 
 //# sourceMappingURL=carousel-view.android.js.map

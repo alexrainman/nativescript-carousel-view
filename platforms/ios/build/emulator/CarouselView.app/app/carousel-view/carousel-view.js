@@ -1,14 +1,12 @@
 "use strict";
 var common = require("./carousel-view-common");
-var colorModule = require("color");
 var CarouselView = (function (_super) {
     __extends(CarouselView, _super);
     function CarouselView() {
         var _this = _super.call(this) || this;
-        _this._ios = new UIPageViewController(UIPageViewControllerTransitionStyle.UIPageViewControllerTransitionStyleScroll, UIPageViewControllerNavigationOrientation.UIPageViewControllerNavigationOrientationHorizontal, NSDictionary.dictionaryWithObjectForKey(UIPageViewControllerSpineLocation.UIPageViewControllerSpineLocationNone, "spineLocation"));
-        var that = new WeakRef(_this);
-        _this._ios.dataSource = DataSourceClass.initWithOwner(that);
-        _this._ios.delegate = DelegateClass.initWithOwner(that);
+        var objects = [UIPageViewControllerSpineLocation.UIPageViewControllerSpineLocationNone, _this.interPageSpacing];
+        var keys = [UIPageViewControllerOptionSpineLocationKey, UIPageViewControllerOptionInterPageSpacingKey];
+        _this._ios = UIPageViewController.alloc().initWithTransitionStyleNavigationOrientationOptions(UIPageViewControllerTransitionStyle.UIPageViewControllerTransitionStyleScroll, UIPageViewControllerNavigationOrientation.UIPageViewControllerNavigationOrientationHorizontal, NSDictionary.dictionaryWithObjectsForKeys(objects, keys));
         return _this;
     }
     Object.defineProperty(CarouselView.prototype, "ios", {
@@ -31,6 +29,9 @@ var CarouselView = (function (_super) {
         configurable: true
     });
     CarouselView.prototype.onLoaded = function () {
+        var that = new WeakRef(this);
+        this._ios.dataSource = DataSourceClass.initWithOwner(that);
+        this._ios.delegate = DelegateClass.initWithOwner(that);
         var firstViewController = this.createViewController(this.position);
         var direction = UIPageViewControllerNavigationDirection.UIPageViewControllerNavigationDirectionForward;
         this._ios.setViewControllersDirectionAnimatedCompletion([firstViewController], direction, false, function (arg1) { });
@@ -48,10 +49,14 @@ var CarouselView = (function (_super) {
                     case 0:
                         if (!(this._ios != null))
                             return [3 /*break*/, 2];
-                        if (position == -1)
-                            this.itemsSource.push(bindingContext);
-                        else
-                            this.itemsSource.splice(position, 0, bindingContext);
+                        if (position > this.itemsSource.length)
+                            throw new Error("Position parameter is outside of its valid range.");
+                        if (position < 0)
+                            throw new Error("Position parameter is outside of its valid range.");
+                        //if (position < 0)
+                        //this.itemsSource.push(bindingContext);
+                        //else
+                        this.itemsSource.splice(position, 0, bindingContext);
                         firstViewController = this._ios.viewControllers[0];
                         direction = UIPageViewControllerNavigationDirection.UIPageViewControllerNavigationDirectionForward;
                         // can use a standard JS Array here (just type-cast to any to suffice TypeScript)
@@ -69,12 +74,17 @@ var CarouselView = (function (_super) {
     };
     CarouselView.prototype.removePage = function (position) {
         return __awaiter(this, void 0, void 0, function () {
-            var newPos, forward, reverse, direction, firstViewController, firstViewController, direction;
+            var newPos, forward, reverse, direction, firstViewController, firstViewController, direction, eventData;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         if (!(this._ios != null))
-                            return [3 /*break*/, 3];
+                            return [3 /*break*/, 4];
+                        if (position > this.itemsSource.length - 1)
+                            throw new Error("Position parameter is outside of its valid range.");
+                        if (position < 0)
+                            throw new Error("Position parameter is outside of its valid range.");
+                        this.itemsSource.splice(position, 1);
                         if (!(position == this.position))
                             return [3 /*break*/, 2];
                         newPos = position - 1;
@@ -95,20 +105,48 @@ var CarouselView = (function (_super) {
                         direction = UIPageViewControllerNavigationDirection.UIPageViewControllerNavigationDirectionForward;
                         this._ios.setViewControllersDirectionAnimatedCompletion([firstViewController], direction, false, function (arg1) { });
                         _a.label = 3;
-                    case 3: return [2 /*return*/];
+                    case 3:
+                        eventData = {
+                            eventName: "positionSelected",
+                            object: this
+                        };
+                        this.notify(eventData);
+                        _a.label = 4;
+                    case 4: return [2 /*return*/];
                 }
             });
         });
     };
     CarouselView.prototype.setCurrentPage = function (position) {
         if (this._ios != null) {
+            if (position > this.itemsSource.length - 1)
+                throw new Error("Position parameter is outside of its valid range.");
+            if (position < 0)
+                throw new Error("Position parameter is outside of its valid range.");
             var forward = UIPageViewControllerNavigationDirection.UIPageViewControllerNavigationDirectionForward;
             var reverse = UIPageViewControllerNavigationDirection.UIPageViewControllerNavigationDirectionReverse;
             var direction = position > this.position ? forward : reverse;
             this.position = position;
             var firstViewController = this.createViewController(position);
             this._ios.setViewControllersDirectionAnimatedCompletion([firstViewController], direction, true, function (arg1) { });
+            var eventData = {
+                eventName: "positionSelected",
+                object: this
+            };
+            this.notify(eventData);
         }
+    };
+    CarouselView.prototype.itemsSourceChanged = function () {
+        if (this.position > this.itemsSource.length - 1)
+            this.position = this.itemsSource.length - 1;
+        var firstViewController = this.createViewController(this.position);
+        var direction = UIPageViewControllerNavigationDirection.UIPageViewControllerNavigationDirectionForward;
+        this._ios.setViewControllersDirectionAnimatedCompletion([firstViewController], direction, false, function (arg1) { });
+        var eventData = {
+            eventName: "positionSelected",
+            object: this
+        };
+        this.notify(eventData);
     };
     CarouselView.prototype.createViewController = function (position) {
         var item;
@@ -116,12 +154,10 @@ var CarouselView = (function (_super) {
             item = this.itemsSource.getItem(position);
         var view = this.templateSelector.OnSelectTemplate(position, item);
         var obj = view;
-        obj._onAttached();
-        //var red = new colorModule.Color("#ff0000");
-        //obj._view.backgroundColor = red.ios;
         var viewController = new ViewContainer();
         viewController.tag = position;
-        viewController.view = obj.ios;
+        viewController.view = obj._view;
+        viewController.owner = view;
         return viewController;
     };
     CarouselView.prototype.delay = function (ms) {
@@ -130,8 +166,10 @@ var CarouselView = (function (_super) {
     return CarouselView;
 }(common.CarouselView));
 exports.CarouselView = CarouselView;
-var DataSourceClass = (function () {
+var DataSourceClass = (function (_super) {
+    __extends(DataSourceClass, _super);
     function DataSourceClass() {
+        return _super.apply(this, arguments) || this;
     }
     Object.defineProperty(DataSourceClass.prototype, "owner", {
         get: function () {
@@ -147,7 +185,7 @@ var DataSourceClass = (function () {
     };
     DataSourceClass.prototype.pageViewControllerViewControllerBeforeViewController = function (pageViewController, viewController) {
         var controller = viewController;
-        var position = controller.tag;
+        var position = Number(controller.tag);
         // Determine if we are on the first page
         if (position == 0) {
             // We are on the first page, so there is no need for a controller before that
@@ -160,7 +198,7 @@ var DataSourceClass = (function () {
     };
     DataSourceClass.prototype.pageViewControllerViewControllerAfterViewController = function (pageViewController, viewController) {
         var controller = viewController;
-        var position = controller.tag;
+        var position = Number(controller.tag);
         // Determine if we are on the last page
         var count = this.presentationCountForPageViewController(pageViewController);
         if (position == count - 1) {
@@ -178,13 +216,13 @@ var DataSourceClass = (function () {
             return 0;
         return this.owner.itemsSource.length;
     };
-    DataSourceClass.prototype.presentationIndexForPageViewController = function (pageViewController) {
-        return this.owner.position;
-    };
     return DataSourceClass;
-}());
-var DelegateClass = (function () {
+}(NSObject));
+DataSourceClass.ObjCProtocols = [UIPageViewControllerDataSource];
+var DelegateClass = (function (_super) {
+    __extends(DelegateClass, _super);
     function DelegateClass() {
+        return _super.apply(this, arguments) || this;
     }
     Object.defineProperty(DelegateClass.prototype, "owner", {
         get: function () {
@@ -200,6 +238,9 @@ var DelegateClass = (function () {
     };
     DelegateClass.prototype.pageViewControllerDidFinishAnimatingPreviousViewControllersTransitionCompleted = function (pageViewController, finished, previousViewControllers, completed) {
         if (finished) {
+            var controller = pageViewController.viewControllers[0];
+            var position = controller.tag;
+            this.owner.position = position;
             var eventData = {
                 eventName: "positionSelected",
                 object: this.owner
@@ -208,12 +249,28 @@ var DelegateClass = (function () {
         }
     };
     return DelegateClass;
-}());
+}(NSObject));
+DelegateClass.ObjCProtocols = [UIPageViewControllerDelegate];
 var ViewContainer = (function (_super) {
     __extends(ViewContainer, _super);
     function ViewContainer() {
         return _super.apply(this, arguments) || this;
     }
+    ViewContainer.prototype.viewDidLoad = function () {
+        _super.prototype.viewDidLoad.call(this);
+        if (this.owner) {
+            this.owner.onLoaded();
+        }
+    };
+    ViewContainer.prototype.viewDidLayoutSubviews = function () {
+        if (this.owner) {
+            var width = this.view.frame.size.width;
+            var height = this.view.frame.size.height;
+            this.owner.measure(width, height);
+            this.owner.layout(0, 0, width, height);
+            this.owner._updateLayout();
+        }
+    };
     return ViewContainer;
 }(UIViewController));
 exports.ViewContainer = ViewContainer;

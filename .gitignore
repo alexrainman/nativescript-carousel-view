@@ -1,0 +1,7 @@
+app/**/*.js
+app/**/*.map
+!app/helpers.js
+hooks
+lib
+platforms
+node_modules

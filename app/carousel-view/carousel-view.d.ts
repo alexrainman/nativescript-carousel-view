@@ -11,15 +11,18 @@ declare module "carousel-view" {
         public static positionProperty: dependencyObservable.Property;
         public static templateSelectorProperty: dependencyObservable.Property;
         public static itemsSourceProperty: dependencyObservable.Property;
+        public static interPageSpacingProperty: dependencyObservable.Property;
 
         // instance properties
         position: number;
         templateSelector: ITemplateSelector;
         itemsSource: observableArrayModule.ObservableArray<any>;
+        interPageSpacing: number;
 
         public insertPage(position: number, bindingContext: any);
         public removePage(position: number);
         public setCurrentPage(position: number): void;
+        public itemsSourceChanged(): void;
 
         android: any; /*android.support.v4.view.ViewPager;*/
         ios: any; /*UIPageViewController;*/

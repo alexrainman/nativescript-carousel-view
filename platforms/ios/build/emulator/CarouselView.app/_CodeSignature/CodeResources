@@ -86,7 +86,7 @@
 		</data>
 		<key>Assets.car</key>
 		<data>
-		a3YQ5z+mDkEIgjMa6L68BUm3PWs=
+		Iu01pTfQkvWhDBlJVKW8ZeVf+7o=
 		</data>
 		<key>Frameworks/NativeScript.framework/Info.plist</key>
 		<data>
@@ -99,6 +99,22 @@
 		<key>Frameworks/NativeScript.framework/_CodeSignature/CodeResources</key>
 		<data>
 		jmfzBQJ8ZwvBN17BcnzEaFdxFWo=
+		</data>
+		<key>Frameworks/RevealServer.framework/Info.plist</key>
+		<data>
+		3yuCXIz4oBBkDOLogLf3z8EtWn0=
+		</data>
+		<key>Frameworks/RevealServer.framework/RevealServer</key>
+		<data>
+		1y3xazoEB6qENZsn3EcSBQSv1Fw=
+		</data>
+		<key>Frameworks/RevealServer.framework/Scripts/copy_and_codesign_revealserver.sh</key>
+		<data>
+		aQbLdf9lVnmDd2BfBMGsVPBPdb8=
+		</data>
+		<key>Frameworks/RevealServer.framework/_CodeSignature/CodeResources</key>
+		<data>
+		QmzU1+Gi11rp91jm5Fk1rPDZgnQ=
 		</data>
 		<key>Frameworks/TKLiveSync.framework/Info.plist</key>
 		<data>
@@ -194,7 +210,7 @@
 		</data>
 		<key>LaunchScreen.storyboardc/01J-lp-oVM-view-Ze5-6b-2t3.nib</key>
 		<data>
-		Z5L519qjQokH/xzwM/llyigCxOM=
+		2Z2C8uNyRmjTLh3ntVrRIoh8e74=
 		</data>
 		<key>LaunchScreen.storyboardc/Info.plist</key>
 		<data>
@@ -202,7 +218,7 @@
 		</data>
 		<key>LaunchScreen.storyboardc/UIViewController-01J-lp-oVM.nib</key>
 		<data>
-		G6q+08xW2bszpfhH2KTp3CDJfSc=
+		dGOiFj/d88gM2bn4vdAOVy9IRW4=
 		</data>
 		<key>PkgInfo</key>
 		<data>
@@ -266,7 +282,7 @@
 		</data>
 		<key>app/Views/main-page.xml</key>
 		<data>
-		RAgXccdxx832JGeBHL0GjuCrwYs=
+		n6zeUIfrCZukwNfL+iIu9mqhNv4=
 		</data>
 		<key>app/app.css</key>
 		<data>
@@ -286,31 +302,31 @@
 		</data>
 		<key>app/carousel-view/carousel-view-common.js</key>
 		<data>
-		iIxeLJ7U7qMGjKUCY+TeUZrookI=
+		gSotEc0rMu9a3exRAcCtFFNgT4w=
 		</data>
 		<key>app/carousel-view/carousel-view-common.js.map</key>
 		<data>
-		CSqqZide0bdmLDuba6MkOn8cxWk=
+		zA9W9xjPJhgRUPTorUhdxiFPF+k=
 		</data>
 		<key>app/carousel-view/carousel-view-common.ts</key>
 		<data>
-		cxZm7UQ3mhnVDJS/Uxvvoa0qjqE=
+		AyP2Vj5xKA/kJBs+yGiX14/DvbU=
 		</data>
 		<key>app/carousel-view/carousel-view.d.ts</key>
 		<data>
-		5DfKHP+rylkWcU8GTX1jeU+R8Aw=
+		bzOdKZEW48YR2RbvWp20vcwAbr4=
 		</data>
 		<key>app/carousel-view/carousel-view.js</key>
 		<data>
-		haBVYUdLs1sHRPBcGgf1S2iwKxU=
+		chaF95h/nVTV0993qBlwkNPdJVY=
 		</data>
 		<key>app/carousel-view/carousel-view.js.map</key>
 		<data>
-		ORRilfMjjhO0rH+iane2tSIUNwE=
+		zyqHu/yUHpGR0Ckpxb4WWAF5XMY=
 		</data>
 		<key>app/carousel-view/carousel-view.ts</key>
 		<data>
-		RfBaAOBsSGdGKzlcmQHm44eg4tk=
+		pIX3kKtYKGzFlkshh5cRNALlqzs=
 		</data>
 		<key>app/helpers.js</key>
 		<data>
@@ -1876,11 +1892,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			a3YQ5z+mDkEIgjMa6L68BUm3PWs=
+			Iu01pTfQkvWhDBlJVKW8ZeVf+7o=
 			</data>
 			<key>hash2</key>
 			<data>
-			kTJh2kMOzzvzt85Th4jlCL6eFnTx61SsJgQvk7vBfSs=
+			zdUNWkkbQNVAfunvm844bdc02yjt/qrvRFjJKq6hYYw=
 			</data>
 		</dict>
 		<key>Frameworks/NativeScript.framework/Info.plist</key>
@@ -1914,6 +1930,50 @@
 			<key>hash2</key>
 			<data>
 			UaDln89biYUZY6Z2FDog7gcWXkEuB7roO4oDfc7do3U=
+			</data>
+		</dict>
+		<key>Frameworks/RevealServer.framework/Info.plist</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			3yuCXIz4oBBkDOLogLf3z8EtWn0=
+			</data>
+			<key>hash2</key>
+			<data>
+			dWQyOK6Gi+2VqqJIqMEjhg/x54yTR/ecLfyjHqe8gYw=
+			</data>
+		</dict>
+		<key>Frameworks/RevealServer.framework/RevealServer</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			1y3xazoEB6qENZsn3EcSBQSv1Fw=
+			</data>
+			<key>hash2</key>
+			<data>
+			P/RjyC9aWlKrefFEPEbDFqoTNzIqrB3Cv0aye0PnJ7M=
+			</data>
+		</dict>
+		<key>Frameworks/RevealServer.framework/Scripts/copy_and_codesign_revealserver.sh</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			aQbLdf9lVnmDd2BfBMGsVPBPdb8=
+			</data>
+			<key>hash2</key>
+			<data>
+			UYSfYiTYxoDhVX7UwCYvPXGOWQ4Yrm5DzFoomMlSIMs=
+			</data>
+		</dict>
+		<key>Frameworks/RevealServer.framework/_CodeSignature/CodeResources</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			QmzU1+Gi11rp91jm5Fk1rPDZgnQ=
+			</data>
+			<key>hash2</key>
+			<data>
+			fyhdEj6/S7AgrMecHgUtHfzE916uVfISjqlX0a3YaOM=
 			</data>
 		</dict>
 		<key>Frameworks/TKLiveSync.framework/Info.plist</key>
@@ -2162,11 +2222,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			Z5L519qjQokH/xzwM/llyigCxOM=
+			2Z2C8uNyRmjTLh3ntVrRIoh8e74=
 			</data>
 			<key>hash2</key>
 			<data>
-			nJHO6Wsi2RWDPLw2A+XbonvoGqmcZ/N45RQZVaWQc/w=
+			D2V43kJPBA+uULrbCn+Mo5SIaxcqNkooUdRWntxMeHs=
 			</data>
 		</dict>
 		<key>LaunchScreen.storyboardc/Info.plist</key>
@@ -2184,11 +2244,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			G6q+08xW2bszpfhH2KTp3CDJfSc=
+			dGOiFj/d88gM2bn4vdAOVy9IRW4=
 			</data>
 			<key>hash2</key>
 			<data>
-			3/77VV9FBOajT388HRmqmyJYJr95w77W0zbFyrvodtM=
+			ODxfx08I37FHc2dn86/hFV/0HVw8QksvdgzBLysut1U=
 			</data>
 		</dict>
 		<key>app/README.md</key>
@@ -2349,11 +2409,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			RAgXccdxx832JGeBHL0GjuCrwYs=
+			n6zeUIfrCZukwNfL+iIu9mqhNv4=
 			</data>
 			<key>hash2</key>
 			<data>
-			dDPYYDyO06Bftw6YLugm2TWAeiV2ctWMzduJfyX8Y0w=
+			GJXEj457Q1TrDn7+jUQ6ssYF36OF2RGOfPx1Hk5T8Ws=
 			</data>
 		</dict>
 		<key>app/app.css</key>
@@ -2404,77 +2464,77 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			iIxeLJ7U7qMGjKUCY+TeUZrookI=
+			gSotEc0rMu9a3exRAcCtFFNgT4w=
 			</data>
 			<key>hash2</key>
 			<data>
-			C+PniYy/3EVbSI0EX9hLRbpxu8efPJX1xl8I1TRzBf8=
+			q0zWih/D9hs8/wW+lz0BTvPzmqMLuaJnLOimDEx7K+M=
 			</data>
 		</dict>
 		<key>app/carousel-view/carousel-view-common.js.map</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			CSqqZide0bdmLDuba6MkOn8cxWk=
+			zA9W9xjPJhgRUPTorUhdxiFPF+k=
 			</data>
 			<key>hash2</key>
 			<data>
-			OuE5UhSfAxkMAUlOwOcJjVRyo7SVmlUIy6xKc9th8Zk=
+			+OLpv8Xx4Tktj3BlYDmceEDhY8bbYuJmj6eNBj5haZc=
 			</data>
 		</dict>
 		<key>app/carousel-view/carousel-view-common.ts</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			cxZm7UQ3mhnVDJS/Uxvvoa0qjqE=
+			AyP2Vj5xKA/kJBs+yGiX14/DvbU=
 			</data>
 			<key>hash2</key>
 			<data>
-			n8+e07CTMH/yxMXOz76x3Qr52nKVEqI/rOqJ4mwJlMc=
+			+iJvpXqRJKIYZDgTTM1iePjLp2fCTGPjsu+A3xcklkc=
 			</data>
 		</dict>
 		<key>app/carousel-view/carousel-view.d.ts</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			5DfKHP+rylkWcU8GTX1jeU+R8Aw=
+			bzOdKZEW48YR2RbvWp20vcwAbr4=
 			</data>
 			<key>hash2</key>
 			<data>
-			i0pvklwGp3a34KVjtykJPMqQJNBHFvzC9/5SdwBldyI=
+			RZmIm+XpXLxjG36merHgPtGvkkp1NNvaOTn/JKnGn88=
 			</data>
 		</dict>
 		<key>app/carousel-view/carousel-view.js</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			haBVYUdLs1sHRPBcGgf1S2iwKxU=
+			chaF95h/nVTV0993qBlwkNPdJVY=
 			</data>
 			<key>hash2</key>
 			<data>
-			X2OP9bTii6PqXO3ACuLPvebPVZmUp2v1ahbpARxLYVM=
+			luQWpotAX1KJU9+petp20M+ZhSKInqcDCNa616+OLqg=
 			</data>
 		</dict>
 		<key>app/carousel-view/carousel-view.js.map</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			ORRilfMjjhO0rH+iane2tSIUNwE=
+			zyqHu/yUHpGR0Ckpxb4WWAF5XMY=
 			</data>
 			<key>hash2</key>
 			<data>
-			Yngk2USOV+l7MOjHt3/+Ks8Ab6EHqdmwrlX2GJUc/q4=
+			yOI89zPU1tItKxTcyyTWTgSuEa1Ohr3OjFRThAGarbM=
 			</data>
 		</dict>
 		<key>app/carousel-view/carousel-view.ts</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			RfBaAOBsSGdGKzlcmQHm44eg4tk=
+			pIX3kKtYKGzFlkshh5cRNALlqzs=
 			</data>
 			<key>hash2</key>
 			<data>
-			oEWiyiKU28WiJDUlQQOxw8H119uIFYM6YjqHYSA99x0=
+			AMlCYAiJbxxWrPe29VuXhORat7AJBSotkqJlUurl5Fs=
 			</data>
 		</dict>
 		<key>app/helpers.js</key>

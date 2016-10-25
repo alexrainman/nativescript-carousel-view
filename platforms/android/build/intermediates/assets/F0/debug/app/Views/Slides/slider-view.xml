@@ -1,5 +1,0 @@
-<StackLayout loaded="onLoaded" horizontalAlignment="center" padding="12">
-    <Label text="{{ first }}"/> 
-    <Label text="{{ last }}"/>
-    <Button text="Remove me" tap="buttonTap"/> 
-</StackLayout>
