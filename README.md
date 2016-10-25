@@ -34,9 +34,8 @@ Then add the control:
 
 ```templateSelector```: a class implementing the provided ITemplateSelector interface.
 
-ViewModel example:
 ```
-export class HelloWorldModel extends observable.Observable {
+export class MainViewModel extends observable.Observable {
 
     public templateSelector: MyTemplateSelector;
     public itemsSource: observableArrayModule.ObservableArray<Person>;
@@ -48,6 +47,29 @@ export class HelloWorldModel extends observable.Observable {
 
         var items = [ 1, 2, 3, 4, 5 ];
         this.itemsSource = new observableArrayModule.ObservableArray<Person>(items);
+    }
+}
+```
+
+Template selector: it should return a {N} view. As you can see in the example, i put each page view in separate file and i load them using builder. Also, notice that you have to assign the bindingContext of the returning view.
+
+```
+import { ITemplateSelector } from "nativescript-carousel-view";
+import builder = require("ui/builder");
+
+export class MyTemplateSelector implements ITemplateSelector {
+    
+    OnSelectTemplate(position: number, bindingContext: any) {
+
+        var view = builder.load({
+            path: "~/Views/Slides",
+            name: "slider-view"
+        });
+
+        // required
+        view.bindingContext = bindingContext;
+
+        return view;
     }
 }
 ```
