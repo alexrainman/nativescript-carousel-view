@@ -40,13 +40,13 @@ Then add the control:
 
 **Methods**
 
-```removePage (position)```: remove a view at given position (when you remove the current view it will slide to the previous one). This method will also remove the related item from the itemsSource.
+```removePage (position)```: remove a view at given position (when you remove the current view it will slide to the previous one). This method will also remove the related item from the itemsSource).
 
 ```insertPage (position, bindingContext)```: insert a view at a given position.
 
 ```setCurrentPage (position)```: slide programmatically to a given position.
 
-```itemsSourceChanged```: call this if you re-assign the itemsSource.
+```itemsSourceChanged```: call this if you change the itemsSource.
 
 #### Contributors
 * [alexrainman](https://github.com/alexrainman)
