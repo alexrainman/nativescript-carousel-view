@@ -26,13 +26,13 @@ Then add the control:
 
 **Bindable Properties**
 
-```position```: the desired selected view when Carousel starts.
+```position```: selected page when carousel starts.
 
-```itemsSource```: Collection of objects used as BindingContext of each view.
+```itemsSource```: collection of objects used as bindingContext of each page.
 
 ```templateSelector```: a class implementing the provided ITemplateSelector interface.
 
-```interPageSpacing```: add a margin/space between pages.
+```interPageSpacing```: margin/space between pages.
 
 **Event Handlers**
 
