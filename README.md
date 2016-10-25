@@ -7,8 +7,8 @@
 
 |Platform|Supported|Version|NativeView|
 | ------------------- | :-----------: | :-----------: | :------------------: |
-|Xamarin.iOS Unified|Yes|iOS 8.1+|UIPageViewController|
-|Xamarin.Android|Yes|API 15+|ViewPager|
+|iOS|Yes|iOS 8.1+|UIPageViewController|
+|Android|Yes|API 15+|ViewPager|
 
 #### Usage
 
@@ -46,7 +46,7 @@ Then add the control:
 
 ```setCurrentPage (position)```: slide programmatically to a given position.
 
-```itemsSourceChanged: call this if you re-assign the itemsSource.
+```itemsSourceChanged```: call this if you re-assign the itemsSource.
 
 #### Contributors
 * [alexrainman](https://github.com/alexrainman)
