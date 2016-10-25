@@ -28,11 +28,29 @@ Then add the control:
 
 ```position```: selected page when carousel starts.
 
+```interPageSpacing```: margin/space between pages.
+
 ```itemsSource```: collection of objects used as bindingContext of each page.
 
 ```templateSelector```: a class implementing the provided ITemplateSelector interface.
 
-```interPageSpacing```: margin/space between pages.
+ViewModel example:
+```
+export class HelloWorldModel extends observable.Observable {
+
+    public templateSelector: MyTemplateSelector;
+    public itemsSource: observableArrayModule.ObservableArray<Person>;
+
+    constructor() {
+        super();
+        
+        this.templateSelector = new MyTemplateSelector();
+
+        var items = [ 1, 2, 3, 4, 5 ];
+        this.itemsSource = new observableArrayModule.ObservableArray<Person>(items);
+    }
+}
+```
 
 **Event Handlers**
 
