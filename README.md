@@ -131,5 +131,7 @@ export class MyTemplateSelector implements ITemplateSelector {
 
 * [{N} Team ](https://github.com/nativescript)
 
+* [BradMartin] (https://github.com/bradmartin)
+
 #### License
 Licensed under repo license
