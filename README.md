@@ -95,7 +95,7 @@ export class MyTemplateSelector implements ITemplateSelector {
 
 **Event Handlers**
 
-```positionSelected```: trigered when the selected page changes.
+```positionSelected```: triggered when the selected page changes.
 
 **Methods**
 
