@@ -121,7 +121,7 @@ export class MyTemplateSelector implements ITemplateSelector {
 #### Contributors
 * [alexrainman](https://github.com/alexrainman)
 
-Thanks!
+Special thanks to @NathanWalker and {N} Team.
 
 #### License
 Licensed under repo license
