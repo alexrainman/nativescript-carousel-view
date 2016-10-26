@@ -95,13 +95,13 @@ export class MyTemplateSelector implements ITemplateSelector {
 
 **Event Handlers**
 
-```positionSelected```: triggered when the selected page changes.
+```positionSelected```: triggers when the selected page changes.
 
 **Methods**
 
-```removePage (position)```: remove a page at given position. This will also remove the corresponding item from itemsSource.
-
 ```insertPage (position, bindingContext)```: insert a page at a given position.
+
+```removePage (position)```: remove a page at given position (this will also remove the corresponding item from itemsSource).
 
 ```setCurrentPage (position)```: slide programmatically to a given position.
 
