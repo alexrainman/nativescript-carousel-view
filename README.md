@@ -1,5 +1,7 @@
 # CarouselView plugin for NativeScript
 
+Ported from my CarouselView for Xamarin.Forms: https://github.com/alexrainman/CarouselView
+
 #### Setup
 * Available as npm: https://www.nuget.org/packages/CarouselView.FormsPlugin/ [![NuGet](https://img.shields.io/nuget/v/CarouselView.FormsPlugin.svg?label=NuGet)](https://www.nuget.org/packages/CarouselView.FormsPlugin/)
 
@@ -121,11 +123,9 @@ export class MyTemplateSelector implements ITemplateSelector {
 - Page Indicators
 - Vertical Carousel
 
-#### By
-
-* [alexrainman](https://github.com/alexrainman) : ported from
-
 #### Contributors
+
+* [alexrainman](https://github.com/alexrainman)
 
 * [NathanWalker](https://github.com/nathanwalker)
 
