@@ -12,10 +12,10 @@
 
 #### Requirements
 
-* Typescript >= 2.1.0-dev.20161003
-* async-await
+* TypeScript >= 2.1.0-dev.20161003
+* Async/Await
 
-Please follow this tutorial to add Typescript 2.1.0-dev.20161003 and async-await support to your project:
+Please follow this tutorial to add TypeScript 2.1.0-dev.20161003 and async/await support to your project:
 
 https://www.nativescript.org/blog/use-async-await-with-typescript-in-nativescript-today
 
