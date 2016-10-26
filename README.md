@@ -3,7 +3,7 @@
 #### Setup
 * Available as npm: https://www.nuget.org/packages/CarouselView.FormsPlugin/ [![NuGet](https://img.shields.io/nuget/v/CarouselView.FormsPlugin.svg?label=NuGet)](https://www.nuget.org/packages/CarouselView.FormsPlugin/)
 
-**Platform Support**
+#### Platform Support
 
 |Platform|Supported|Version|NativeView|
 | ------------------- | :-----------: | :-----------: | :------------------: |
@@ -29,7 +29,7 @@ Then add the control:
     templateSelector="{{ templateSelector }}"/>
 ```
 
-**Bindable Properties**
+#### Bindable Properties
 
 ```position```: selected page when carousel starts (default 0).
 
@@ -39,7 +39,7 @@ Then add the control:
 
 ```templateSelector```: a class implementing the provided ITemplateSelector interface.
 
-**ViewModel example**
+#### ViewModel example
 
 ```
 import observable = require("data/observable");
@@ -68,7 +68,7 @@ export class HelloWorldModel extends observable.Observable {
 }
 ```
 
-**Template selector** 
+#### Template selector
 
 Template selector should return a valid {N} view. As advice, put each view in separate files and load them with builder. Also, notice that you have to assign the bindingContext of the returning view.
 
@@ -93,11 +93,11 @@ export class MyTemplateSelector implements ITemplateSelector {
 }
 ```
 
-**Event Handlers**
+#### Event Handlers
 
 ```positionSelected```: triggers when the selected page changes.
 
-**Methods**
+#### Methods
 
 ```insertPage (position, bindingContext)```: insert a page at a given position.
 
