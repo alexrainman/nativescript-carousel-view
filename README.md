@@ -30,7 +30,7 @@ Then add the control:
 
 ```interPageSpacing```: margin/space between pages.
 
-```itemsSource```: collection of objects used as bindingContext of each page.
+```itemsSource```: collection of objects used as bindingContext for each page.
 
 ```templateSelector```: a class implementing the provided ITemplateSelector interface.
 
@@ -61,16 +61,11 @@ export class HelloWorldModel extends observable.Observable {
         this.itemsSource = new observableArrayModule.ObservableArray<Person>(items);
     }
 }
-
-export class Person {
-    first: string;
-    last: string;
-}
 ```
 
 **Template selector** 
 
-Template selector should return a valid {N} view. As you can see in the example, i put each page in separate file and i load them using builder. Also, notice that you have to assign the bindingContext of the returning view.
+Template selector should return a valid {N} view. As advice you to put each view in separate files and load them with builder. Also, notice that you have to assign the bindingContext of the returning view.
 
 ```
 import { ITemplateSelector } from "nativescript-carousel-view";
@@ -95,17 +90,17 @@ export class MyTemplateSelector implements ITemplateSelector {
 
 **Event Handlers**
 
-```positionSelected```: called when the selected page changes.
+```positionSelected```: trigered when the selected page changes.
 
 **Methods**
 
-```removePage (position)```: remove a view at given position (when you remove the current view it will slide to the previous one). This method will also remove the related item from the itemsSource).
+```removePage (position)```: remove a page at given position. This will also remove the corresponding item from itemsSource.
 
-```insertPage (position, bindingContext)```: insert a view at a given position.
+```insertPage (position, bindingContext)```: insert a page at a given position.
 
 ```setCurrentPage (position)```: slide programmatically to a given position.
 
-```itemsSourceChanged```: call this if you change the itemsSource.
+```itemsSourceChanged```: call this if itemsSource has changed.
 
 #### Contributors
 * [alexrainman](https://github.com/alexrainman)
