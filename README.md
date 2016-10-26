@@ -3,7 +3,7 @@
 Ported from my CarouselView for Xamarin.Forms: https://github.com/alexrainman/CarouselView
 
 #### Setup
-* Available as npm: https://www.nuget.org/packages/CarouselView.FormsPlugin/ [![NuGet](https://img.shields.io/nuget/v/CarouselView.FormsPlugin.svg?label=NuGet)](https://www.nuget.org/packages/CarouselView.FormsPlugin/)
+* Available as npm: 
 
 #### Platform Support
 
