@@ -113,6 +113,11 @@ export class MyTemplateSelector implements ITemplateSelector {
 
 ```itemsSourceChanged```: call this if itemsSource has changed.
 
+#### Roadmap
+
+- Page Indicators
+- Vertical Carousel
+
 #### Contributors
 * [alexrainman](https://github.com/alexrainman)
 
