@@ -21,7 +21,8 @@ xmlns:controls="nativescript-carousel-view"
 Then add the control:
 
 ```xml
-<controls:CarouselView id="carouselView"
+<controls:CarouselView
+    id="carouselView"
     position="0"
     interPageSpacing="20"
     itemsSource="{{ itemsSource }}"
