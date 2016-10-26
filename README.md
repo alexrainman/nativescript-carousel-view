@@ -21,7 +21,11 @@ xmlns:controls="nativescript-carousel-view"
 Then add the control:
 
 ```xml
-<controls:CarouselView id="carouselView" position="0" itemsSource="{{ itemsSource }}" templateSelector="{{ templateSelector }}"/>
+<controls:CarouselView id="carouselView"
+    position="0"
+    interPageSpacing="20"
+    itemsSource="{{ itemsSource }}"
+    templateSelector="{{ templateSelector }}"/>
 ```
 
 **Bindable Properties**
