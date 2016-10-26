@@ -3,7 +3,8 @@
 Ported from my CarouselView for Xamarin.Forms: https://github.com/alexrainman/CarouselView
 
 #### Setup
-* Available as npm: 
+
+tns plugin add nativescript-carousel-view
 
 #### Platform Support
 
