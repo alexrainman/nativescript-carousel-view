@@ -110,6 +110,8 @@ export class MyTemplateSelector implements ITemplateSelector {
 ```positionSelected```: triggers when the selected page changes.
 
 ```
+var carouselView = <CarouselView>page.getViewById("carouselView");
+
 carouselView.on("positionSelected", function(eventData){
     console.log(eventData.eventName + " has been raised! by: " + eventData.object);
 });
