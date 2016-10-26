@@ -10,6 +10,12 @@
 |iOS|Yes|iOS 8.1+|UIPageViewController|
 |Android|Yes|API 15+|ViewPager|
 
+#### Requirements
+
+Please follow this tutorial to add Typescript 2.1.0-dev.20161003 and async/await support to your project:
+
+https://www.nativescript.org/blog/use-async-await-with-typescript-in-nativescript-today
+
 #### Usage
 
 First add the xmlns namespace:
