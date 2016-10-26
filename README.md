@@ -70,7 +70,7 @@ export class HelloWorldModel extends observable.Observable {
 
 **Template selector** 
 
-Template selector should return a valid {N} view. As advice you to put each view in separate files and load them with builder. Also, notice that you have to assign the bindingContext of the returning view.
+Template selector should return a valid {N} view. As advice, put each view in separate files and load them with builder. Also, notice that you have to assign the bindingContext of the returning view.
 
 ```
 import { ITemplateSelector } from "nativescript-carousel-view";
