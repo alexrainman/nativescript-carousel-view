@@ -124,7 +124,7 @@ export class MyTemplateSelector implements ITemplateSelector {
 - Page Indicators
 - Vertical Carousel
 
-#### Contributors
+#### Collaborators
 
 * [alexrainman](https://github.com/alexrainman)
 
