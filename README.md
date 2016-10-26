@@ -143,4 +143,4 @@ carouselView.on("positionSelected", function(eventData){
 * [{N} Team ](https://github.com/nativescript)
 
 #### License
-Licensed under repo license
+MIT.
