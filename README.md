@@ -109,6 +109,12 @@ export class MyTemplateSelector implements ITemplateSelector {
 
 ```positionSelected```: triggers when the selected page changes.
 
+```
+carouselView.on("positionSelected", function(eventData){
+    console.log(eventData.eventName + " has been raised! by: " + eventData.object);
+});
+```
+
 #### Methods
 
 ```insertPage (position, bindingContext)```: insert a page at a given position.
