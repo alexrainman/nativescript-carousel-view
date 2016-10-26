@@ -30,9 +30,9 @@ Then add the control:
 
 **Bindable Properties**
 
-```position```: selected page when carousel starts.
+```position```: selected page when carousel starts (default 0).
 
-```interPageSpacing```: margin/space between pages.
+```interPageSpacing```: margin/space between pages (default 0).
 
 ```itemsSource```: collection of objects used as bindingContext for each page.
 
