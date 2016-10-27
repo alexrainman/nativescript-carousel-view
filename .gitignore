@@ -1,7 +1,8 @@
-app/**/*.js
-app/**/*.map
-!app/helpers.js
-hooks
-lib
-platforms
-node_modules
+*.js
+*.js.map
+*.log
+demo/app/*.js
+demo/*.d.ts
+demo/lib
+demo/platforms
+demo/node_modules

@@ -1,21 +1,37 @@
 {
-  "description": "NativeScript Application",
-  "license": "SEE LICENSE IN <your-license-filename>",
-  "readme": "NativeScript Application",
-  "repository": "<fill-your-repository-here>",
-  "nativescript": {
-    "id": "org.nativescript.CarouselViewDemo",
-    "tns-android": {
-      "version": "2.3.0"
-    },
-    "tns-ios": {
-      "version": "2.3.0"
-    }
+   "name": "nativescript-carousel-view",
+   "version": "1.0.1",
+   "main": "carousel-view.js",
+   "nativescript": {
+       "platforms": {
+           "ios": "2.3.0",
+           "android": "2.3.0"
+       }
+   },
+   "repository": {
+    "type": "git",
+    "url": "https://github.com/alexrainman/nativescript-carousel-view.git"
   },
-  "dependencies": {
-    "tns-core-modules": "2.3.0",
-    "tns-platform-declarations": "2.2.0"
+  "keywords": [
+    "NativeScript",
+    "JavaScript",
+    "TypeScript",
+    "Carousel",
+    "Android",
+    "iOS",
+    "ViewPager",
+    "UIPageViewController"
+  ],
+  "author": {
+    "name": "Alex Rainman",
+    "email": "alexrainman1975@gmail.com"
   },
+  "bugs": {
+    "url": "https://github.com/alexrainman/nativescript-carousel-view/issues"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/alexrainman/nativescript-carousel-view",
+  "readmeFilename": "README.md",
   "devDependencies": {
     "babel-traverse": "6.16.0",
     "babel-types": "6.16.0",
