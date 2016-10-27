@@ -1,4 +1,4 @@
-# CarouselView plugin for nativescript
+CarouselView plugin for nativescript
 
 #### Setup
 
@@ -10,15 +10,6 @@ tns plugin add nativescript-carousel-view
 | ------------------- | :-----------: | :-----------: | :------------------: |
 |iOS|Yes|iOS 8.1+|UIPageViewController|
 |Android|Yes|API 15+|ViewPager|
-
-#### Requirements
-
-* TypeScript >= 2.1.0-dev.20161003
-* Async/Await
-
-Please follow this tutorial to add TypeScript 2.1.0-dev.20161003 and async/await support to your project:
-
-https://www.nativescript.org/blog/use-async-await-with-typescript-in-nativescript-today
 
 #### Usage
 
@@ -129,6 +120,14 @@ carouselView.on("positionSelected", function(eventData){
 
 - Page Indicators
 - Vertical Carousel
+
+#### Requirements for TypeScrip developers
+
+* TypeScript >= 2.1.0-dev.20161003
+
+Please follow this tutorial to add TypeScript 2.1.0-dev.20161003 and async/await support to your project:
+
+https://www.nativescript.org/blog/use-async-await-with-typescript-in-nativescript-today
 
 #### Collaborators
 
