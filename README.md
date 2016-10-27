@@ -1,3 +1,5 @@
+# CarouselView plugin for nativescript
+
 #### Setup
 
 tns plugin add nativescript-carousel-view
