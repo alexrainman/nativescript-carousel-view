@@ -110,7 +110,16 @@ carouselView.on("positionSelected", function(eventData){
 
 ```insertPage (position, bindingContext)```: insert a page at a given position.
 
+```
+await carouselView.insertPage(5, person);
+carouselView.setCurrentPage(5);
+```
+
 ```removePage (position)```: remove a page at given position (this will also remove the corresponding item from itemsSource).
+
+```
+await carouselView.removePage(5);
+```
 
 ```setCurrentPage (position)```: slide programmatically to a given position.
 
@@ -118,8 +127,8 @@ carouselView.on("positionSelected", function(eventData){
 
 #### Roadmap
 
-- Page Indicators
 - Vertical Carousel
+- Page Indicators
 
 #### Requirements for TypeScrip developers
 
@@ -133,11 +142,9 @@ https://www.nativescript.org/blog/use-async-await-with-typescript-in-nativescrip
 
 * [alexrainman](https://github.com/alexrainman)
 
-* [NathanWalker](https://github.com/nathanwalker)
-
 * [BradMartin](https://github.com/bradmartin)
 
-* [{N} Team](https://github.com/nativescript)
+* [NathanWalker](https://github.com/nathanwalker)
 
 #### License
 MIT.
