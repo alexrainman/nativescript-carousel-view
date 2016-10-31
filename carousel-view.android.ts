@@ -14,9 +14,14 @@ export class CarouselView extends common.CarouselView
     }
 
     public _createUI() {
-
-        this._android = new android.support.v4.view.ViewPager(this._context);
-        //this._android = new verticalViewPager(this._context);
+        
+        if (this.orientation == 0)
+            this._android = new android.support.v4.view.ViewPager(this._context);
+        else {
+            ensureVerticalViewPagerClass();
+            this._android = new VerticalViewPagerClass(application.android.currentContext);
+        }
+            
         this._android.setPageMargin(this.interPageSpacing*2);
     }
 
@@ -290,45 +295,62 @@ function ensurePageChangedListenerClass() {
     PageChangedListenerClass = PageChangedListenerInner;
 }
 
-/*export class verticalViewPager extends android.support.v4.view.ViewPager
-{
-    constructor(context: android.content.Context)
+var VerticalViewPagerClass;
+function ensureVerticalViewPagerClass() {
+
+    if (VerticalViewPagerClass) {
+        return;
+    }
+    
+    class VerticalViewPagerInner extends android.support.v4.view.ViewPager
     {
-        super(context);
-        this.setPageTransformer(false, new DefaultTransformer());
+        constructor(context: android.content.Context, attrs?: android.util.IAttributeSet){
+            super(context, attrs);
+
+            global.__native(this).setPageTransformer(false, new android.support.v4.view.ViewPager.PageTransformer({
+                transformPage(page: android.view.View, position: number): void {
+                    page.setTranslationX(page.getWidth() * -position);
+                    var yPosition = position * page.getHeight();
+                    page.setTranslationY(yPosition);
+                }})
+            );
+
+            return global.__native(this);
+        }
+
+        private swapTouchEvent(ev: android.view.MotionEvent)
+        {
+            var width = this.getWidth();
+            var height = this.getHeight();
+
+            var swappedX = (ev.getY() / height) * width;
+            var swappedY = (ev.getX() / width) * height;
+
+            ev.setLocation(swappedX, swappedY);
+
+            return ev;
+        }
+
+        public onInterceptTouchEvent(ev: android.view.MotionEvent)
+        {
+            var intercept = super.onInterceptTouchEvent(this.swapTouchEvent(ev));
+            //If not intercept, touch event should not be swapped.
+            this.swapTouchEvent(ev);
+            return intercept;
+        }
+
+        public onTouchEvent(ev: android.view.MotionEvent)
+        {
+            return super.onTouchEvent(this.swapTouchEvent(ev));
+        }
     }
 
-    private swapTouchEvent(ev: android.view.MotionEvent)
-    {
-        var width = this.getWidth();
-        var height = this.getHeight();
-
-        var swappedX = (ev.getY() / height) * width;
-        var swappedY = (ev.getX() / width) * height;
-
-        ev.setLocation(swappedX, swappedY);
-
-        return ev;
-    }
-
-    public onInterceptTouchEvent(ev: android.view.MotionEvent)
-    {
-        var intercept = super.onInterceptTouchEvent(this.swapTouchEvent(ev));
-        //If not intercept, touch event should not be swapped.
-        this.swapTouchEvent(ev);
-        return intercept;
-    }
-
-    public onTouchEvent(ev: android.view.MotionEvent)
-    {
-        return super.onTouchEvent(this.swapTouchEvent(ev));
-    }
+    VerticalViewPagerClass = VerticalViewPagerInner;
 }
 
-export class DefaultTransformer implements android.support.v4.view.ViewPager.PageTransformer
-{
-    public transformPage(page : android.view.View, position: number)
-    {
+//@Interfaces([android.support.v4.view.ViewPager.PageTransformer])
+/*export class DefaultTransformer extends java.lang.Object {
+    transformPage(page: android.view.View, position: number): void {
         page.setTranslationX(page.getWidth() * -position);
         var yPosition = position * page.getHeight();
         page.setTranslationY(yPosition);

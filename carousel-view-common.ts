@@ -31,6 +31,12 @@ export class CarouselView extends view.View implements definition.CarouselView {
         new proxy.PropertyMetadata(0)
         );
 
+    public static orientationProperty = new dependencyObservable.Property(
+        "orientation",
+        "CarouselView",
+        new proxy.PropertyMetadata(0)
+        );
+
     get position(): number {
         return this._getValue(CarouselView.positionProperty);
     }
@@ -57,6 +63,13 @@ export class CarouselView extends view.View implements definition.CarouselView {
     }
     set interPageSpacing(value: number) {
         this._setValue(CarouselView.interPageSpacingProperty, value);
+    }
+
+    get orientation(): number {
+        return this._getValue(CarouselView.orientationProperty);
+    }
+    set orientation(value: number) {
+        this._setValue(CarouselView.orientationProperty, value);
     }
 
     public async insertPage(position: number, bindingContext: any) {}

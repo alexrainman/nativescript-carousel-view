@@ -1,6 +1,6 @@
 {
    "name": "nativescript-carousel-view",
-   "version": "1.0.4",
+   "version": "2.0.0",
    "main": "carousel-view.js",
    "typings": "carousel-view.d.ts",
    "nativescript": {

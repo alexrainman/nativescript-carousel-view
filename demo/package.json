@@ -10,7 +10,7 @@
     }
   },
   "dependencies": {
-    "nativescript-carousel-view": "^1.0.3",
+    "nativescript-carousel-view": "^2.0.0",
     "tns-core-modules": "2.3.0"
   },
   "devDependencies": {

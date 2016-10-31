@@ -7,40 +7,54 @@ import observableArrayModule = require("data/observable-array");
 
 export class CarouselView extends common.CarouselView
 {
-    public _ios: UIPageViewController;
+    private _ios: UIView;
 
-    get ios(): UIView{
-        return this._ios.view;
+    get ios(): UIView {
+        return this._ios;
     }
 
     // Thanks to NathanWalker for the _nativeView tip
     get _nativeView(): any {
-        return this._ios.view;
+        return this._ios;
     }
+
+    private _pageController: UIPageViewController;
 
     constructor()
     {
         super();
-
-        let objects = <any>[UIPageViewControllerSpineLocation.UIPageViewControllerSpineLocationNone,this.interPageSpacing];
-        let keys = <any>[UIPageViewControllerOptionSpineLocationKey,UIPageViewControllerOptionInterPageSpacingKey];
         
-        this._ios = UIPageViewController.alloc().initWithTransitionStyleNavigationOrientationOptions(
-            UIPageViewControllerTransitionStyle.UIPageViewControllerTransitionStyleScroll,
-            UIPageViewControllerNavigationOrientation.UIPageViewControllerNavigationOrientationHorizontal,
-            NSDictionary.dictionaryWithObjectsForKeys(objects,keys));
+        // As custom properties returns default value only here
+        // Adding a container so we can build UIPageViewController onLoaded()
+        this._ios = new UIView();
     }
     
     // Thanks to NathanWalker for the onLoaded tip
     public onLoaded() {
 
+        let orientation;
+        if (this.orientation == 0)
+            orientation = UIPageViewControllerNavigationOrientation.UIPageViewControllerNavigationOrientationHorizontal;
+        else
+            orientation = UIPageViewControllerNavigationOrientation.UIPageViewControllerNavigationOrientationVertical;
+
+        let objects = <any>[UIPageViewControllerSpineLocation.UIPageViewControllerSpineLocationNone, this.interPageSpacing];
+        let keys = <any>[UIPageViewControllerOptionSpineLocationKey, UIPageViewControllerOptionInterPageSpacingKey];
+
+        this._pageController = UIPageViewController.alloc().initWithTransitionStyleNavigationOrientationOptions(
+            UIPageViewControllerTransitionStyle.UIPageViewControllerTransitionStyleScroll,
+            orientation,
+            NSDictionary.dictionaryWithObjectsForKeys(objects,keys));
+
         var that = new WeakRef(this);
-        this._ios.dataSource = DataSourceClass.initWithOwner(that);
-        this._ios.delegate = DelegateClass.initWithOwner(that);
+        this._pageController.dataSource = DataSourceClass.initWithOwner(that);
+        this._pageController.delegate = DelegateClass.initWithOwner(that);
 
         let firstViewController = this.createViewController(this.position);
         let direction = UIPageViewControllerNavigationDirection.UIPageViewControllerNavigationDirectionForward;
-        this._ios.setViewControllersDirectionAnimatedCompletion (<any>[firstViewController], direction, false, (arg1) => {});
+        this._pageController.setViewControllersDirectionAnimatedCompletion (<any>[firstViewController], direction, false, (arg1) => {});
+
+        this._ios.addSubview(this._pageController.view);
 
         var eventData: observable.EventData = {
             eventName: "positionSelected",
@@ -50,7 +64,7 @@ export class CarouselView extends common.CarouselView
     }
 
     public async insertPage(position: number, bindingContext: any) {
-        if (this._ios != null) {
+        if (this._pageController != null) {
 
             if (position > this.itemsSource.length)
 				throw new Error("Index out of bounds (position > itemsSource length).");
@@ -63,21 +77,21 @@ export class CarouselView extends common.CarouselView
 			else
 				this.itemsSource.splice(position, 0, bindingContext);
 
-            let firstViewController = this._ios.viewControllers[0];
+            let firstViewController = this._pageController.viewControllers[0];
             var direction = UIPageViewControllerNavigationDirection.UIPageViewControllerNavigationDirectionForward;
 
             // Using a standard JS Array here (just type-cast to any to suffice TypeScript)
             // {N} will auto-marshall this into a NSArray when making the call since the metadata knows its
             // supposed to be an NSArray :)
             // Thanks to NathanWalker for the auto-marshall tip for NSArray
-			this._ios.setViewControllersDirectionAnimatedCompletion(<any>[firstViewController], direction, false, (arg1) => {});
+			this._pageController.setViewControllersDirectionAnimatedCompletion(<any>[firstViewController], direction, false, (arg1) => {});
 
             await this.delay(100);
         }
     }
 
     public async removePage(position: number) {
-        if (this._ios != null) {
+        if (this._pageController != null) {
 
             if (position > this.itemsSource.length - 1)
 				throw new Error("Index out of bounds (position > itemsSource length - 1).");
@@ -100,15 +114,15 @@ export class CarouselView extends common.CarouselView
                 let direction = position == 0 ? forward : reverse;
                 
                 let firstViewController = this.createViewController(newPos);
-                this._ios.setViewControllersDirectionAnimatedCompletion(<any>[firstViewController], direction, true, (arg1) => {});
+                this._pageController.setViewControllersDirectionAnimatedCompletion(<any>[firstViewController], direction, true, (arg1) => {});
 
                 this.position = newPos;
 
             } else {
 
-                let firstViewController = this._ios.viewControllers[0];
+                let firstViewController = this._pageController.viewControllers[0];
                 let direction = UIPageViewControllerNavigationDirection.UIPageViewControllerNavigationDirectionForward;
-                this._ios.setViewControllersDirectionAnimatedCompletion (<any>[firstViewController], direction, false, (arg1) => {});
+                this._pageController.setViewControllersDirectionAnimatedCompletion (<any>[firstViewController], direction, false, (arg1) => {});
 
             }
 
@@ -121,7 +135,7 @@ export class CarouselView extends common.CarouselView
     }
 
     public setCurrentPage(position: number): void {
-        if (this._ios != null) {
+        if (this._pageController != null) {
 
             if (position > this.itemsSource.length - 1)
 		        throw new Error("Index out of bounds (position > itemsSource length - 1).");
@@ -136,7 +150,7 @@ export class CarouselView extends common.CarouselView
 			this.position = position;
 
             var firstViewController = this.createViewController(position);
-			this._ios.setViewControllersDirectionAnimatedCompletion(<any>[firstViewController], direction, true, (arg1) => {});
+			this._pageController.setViewControllersDirectionAnimatedCompletion(<any>[firstViewController], direction, true, (arg1) => {});
 
             var eventData: observable.EventData = {
                 eventName: "positionSelected",
@@ -153,7 +167,7 @@ export class CarouselView extends common.CarouselView
 			
 		let firstViewController = this.createViewController(this.position);
         let direction = UIPageViewControllerNavigationDirection.UIPageViewControllerNavigationDirectionForward;
-        this._ios.setViewControllersDirectionAnimatedCompletion (<any>[firstViewController], direction, false, (arg1) => {});
+        this._pageController.setViewControllersDirectionAnimatedCompletion (<any>[firstViewController], direction, false, (arg1) => {});
 
 		var eventData: observable.EventData = {
             eventName: "positionSelected",

@@ -24,6 +24,7 @@ Then add the control:
 ```xml
 <controls:CarouselView
     id="carouselView"
+    orientation="0"
     position="0"
     interPageSpacing="20"
     itemsSource="{{ itemsSource }}"
@@ -31,6 +32,8 @@ Then add the control:
 ```
 
 #### Bindable Properties
+
+```orientation```: 0 = horizontal, 1 = vertical (default 0)
 
 ```position```: selected page when carousel starts (default 0).
 
@@ -127,7 +130,6 @@ await carouselView.removePage(5);
 
 #### Roadmap
 
-- Vertical Carousel
 - Page Indicators
 
 #### Requirements for TypeScrip developers
