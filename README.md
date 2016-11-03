@@ -43,14 +43,39 @@ Then add the control:
 
 ```templateSelector```: a class implementing the provided ITemplateSelector interface.
 
-#### ViewModel example
+Template selector should return a valid {N} view. As advice, put each view in separate files and load them with builder. Also, notice that you have to assign the bindingContext of the returning view.
+
+#### TYPESCRIPT
+
+```
+import { ITemplateSelector } from "nativescript-carousel-view";
+import builder = require("ui/builder");
+
+export class MyTemplateSelector implements ITemplateSelector {
+    
+    OnSelectTemplate(position: number, bindingContext: any) {
+
+        var view = builder.load({
+            path: "~/Views/Slides",
+            name: "slider-view"
+        });
+
+        // required
+        view.bindingContext = bindingContext;
+
+        return view;
+    }
+}
+```
+
+#### ViewModel
 
 ```
 import observable = require("data/observable");
 import observableArrayModule = require("data/observable-array");
 import { MyTemplateSelector } from "../Views/Slides/template-selector";
 
-export class HelloWorldModel extends observable.Observable {
+export class MainViewModel extends observable.Observable {
 
     public templateSelector: MyTemplateSelector;
     public itemsSource: observableArrayModule.ObservableArray<Person>;
@@ -72,29 +97,52 @@ export class HelloWorldModel extends observable.Observable {
 }
 ```
 
-#### Template selector
-
-Template selector should return a valid {N} view. As advice, put each view in separate files and load them with builder. Also, notice that you have to assign the bindingContext of the returning view.
+#### JAVASCRIPT
 
 ```
-import { ITemplateSelector } from "nativescript-carousel-view";
-import builder = require("ui/builder");
+"use strict";
+var builder = require("ui/builder");
 
-export class MyTemplateSelector implements ITemplateSelector {
-    
-    OnSelectTemplate(position: number, bindingContext: any) {
+var MyTemplateSelector = (function () {
+    function MyTemplateSelector() {
+    }
+    MyTemplateSelector.prototype.OnSelectTemplate = function (position, bindingContext) {
 
         var view = builder.load({
             path: "~/Views/Slides",
             name: "slider-view"
         });
 
-        // required
         view.bindingContext = bindingContext;
 
         return view;
+    };
+    return MyTemplateSelector;
+}());
+
+exports.MyTemplateSelector = MyTemplateSelector;
+```
+
+#### ViewModel
+
+```
+"use strict";
+var observable = require("data/observable");
+var observableArrayModule = require("data/observable-array");
+var template_selector = require("../Views/Slides/template-selector");
+
+var MainViewModel = (function (_super) {
+    __extends(MainViewModel, _super);
+    function MainViewModel() {
+        var _this = _super.call(this) || this;
+        _this.templateSelector = new template_selector.MyTemplateSelector();
+        _this.itemsSource = new observableArrayModule.ObservableArray(items);
+        return _this;
     }
-}
+    return MainViewModel;
+}(observable.Observable));
+
+exports.MainViewModel = MainViewModel;
 ```
 
 #### Event Handlers
@@ -140,12 +188,13 @@ Please follow this tutorial to add TypeScript 2.1.0-dev.20161003 and async/await
 
 https://www.nativescript.org/blog/use-async-await-with-typescript-in-nativescript-today
 
-#### Collaborators
+#### Developed by
 
 * [alexrainman](https://github.com/alexrainman)
 
-* [BradMartin](https://github.com/bradmartin)
+#### Collaborators
 
+* [BradMartin](https://github.com/bradmartin)
 * [NathanWalker](https://github.com/nathanwalker)
 
 #### License
