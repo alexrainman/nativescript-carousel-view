@@ -7,33 +7,42 @@ var VIEWS_STATES = "_viewStates";
 
 export class CarouselView extends common.CarouselView
 {
-    private _android: android.support.v4.view.ViewPager ;
+    // Using RelativeLayout to be able to add indicators in upcoming release
+    private _android: android.widget.RelativeLayout;
 
-    get android(): android.support.v4.view.ViewPager {
+    get android(): android.widget.RelativeLayout{
         return this._android;
     }
 
+    private _viewPager: android.support.v4.view.ViewPager;
+
     public _createUI() {
+
+        this._android = new android.widget.RelativeLayout(application.android.currentContext);
         
-        if (this.orientation == 0)
-            this._android = new android.support.v4.view.ViewPager(this._context);
-        else {
-            ensureVerticalViewPagerClass();
-            this._android = new VerticalViewPagerClass(application.android.currentContext);
-        }
-            
-        this._android.setPageMargin(this.interPageSpacing*2);
     }
 
     public onLoaded() {
 
+        if (this.orientation == 0)
+            this._viewPager = new android.support.v4.view.ViewPager(this._context);
+        else {
+            ensureVerticalViewPagerClass();
+            this._viewPager = new VerticalViewPagerClass(application.android.currentContext);
+        }
+            
+        this._viewPager.setPageMargin(this.interPageSpacing*2);
+
         var that = new WeakRef(this);
         ensurePagerAdapterClass();
-        this._android.setAdapter(new PagerAdapterClass(this));
+        this._viewPager.setAdapter(new PagerAdapterClass(this));
         ensurePageChangedListenerClass();
-        this._android.setOnPageChangeListener(new PageChangedListenerClass(this));
+        this._viewPager.setOnPageChangeListener(new PageChangedListenerClass(this));
 
-        this._android.setCurrentItem(this.position, false);
+        this._viewPager.setCurrentItem(this.position, false);
+
+        var layoutParams = new android.widget.RelativeLayout.LayoutParams(android.widget.RelativeLayout.LayoutParams.MATCH_PARENT, android.widget.RelativeLayout.LayoutParams.MATCH_PARENT);
+        this._android.addView(this._viewPager, layoutParams);
 
         var eventData: observable.EventData = {
             eventName: "positionSelected",
@@ -43,7 +52,7 @@ export class CarouselView extends common.CarouselView
     }
 
     public async insertPage(position: number, bindingContext: any) {
-        if (this._android != null) {
+        if (this._viewPager != null) {
 
             if (position > this.itemsSource.length)
 				throw new Error("Index out of bounds (position > itemsSource length).");
@@ -56,17 +65,17 @@ export class CarouselView extends common.CarouselView
 			else
                 this.itemsSource.splice(position, 0, bindingContext);
             
-            if (position > 2)
-                this._android.getAdapter().notifyDataSetChanged ();
+            if (position > 1)
+                this._viewPager.getAdapter().notifyDataSetChanged ();
             else
-                this._android.setAdapter(new PagerAdapterClass(this));
+                this._viewPager.setAdapter(new PagerAdapterClass(this));
 
              await this.delay(100);
         }
     }
 
     public async removePage(position: number) {
-        if (this._android != null) {
+        if (this._viewPager != null) {
 
             if (position > this.itemsSource.length - 1)
 				throw new Error("Index out of bounds (position > itemsSource length - 1).");
@@ -82,29 +91,30 @@ export class CarouselView extends common.CarouselView
 
                 if (position == 0) {
 
-                    this._android.setCurrentItem (1, true);
+                    this._viewPager.setCurrentItem (1, true);
 
                     await this.delay(100);
 
                     this.itemsSource.splice(position,1);            
                     
-                    this._android.setAdapter(new PagerAdapterClass(this));
-                    //this._android.getAdapter().notifyDataSetChanged (); 
-                    this._android.setCurrentItem (0, false);  
+                    //this._viewPager.setAdapter(new PagerAdapterClass(this));
+                    this._viewPager.getAdapter().notifyDataSetChanged (); 
+                    
+                    this._viewPager.setCurrentItem (0, false);  
 
                     this.position = 0;            
 
                 } else {
 
-                    this._android.setCurrentItem (newPos, true);
+                    this._viewPager.setCurrentItem (newPos, true);
 
                     await this.delay(100);
 
                     this.itemsSource.splice(position,1);
                     if (position == 1)
-                        this._android.setAdapter(new PagerAdapterClass(this));                        
+                        this._viewPager.setAdapter(new PagerAdapterClass(this));                        
                     else
-                        this._android.getAdapter().notifyDataSetChanged ();                 
+                        this._viewPager.getAdapter().notifyDataSetChanged ();                 
                     this.position = newPos;
                 }
 
@@ -112,15 +122,15 @@ export class CarouselView extends common.CarouselView
 
                 this.itemsSource.splice(position,1);
                 if (position == 1)
-                    this._android.setAdapter(new PagerAdapterClass(this));                        
+                    this._viewPager.setAdapter(new PagerAdapterClass(this));                        
                 else
-                    this._android.getAdapter().notifyDataSetChanged ();
+                    this._viewPager.getAdapter().notifyDataSetChanged ();
             }
         }
     }
 
     public setCurrentPage(position: number): void {
-        if (this._android != null) {
+        if (this._viewPager != null) {
 
             if (position > this.itemsSource.length - 1)
 		        throw new Error("Index out of bounds (position > itemsSource length - 1).");
@@ -129,7 +139,7 @@ export class CarouselView extends common.CarouselView
                 throw new Error("Index out of bounds (position < 0).");
 
             this.position = position;
-            this._android.setCurrentItem (position, true);
+            this._viewPager.setCurrentItem (position, true);
         }
     }
 
@@ -139,9 +149,9 @@ export class CarouselView extends common.CarouselView
 			this.position = this.itemsSource.length - 1;
 			
         ensurePagerAdapterClass();
-        this._android.setAdapter(new PagerAdapterClass(this));
+        this._viewPager.setAdapter(new PagerAdapterClass(this));
 
-        this._android.setCurrentItem(this.position, false);
+        this._viewPager.setCurrentItem(this.position, false);
 
         var eventData: observable.EventData = {
             eventName: "positionSelected",
@@ -206,6 +216,9 @@ function ensurePagerAdapterClass() {
             }
 
             container.addView(obj.android);
+
+            obj.onLoaded();
+
             return obj.android;
         }
 

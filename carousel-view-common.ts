@@ -79,5 +79,4 @@ export class CarouselView extends view.View implements definition.CarouselView {
     public setCurrentPage(position: number): void {}
 
     public itemsSourceChanged(): void {}
-
 }

@@ -1,5 +1,10 @@
 CarouselView plugin for nativescript
 
+#### Release Notes
+
+2.0.2
+[Bug] onLoaded() not being called on carousel pages (Fixed).
+
 #### Setup
 
 tns plugin add nativescript-carousel-view
@@ -50,14 +55,18 @@ Template selector should return a valid {N} view. As advice, put each view in se
 ```
 import { ITemplateSelector } from "nativescript-carousel-view";
 import builder = require("ui/builder");
+var frame = require('ui/frame');
 
 export class MyTemplateSelector implements ITemplateSelector {
     
     OnSelectTemplate(position: number, bindingContext: any) {
 
+        var page = frame.topmost().currentPage;
+
         var view = builder.load({
             path: "~/Views/Slides",
-            name: "slider-view"
+            name: "slider-view",
+            page: page
         });
 
         // required

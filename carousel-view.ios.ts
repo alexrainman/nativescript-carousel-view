@@ -190,6 +190,8 @@ export class CarouselView extends common.CarouselView
         viewController.view = obj._view;
         viewController.owner = view;
 
+        obj.onLoaded();
+
         return viewController;
     }
 
