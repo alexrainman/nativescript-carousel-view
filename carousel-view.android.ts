@@ -30,8 +30,10 @@ export class CarouselView extends common.CarouselView
             ensureVerticalViewPagerClass();
             this._viewPager = new VerticalViewPagerClass(application.android.currentContext);
         }
-            
-        this._viewPager.setPageMargin(this.interPageSpacing*2);
+
+        var res = android.content.res.Resources;
+        var margin = this.interPageSpacing * res.getSystem().getDisplayMetrics().density;
+        this._viewPager.setPageMargin(margin);
 
         var that = new WeakRef(this);
         ensurePagerAdapterClass();
@@ -206,6 +208,7 @@ function ensurePagerAdapterClass() {
                 item = this._owner.itemsSource.getItem(position);
 
             var view = this._owner.templateSelector.OnSelectTemplate(position, item);
+            view.onLoaded();
             var obj = <any>view;
             obj._onAttached(application.android.currentContext);
 
@@ -216,8 +219,6 @@ function ensurePagerAdapterClass() {
             }
 
             container.addView(obj.android);
-
-            obj.onLoaded();
 
             return obj.android;
         }

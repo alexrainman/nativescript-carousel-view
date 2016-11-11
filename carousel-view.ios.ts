@@ -183,14 +183,13 @@ export class CarouselView extends common.CarouselView
             item = this.itemsSource.getItem(position);
 
         var view = this.templateSelector.OnSelectTemplate(position, item);
+        view.onLoaded();
         var obj = <any>view;
 
         var viewController = new ViewContainer();
         viewController.tag = position;
         viewController.view = obj._view;
         viewController.owner = view;
-
-        obj.onLoaded();
 
         return viewController;
     }

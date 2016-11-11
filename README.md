@@ -2,6 +2,8 @@ CarouselView plugin for nativescript
 
 #### Release Notes
 
+2.0.3
+[Bug] fixing interPageSpacing in Android.
 2.0.2
 [Bug] onLoaded() not being called on carousel pages (Fixed).
 
@@ -29,9 +31,9 @@ Then add the control:
 ```xml
 <controls:CarouselView
     id="carouselView"
-    orientation="0"
     position="0"
-    interPageSpacing="20"
+    orientation="0"
+    interPageSpacing="5"
     itemsSource="{{ itemsSource }}"
     templateSelector="{{ templateSelector }}"/>
 ```
