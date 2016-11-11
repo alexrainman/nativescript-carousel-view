@@ -1,15 +1,5 @@
 CarouselView plugin for nativescript
 
-#### Release Notes
-
-2.0.3
-
-[Bug] fixing interPageSpacing in Android.
-
-2.0.2
-
-[Bug] onLoaded() not being called on carousel pages (Fixed).
-
 #### Setup
 
 tns plugin add nativescript-carousel-view
@@ -194,6 +184,10 @@ await carouselView.removePage(5);
 
 ```itemsSourceChanged```: call this if itemsSource has changed.
 
+#### Limitations
+
+* Horizontal StackLayout doesn't works in iOS (use a grid instead).
+
 #### Roadmap
 
 - Page Indicators
@@ -202,18 +196,23 @@ await carouselView.removePage(5);
 
 * TypeScript >= 2.1.0-dev.20161003
 
-Please follow this tutorial to add TypeScript 2.1.0-dev.20161003 and async/await support to your project:
+Please follow this tutorial to add TypeScript >= 2.1.0-dev.20161003 and async/await support to your project:
 
 https://www.nativescript.org/blog/use-async-await-with-typescript-in-nativescript-today
 
-#### Developed by
+#### Collaborators
 
 * [alexrainman](https://github.com/alexrainman)
 
-#### Collaborators
+#### Release Notes
 
-* [BradMartin](https://github.com/bradmartin)
-* [NathanWalker](https://github.com/nathanwalker)
+2.0.3
+
+[Bug] fixing interPageSpacing in Android.
+
+2.0.2
+
+[Bug] onLoaded() not being called on carousel pages (Fixed).
 
 #### License
 MIT.
