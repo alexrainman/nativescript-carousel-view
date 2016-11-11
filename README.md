@@ -3,8 +3,11 @@ CarouselView plugin for nativescript
 #### Release Notes
 
 2.0.3
+
 [Bug] fixing interPageSpacing in Android.
+
 2.0.2
+
 [Bug] onLoaded() not being called on carousel pages (Fixed).
 
 #### Setup
@@ -113,15 +116,19 @@ export class MainViewModel extends observable.Observable {
 ```
 "use strict";
 var builder = require("ui/builder");
+var frame = require('ui/frame');
 
 var MyTemplateSelector = (function () {
     function MyTemplateSelector() {
     }
     MyTemplateSelector.prototype.OnSelectTemplate = function (position, bindingContext) {
 
+        var page = frame.topmost().currentPage;
+
         var view = builder.load({
             path: "~/Views/Slides",
-            name: "slider-view"
+            name: "slider-view",
+            page: page
         });
 
         view.bindingContext = bindingContext;
