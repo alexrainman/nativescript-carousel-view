@@ -146,20 +146,22 @@ export class CarouselView extends common.CarouselView
     }
 
     public itemsSourceChanged(): void {
+        if (this._viewPager != null) {
         
-        if (this.position > this.itemsSource.length - 1)
-			this.position = this.itemsSource.length - 1;
-			
-        ensurePagerAdapterClass();
-        this._viewPager.setAdapter(new PagerAdapterClass(this));
+            if (this.position > this.itemsSource.length - 1)
+                this.position = this.itemsSource.length - 1;
+                
+            ensurePagerAdapterClass();
+            this._viewPager.setAdapter(new PagerAdapterClass(this));
 
-        this._viewPager.setCurrentItem(this.position, false);
+            this._viewPager.setCurrentItem(this.position, false);
 
-        var eventData: observable.EventData = {
-            eventName: "positionSelected",
-            object: this
+            var eventData: observable.EventData = {
+                eventName: "positionSelected",
+                object: this
+            }
+            this.notify(eventData);
         }
-        this.notify(eventData);
     }
 
     public delay(ms: number) {
@@ -208,7 +210,6 @@ function ensurePagerAdapterClass() {
                 item = this._owner.itemsSource.getItem(position);
 
             var view = this._owner.templateSelector.OnSelectTemplate(position, item);
-            view.onLoaded();
             var obj = <any>view;
             obj._onAttached(application.android.currentContext);
 
@@ -219,6 +220,8 @@ function ensurePagerAdapterClass() {
             }
 
             container.addView(obj.android);
+
+            obj.onLoaded();
 
             return obj.android;
         }
@@ -361,12 +364,3 @@ function ensureVerticalViewPagerClass() {
 
     VerticalViewPagerClass = VerticalViewPagerInner;
 }
-
-//@Interfaces([android.support.v4.view.ViewPager.PageTransformer])
-/*export class DefaultTransformer extends java.lang.Object {
-    transformPage(page: android.view.View, position: number): void {
-        page.setTranslationX(page.getWidth() * -position);
-        var yPosition = position * page.getHeight();
-        page.setTranslationY(yPosition);
-    }
-}*/

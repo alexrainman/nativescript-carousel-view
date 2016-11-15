@@ -6,7 +6,7 @@
   <ActionBar title="Demo"/>
 
   <GridLayout columns="*" rows="*,50">
-      <controls:CarouselView row="0" col="0" id="carouselView" position="0" orientation="1" interPageSpacing="5" templateSelector="{{ templateSelector }}" itemsSource="{{ itemsSource }}"/>
+      <controls:CarouselView row="0" col="0" id="carouselView" position="0" orientation="0" interPageSpacing="5" templateSelector="{{ templateSelector }}" itemsSource="{{ itemsSource }}"/>
       <GridLayout row="1" col="0" columns="50, *, 50" rows="*" style.backgroundColor="lightgray">
           <Label tap="onPrev" text="Prev" row="0" col="0" style.textAlignment="center" style.verticalAlignment="center"/>
           <Label text="Add page" id="addPage" row="0" col="1" style.textAlignment="center" style.verticalAlignment="center"/>

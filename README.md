@@ -206,6 +206,14 @@ https://www.nativescript.org/blog/use-async-await-with-typescript-in-nativescrip
 
 #### Release Notes
 
+2.0.5
+
+[Bug] Adding another touch gesture to slider-view does not work (fixed)
+
+2.0.4
+
+Updated README.
+
 2.0.3
 
 [Bug] fixing interPageSpacing in Android.

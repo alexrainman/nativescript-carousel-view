@@ -4,6 +4,7 @@ import observable = require("data/observable");
 import dependencyObservable = require("ui/core/dependency-observable");
 import proxy = require("ui/core/proxy");
 import observableArrayModule = require("data/observable-array");
+var colorModule = require("color");
 
 export class CarouselView extends common.CarouselView
 {
@@ -161,19 +162,21 @@ export class CarouselView extends common.CarouselView
     }
 
     public itemsSourceChanged(): void {
+        if (this._pageController != null) {
         
-        if (this.position > this.itemsSource.length - 1)
-			this.position = this.itemsSource.length - 1;
-			
-		let firstViewController = this.createViewController(this.position);
-        let direction = UIPageViewControllerNavigationDirection.UIPageViewControllerNavigationDirectionForward;
-        this._pageController.setViewControllersDirectionAnimatedCompletion (<any>[firstViewController], direction, false, (arg1) => {});
+            if (this.position > this.itemsSource.length - 1)
+                this.position = this.itemsSource.length - 1;
+                
+            let firstViewController = this.createViewController(this.position);
+            let direction = UIPageViewControllerNavigationDirection.UIPageViewControllerNavigationDirectionForward;
+            this._pageController.setViewControllersDirectionAnimatedCompletion (<any>[firstViewController], direction, false, (arg1) => {});
 
-		var eventData: observable.EventData = {
-            eventName: "positionSelected",
-            object: this
+            var eventData: observable.EventData = {
+                eventName: "positionSelected",
+                object: this
+            }
+            this.notify(eventData);
         }
-        this.notify(eventData);
     }
 
     public createViewController(position: number) : UIViewController 
@@ -183,13 +186,14 @@ export class CarouselView extends common.CarouselView
             item = this.itemsSource.getItem(position);
 
         var view = this.templateSelector.OnSelectTemplate(position, item);
-        view.onLoaded();
         var obj = <any>view;
 
         var viewController = new ViewContainer();
         viewController.tag = position;
         viewController.view = obj._view;
         viewController.owner = view;
+
+        obj.onLoaded();
 
         return viewController;
     }
