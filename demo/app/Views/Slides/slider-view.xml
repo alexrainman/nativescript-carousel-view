@@ -1,5 +1,6 @@
-<StackLayout loaded="onLoaded" horizontalAlignment="center" padding="12" backgroundColor="blue" tap="stackTap">
-    <Label text="{{ first }}" cssClass="label" tap="labelTap"/> 
+<StackLayout loaded="onLoaded" horizontalAlignment="center" padding="12" tap="stackTap">
+    <Label text="{{ $parents['CarouselView'].position, $parents['CarouselView'].position }}" />
+    <Label text="{{ first }}" tap="labelTap" class="message"/> 
     <Label text="{{ last }}"/>
     <Button text="Remove me" tap="buttonTap"/> 
 </StackLayout>

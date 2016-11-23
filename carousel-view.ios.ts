@@ -187,6 +187,7 @@ export class CarouselView extends common.CarouselView
 
         var view = this.templateSelector.OnSelectTemplate(position, item);
         var obj = <any>view;
+        this._addView(obj);
 
         var viewController = new ViewContainer();
         viewController.tag = position;

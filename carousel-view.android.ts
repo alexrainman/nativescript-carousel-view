@@ -211,7 +211,8 @@ function ensurePagerAdapterClass() {
 
             var view = this._owner.templateSelector.OnSelectTemplate(position, item);
             var obj = <any>view;
-            obj._onAttached(application.android.currentContext);
+            //obj._onAttached(application.android.currentContext);
+            this._owner._addView(obj);
 
             obj.android.tag = position;
 
@@ -331,6 +332,9 @@ function ensureVerticalViewPagerClass() {
                     page.setTranslationY(yPosition);
                 }})
             );
+
+            // get rid of the overscroll drawing that happens on the left and right
+            global.__native(this).setOverScrollMode(android.view.View.OVER_SCROLL_NEVER);
 
             return global.__native(this);
         }

@@ -204,7 +204,17 @@ https://www.nativescript.org/blog/use-async-await-with-typescript-in-nativescrip
 
 * [alexrainman](https://github.com/alexrainman)
 
+* Thanks to [Brad Martin](https://github.com/bradmartin) and [Nathan Walker](https://github.com/NathanWalker) for their help pushing the first version of the plugin.
+
+* Thanks to [{N} Team](https://github.com/NativeScript/NativeScript) for their support.
+
 #### Release Notes
+
+2.0.6
+
+[Bug] CSS not applying to slides #6 (fixed)
+
+[Enhancement] Removing left and right overscroll in Android vertical carousel
 
 2.0.5
 
