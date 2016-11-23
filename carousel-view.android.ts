@@ -332,6 +332,9 @@ function ensureVerticalViewPagerClass() {
                 }})
             );
 
+            // get rid of the overscroll drawing that happens on the left and right
+            global.__native(this).setOverScrollMode(android.view.View.OVER_SCROLL_NEVER);
+
             return global.__native(this);
         }
 
