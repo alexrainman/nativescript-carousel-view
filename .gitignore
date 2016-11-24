@@ -2,6 +2,7 @@
 *.js.map
 *.log
 demo/.vscode/
+!demo/app
 demo/lib
 demo/node_modules
 demo/platforms
