@@ -2,7 +2,10 @@
 *.js.map
 *.log
 demo/.vscode/
-!demo/app
+!demo/app/*.js
+!demo/app/ViewModels/*.js
+!demo/app/Views/*.js
+!demo/app/Views/Slides/*.js
 demo/lib
 demo/node_modules
 demo/platforms
