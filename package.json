@@ -1,6 +1,6 @@
 {
    "name": "nativescript-carousel-view",
-   "version": "2.0.7",
+   "version": "2.1.0",
    "main": "carousel-view.js",
    "typings": "carousel-view.d.ts",
    "nativescript": {
@@ -39,6 +39,6 @@
     "babylon": "6.11.4",
     "lazy": "1.0.11",
     "nativescript-dev-typescript": "^0.3.2",
-    "typescript": "^2.1.0-dev.20161003"
+    "typescript": "^2.1.1"
   }
 }

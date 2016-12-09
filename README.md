@@ -41,6 +41,8 @@ Then add the control:
 
 ```itemsSource```: collection of objects used as bindingContext for each page.
 
+```showIndicators```: show page indicators (default true)
+
 ```templateSelector```: a class implementing the provided ITemplateSelector interface.
 
 Template selector should return a valid {N} view. As advice, put each view in separate files and load them with builder. Also, notice that you have to assign the bindingContext of the returning view.
@@ -184,19 +186,11 @@ await carouselView.removePage(5);
 
 ```itemsSourceChanged```: call this if itemsSource has changed.
 
-#### Limitations
+#### Requirements for TypeScript developers
 
-* Horizontal StackLayout doesn't works in iOS (use a grid instead).
+* TypeScript >= 2.1.1 (npm install -g typescript@2.1.1)
 
-#### Roadmap
-
-- Page Indicators
-
-#### Requirements for TypeScrip developers
-
-* TypeScript >= 2.1.0-dev.20161003
-
-Please follow this tutorial to add TypeScript >= 2.1.0-dev.20161003 and async/await support to your project:
+Please follow this tutorial to add TypeScript >= 2.1.1 and async/await support to your project:
 
 https://www.nativescript.org/blog/use-async-await-with-typescript-in-nativescript-today
 
@@ -204,11 +198,11 @@ https://www.nativescript.org/blog/use-async-await-with-typescript-in-nativescrip
 
 * [alexrainman](https://github.com/alexrainman)
 
-* Thanks to [Brad Martin](https://github.com/bradmartin) and [Nathan Walker](https://github.com/NathanWalker) for their help pushing the first version of the plugin.
-
-* Thanks to [{N} Team](https://github.com/NativeScript/NativeScript) for their support.
-
 #### Release Notes
+
+2.1.0
+
+[Enhancement] Adding page indicators
 
 2.0.6
 

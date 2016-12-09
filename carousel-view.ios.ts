@@ -20,6 +20,7 @@ export class CarouselView extends common.CarouselView
     }
 
     private _pageController: UIPageViewController;
+    private _pageControl: UIPageControl;
 
     constructor()
     {
@@ -47,6 +48,8 @@ export class CarouselView extends common.CarouselView
             orientation,
             NSDictionary.dictionaryWithObjectsForKeys(objects,keys));
 
+        // TODO: Create a property for the user set the margin color (background color)
+
         var that = new WeakRef(this);
         this._pageController.dataSource = DataSourceClass.initWithOwner(that);
         this._pageController.delegate = DelegateClass.initWithOwner(that);
@@ -57,11 +60,50 @@ export class CarouselView extends common.CarouselView
 
         this._ios.addSubview(this._pageController.view);
 
+        if (this.showIndicators)
+        {
+            this._pageControl = new UIPageControl();
+
+            this._pageControl.pageIndicatorTintColor = new colorModule.Color("#c0c0c0").ios;
+			this._pageControl.currentPageIndicatorTintColor = new colorModule.Color("#808080").ios;
+
+            (<any>this._pageControl).translatesAutoresizingMaskIntoConstraints = false;
+            this._pageControl.enabled = false;
+
+            this.ConfigurePageControl();
+
+            this._ios.addSubview(this._pageControl);
+            
+            var viewsDictionary = NSDictionary.dictionaryWithObjectForKey(this._pageControl, "pageControl");
+
+            if (this.orientation == 0)
+            {
+                this._ios.addConstraints(NSLayoutConstraint.constraintsWithVisualFormatOptionsMetricsViews("H:|-[pageControl]-|", NSLayoutFormatOptions.NSLayoutFormatAlignAllCenterX, null, viewsDictionary));
+                this._ios.addConstraints(NSLayoutConstraint.constraintsWithVisualFormatOptionsMetricsViews("V:[pageControl]|", 0, null, viewsDictionary));
+            }
+            else {
+                this._pageControl.transform = CGAffineTransformMakeRotation(3.14159265 / 2);
+
+                this._ios.addConstraints(NSLayoutConstraint.constraintsWithVisualFormatOptionsMetricsViews("[pageControl(==36)]", 0, null, viewsDictionary));
+                this._ios.addConstraints(NSLayoutConstraint.constraintsWithVisualFormatOptionsMetricsViews("H:[pageControl]|", 0, null, viewsDictionary));
+                this._ios.addConstraints(NSLayoutConstraint.constraintsWithVisualFormatOptionsMetricsViews("V:|-[pageControl]-|", NSLayoutFormatOptions.NSLayoutFormatAlignAllCenterY, null, viewsDictionary));
+            }
+        }
+
         var eventData: observable.EventData = {
             eventName: "positionSelected",
             object: this
         }
         this.notify(eventData);
+    }
+
+    ConfigurePageControl() : void
+    {
+        if (this._pageControl != null && this.itemsSource != null)
+        {
+            this._pageControl.numberOfPages = this.itemsSource.length;
+            this._pageControl.currentPage = this.position;
+        }
     }
 
     public async insertPage(position: number, bindingContext: any) {
@@ -86,6 +128,8 @@ export class CarouselView extends common.CarouselView
             // supposed to be an NSArray :)
             // Thanks to NathanWalker for the auto-marshall tip for NSArray
 			this._pageController.setViewControllersDirectionAnimatedCompletion(<any>[firstViewController], direction, false, (arg1) => {});
+
+            this.ConfigurePageControl();
 
             await this.delay(100);
         }
@@ -127,6 +171,8 @@ export class CarouselView extends common.CarouselView
 
             }
 
+            this.ConfigurePageControl();
+
             var eventData: observable.EventData = {
                 eventName: "positionSelected",
                 object: this
@@ -153,6 +199,8 @@ export class CarouselView extends common.CarouselView
             var firstViewController = this.createViewController(position);
 			this._pageController.setViewControllersDirectionAnimatedCompletion(<any>[firstViewController], direction, true, (arg1) => {});
 
+            this.ConfigurePageControl();
+
             var eventData: observable.EventData = {
                 eventName: "positionSelected",
                 object: this
@@ -170,6 +218,8 @@ export class CarouselView extends common.CarouselView
             let firstViewController = this.createViewController(this.position);
             let direction = UIPageViewControllerNavigationDirection.UIPageViewControllerNavigationDirectionForward;
             this._pageController.setViewControllersDirectionAnimatedCompletion (<any>[firstViewController], direction, false, (arg1) => {});
+
+            this.ConfigurePageControl();
 
             var eventData: observable.EventData = {
                 eventName: "positionSelected",
@@ -293,6 +343,8 @@ class DelegateClass extends NSObject implements UIPageViewControllerDelegate
             var controller = <ViewContainer>pageViewController.viewControllers[0];
 			var position = controller.tag;
 			this.owner.position = position;
+
+            this.owner.ConfigurePageControl();
 
             var eventData: observable.EventData = {
                 eventName: "positionSelected",

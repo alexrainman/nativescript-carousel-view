@@ -13,6 +13,7 @@ declare module "nativescript-carousel-view" {
         public static itemsSourceProperty: dependencyObservable.Property;
         public static interPageSpacingProperty: dependencyObservable.Property;
         public static orientation: dependencyObservable.Property;
+        public static showIndicators: dependencyObservable.Property;
 
         // instance properties
         position: number;
@@ -20,6 +21,7 @@ declare module "nativescript-carousel-view" {
         itemsSource: observableArrayModule.ObservableArray<any>;
         interPageSpacing: number;
         orientation: number; // TODO: use enum instead
+        showIndicators: boolean;
 
         public insertPage(position: number, bindingContext: any);
         public removePage(position: number);

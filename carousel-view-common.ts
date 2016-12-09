@@ -37,6 +37,12 @@ export class CarouselView extends view.View implements definition.CarouselView {
         new proxy.PropertyMetadata(0)
         );
 
+    public static showIndicatorsProperty = new dependencyObservable.Property(
+        "showIndicators",
+        "CarouselView",
+        new proxy.PropertyMetadata(true)
+        );
+
     get position(): number {
         return this._getValue(CarouselView.positionProperty);
     }
@@ -70,6 +76,13 @@ export class CarouselView extends view.View implements definition.CarouselView {
     }
     set orientation(value: number) {
         this._setValue(CarouselView.orientationProperty, value);
+    }
+
+    get showIndicators(): boolean {
+        return this._getValue(CarouselView.showIndicatorsProperty);
+    }
+    set showIndicators(value: boolean) {
+        this._setValue(CarouselView.showIndicatorsProperty, value);
     }
 
     public async insertPage(position: number, bindingContext: any) {}
