@@ -29,6 +29,7 @@ export class CarouselView extends common.CarouselView
         // As custom properties returns default value only here
         // Adding a container so we can build UIPageViewController onLoaded()
         this._ios = new UIView();
+        this._ios.clipsToBounds = true; // to avoid pageController view go outside the bounds of the container.
     }
     
     // Thanks to NathanWalker for the onLoaded tip
@@ -60,41 +61,72 @@ export class CarouselView extends common.CarouselView
 
         this._ios.addSubview(this._pageController.view);
 
-        if (this.showIndicators)
+        this._pageControl = new UIPageControl();
+
+        this._pageControl.pageIndicatorTintColor = new colorModule.Color("#c0c0c0").ios;
+        this._pageControl.currentPageIndicatorTintColor = new colorModule.Color("#808080").ios;
+
+        (<any>this._pageControl).translatesAutoresizingMaskIntoConstraints = false;
+        this._pageControl.enabled = false;
+
+        this.ConfigurePageControl();
+
+        this._ios.addSubview(this._pageControl);
+        
+        var viewsDictionary = NSDictionary.dictionaryWithObjectForKey(this._pageControl, "pageControl");
+
+        if (this.orientation == 0)
         {
-            this._pageControl = new UIPageControl();
-
-            this._pageControl.pageIndicatorTintColor = new colorModule.Color("#c0c0c0").ios;
-			this._pageControl.currentPageIndicatorTintColor = new colorModule.Color("#808080").ios;
-
-            (<any>this._pageControl).translatesAutoresizingMaskIntoConstraints = false;
-            this._pageControl.enabled = false;
-
-            this.ConfigurePageControl();
-
-            this._ios.addSubview(this._pageControl);
-            
-            var viewsDictionary = NSDictionary.dictionaryWithObjectForKey(this._pageControl, "pageControl");
-
-            if (this.orientation == 0)
-            {
-                this._ios.addConstraints(NSLayoutConstraint.constraintsWithVisualFormatOptionsMetricsViews("H:|-[pageControl]-|", NSLayoutFormatOptions.NSLayoutFormatAlignAllCenterX, null, viewsDictionary));
-                this._ios.addConstraints(NSLayoutConstraint.constraintsWithVisualFormatOptionsMetricsViews("V:[pageControl]|", 0, null, viewsDictionary));
-            }
-            else {
-                this._pageControl.transform = CGAffineTransformMakeRotation(3.14159265 / 2);
-
-                this._ios.addConstraints(NSLayoutConstraint.constraintsWithVisualFormatOptionsMetricsViews("[pageControl(==36)]", 0, null, viewsDictionary));
-                this._ios.addConstraints(NSLayoutConstraint.constraintsWithVisualFormatOptionsMetricsViews("H:[pageControl]|", 0, null, viewsDictionary));
-                this._ios.addConstraints(NSLayoutConstraint.constraintsWithVisualFormatOptionsMetricsViews("V:|-[pageControl]-|", NSLayoutFormatOptions.NSLayoutFormatAlignAllCenterY, null, viewsDictionary));
-            }
+            this._ios.addConstraints(NSLayoutConstraint.constraintsWithVisualFormatOptionsMetricsViews("H:|-[pageControl]-|", NSLayoutFormatOptions.NSLayoutFormatAlignAllCenterX, null, viewsDictionary));
+            this._ios.addConstraints(NSLayoutConstraint.constraintsWithVisualFormatOptionsMetricsViews("V:[pageControl]|", 0, null, viewsDictionary));
         }
+        else {
+            this._pageControl.transform = CGAffineTransformMakeRotation(3.14159265 / 2);
+
+            this._ios.addConstraints(NSLayoutConstraint.constraintsWithVisualFormatOptionsMetricsViews("[pageControl(==36)]", 0, null, viewsDictionary));
+            this._ios.addConstraints(NSLayoutConstraint.constraintsWithVisualFormatOptionsMetricsViews("H:[pageControl]|", 0, null, viewsDictionary));
+            this._ios.addConstraints(NSLayoutConstraint.constraintsWithVisualFormatOptionsMetricsViews("V:|-[pageControl]-|", NSLayoutFormatOptions.NSLayoutFormatAlignAllCenterY, null, viewsDictionary));
+        }
+
+        this._pageControl.hidden = !this.showIndicators;
 
         var eventData: observable.EventData = {
             eventName: "positionSelected",
             object: this
         }
         this.notify(eventData);
+
+        this.on(observable.Observable.propertyChangeEvent, function(propertyChangeData){
+            switch((<any>propertyChangeData).propertyName)
+            {
+                case "itemsSource":
+                    if (this._pageController != null) {
+        
+                        if (this.position > this.itemsSource.length - 1)
+                            this.position = this.itemsSource.length - 1;
+                            
+                        let firstViewController = this.createViewController(this.position);
+                        let direction = UIPageViewControllerNavigationDirection.UIPageViewControllerNavigationDirectionForward;
+                        this._pageController.setViewControllersDirectionAnimatedCompletion (<any>[firstViewController], direction, false, (arg1) => {});
+
+                        this.ConfigurePageControl();
+
+                        var eventData: observable.EventData = {
+                            eventName: "positionSelected",
+                            object: this
+                        }
+                        this.notify(eventData);
+                    }
+                    break;
+                //case "position":
+                    //this.setCurrentPage((<any>propertyChangeData).value);
+                    //break;
+                case "showIndicators":
+                    this._pageControl.hidden = !(<any>propertyChangeData).value;
+                    break;
+
+            }
+        }, this);
     }
 
     ConfigurePageControl() : void
@@ -198,26 +230,6 @@ export class CarouselView extends common.CarouselView
 
             var firstViewController = this.createViewController(position);
 			this._pageController.setViewControllersDirectionAnimatedCompletion(<any>[firstViewController], direction, true, (arg1) => {});
-
-            this.ConfigurePageControl();
-
-            var eventData: observable.EventData = {
-                eventName: "positionSelected",
-                object: this
-            }
-            this.notify(eventData);
-        }
-    }
-
-    public itemsSourceChanged(): void {
-        if (this._pageController != null) {
-        
-            if (this.position > this.itemsSource.length - 1)
-                this.position = this.itemsSource.length - 1;
-                
-            let firstViewController = this.createViewController(this.position);
-            let direction = UIPageViewControllerNavigationDirection.UIPageViewControllerNavigationDirectionForward;
-            this._pageController.setViewControllersDirectionAnimatedCompletion (<any>[firstViewController], direction, false, (arg1) => {});
 
             this.ConfigurePageControl();
 

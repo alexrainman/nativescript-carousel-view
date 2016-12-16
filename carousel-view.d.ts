@@ -26,7 +26,6 @@ declare module "nativescript-carousel-view" {
         public insertPage(position: number, bindingContext: any);
         public removePage(position: number);
         public setCurrentPage(position: number): void;
-        public itemsSourceChanged(): void;
 
         android: any; /*android.support.v4.view.ViewPager;*/
         ios: any; /*UIPageViewController;*/

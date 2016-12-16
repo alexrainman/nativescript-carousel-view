@@ -15,6 +15,7 @@ export class CarouselView extends common.CarouselView
     }
 
     private _viewPager: android.support.v4.view.ViewPager;
+    private _indicators: any;
 
     public _createUI() {
 
@@ -45,32 +46,30 @@ export class CarouselView extends common.CarouselView
         var layoutParams = new android.widget.RelativeLayout.LayoutParams(android.widget.RelativeLayout.LayoutParams.MATCH_PARENT, android.widget.RelativeLayout.LayoutParams.MATCH_PARENT);
         this._android.addView(this._viewPager, layoutParams);
 
-        let indicators;
-        if (this.showIndicators)
+        ensureCirclePageIndicatorClass();
+        this._indicators = new CirclePageIndicatorClass(application.android.currentContext);
+
+        if (this.orientation == 0)
         {
-            ensureCirclePageIndicatorClass();
-            indicators = new CirclePageIndicatorClass(application.android.currentContext);
+            layoutParams = new android.widget.RelativeLayout.LayoutParams(android.widget.RelativeLayout.LayoutParams.MATCH_PARENT, android.widget.RelativeLayout.LayoutParams.WRAP_CONTENT);
+            layoutParams.addRule(android.widget.RelativeLayout.ALIGN_PARENT_BOTTOM);
+        }
+        else {
+            this._indicators.mOrientation = 1;
 
-            if (this.orientation == 0)
-            {
-                layoutParams = new android.widget.RelativeLayout.LayoutParams(android.widget.RelativeLayout.LayoutParams.MATCH_PARENT, android.widget.RelativeLayout.LayoutParams.WRAP_CONTENT);
-                layoutParams.addRule(android.widget.RelativeLayout.ALIGN_PARENT_BOTTOM);
-            }
-            else {
-                indicators.mOrientation = 1;
-
-                layoutParams = new android.widget.RelativeLayout.LayoutParams(android.widget.RelativeLayout.LayoutParams.WRAP_CONTENT, android.widget.RelativeLayout.LayoutParams.MATCH_PARENT);
-                layoutParams.addRule(android.widget.RelativeLayout.ALIGN_PARENT_RIGHT);               
-            }
-
-            indicators.SetViewPager(this._viewPager, this.position);
-            indicators.mSnapPage = this.position;
-
-            this._android.addView(indicators, layoutParams);
+            layoutParams = new android.widget.RelativeLayout.LayoutParams(android.widget.RelativeLayout.LayoutParams.WRAP_CONTENT, android.widget.RelativeLayout.LayoutParams.MATCH_PARENT);
+            layoutParams.addRule(android.widget.RelativeLayout.ALIGN_PARENT_RIGHT);               
         }
 
+        this._indicators.SetViewPager(this._viewPager, this.position);
+        this._indicators.mSnapPage = this.position;
+
+        this._android.addView(this._indicators, layoutParams);
+
+        this._indicators.setVisibility(this.showIndicators ? android.view.View.VISIBLE : android.view.View.GONE);
+
         ensurePageChangedListenerClass();
-        this._viewPager.setOnPageChangeListener(new PageChangedListenerClass(this, indicators));
+        this._viewPager.setOnPageChangeListener(new PageChangedListenerClass(this, this._indicators));
         this._viewPager.setCurrentItem(this.position, false);
 
         var eventData: observable.EventData = {
@@ -78,6 +77,37 @@ export class CarouselView extends common.CarouselView
             object: this
         }
         this.notify(eventData);
+
+        this.on(observable.Observable.propertyChangeEvent, function(propertyChangeData){
+            switch((<any>propertyChangeData).propertyName)
+            {
+                case "itemsSource":
+                    if (this._viewPager != null) {
+        
+                        if (this.position > this.itemsSource.length - 1)
+                            this.position = this.itemsSource.length - 1;
+                            
+                        ensurePagerAdapterClass();
+                        this._viewPager.setAdapter(new PagerAdapterClass(this));
+
+                        this._viewPager.setCurrentItem(this.position, false);
+
+                        var eventData: observable.EventData = {
+                            eventName: "positionSelected",
+                            object: this
+                        }
+                        this.notify(eventData);
+                    }
+                    break;
+                //case "position":
+                    //this.setCurrentPage((<any>propertyChangeData).value);
+                    //break;
+                case "showIndicators":
+                    this._indicators.setVisibility((<any>propertyChangeData).value ? android.view.View.VISIBLE : android.view.View.GONE);
+                    break;
+
+            }
+        }, this);
     }
 
     public async insertPage(position: number, bindingContext: any) {
@@ -169,25 +199,6 @@ export class CarouselView extends common.CarouselView
 
             this.position = position;
             this._viewPager.setCurrentItem (position, true);
-        }
-    }
-
-    public itemsSourceChanged(): void {
-        if (this._viewPager != null) {
-        
-            if (this.position > this.itemsSource.length - 1)
-                this.position = this.itemsSource.length - 1;
-                
-            ensurePagerAdapterClass();
-            this._viewPager.setAdapter(new PagerAdapterClass(this));
-
-            this._viewPager.setCurrentItem(this.position, false);
-
-            var eventData: observable.EventData = {
-                eventName: "positionSelected",
-                object: this
-            }
-            this.notify(eventData);
         }
     }
 

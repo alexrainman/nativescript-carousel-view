@@ -184,8 +184,6 @@ await carouselView.removePage(5);
 
 ```setCurrentPage (position)```: slide programmatically to a given position.
 
-```itemsSourceChanged```: call this if itemsSource has changed.
-
 #### Requirements for TypeScript developers
 
 * TypeScript >= 2.1.1 (npm install -g typescript@2.1.1)
@@ -194,11 +192,23 @@ Please follow this tutorial to add TypeScript >= 2.1.1 and async/await support t
 
 https://www.nativescript.org/blog/use-async-await-with-typescript-in-nativescript-today
 
+#### Roadmap
+
+* Remove setCurrentPage, implement as propertyChangedEvent (requires lot of refactoring)
+* Indicators tap event
+* PullToLoadMore event
+
 #### Collaborators
 
 * [alexrainman](https://github.com/alexrainman)
 
 #### Release Notes
+
+2.2.0
+
+[iOS] Small fix to avoid UIPageViewController.View go outside its container bounds
+[Update] showIndicators property now does what it supposed to do, hide/show indicators :)
+[Update] itemsSourceChanged method removed, implemented as a propertyChangedEvent
 
 2.1.0
 
