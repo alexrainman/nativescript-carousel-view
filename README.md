@@ -25,7 +25,7 @@ Then add the control:
 <controls:CarouselView
     id="carouselView"
     position="0"
-    orientation="0"
+    orientation="horizontal"
     interPageSpacing="5"
     itemsSource="{{ itemsSource }}"
     templateSelector="{{ templateSelector }}"/>
@@ -33,15 +33,21 @@ Then add the control:
 
 #### Bindable Properties
 
-```orientation```: 0 = horizontal, 1 = vertical (default 0)
+```orientation```: horizontal, vertical (default horizontal).
+
+```itemsSource```: collection of objects used as bindingContext for each page.
 
 ```position```: selected page when carousel starts (default 0).
 
 ```interPageSpacing```: margin/space between pages (default 0).
 
-```itemsSource```: collection of objects used as bindingContext for each page.
+```interPageSpacingColor```: color for the margin/space between pages (default #FFFFFF).
 
-```showIndicators```: show page indicators (default true)
+```showIndicators```: show page indicators (default true).
+
+```indicatorsTintColor```: color for the unselected dots (default #c0c0c0).
+
+```indicatorsCurrentPageColor```: color for the selected dot (default #808080).
 
 ```templateSelector```: a class implementing the provided ITemplateSelector interface.
 
@@ -204,10 +210,26 @@ https://www.nativescript.org/blog/use-async-await-with-typescript-in-nativescrip
 
 #### Release Notes
 
+2.6.1
+
+[Update] orientation property is now expressed as string (horizontal, vertical), Orientation enum from "ui/enums" is supported.
+
+[New feature] interPageSpacingColor property to change the color of the margin/space between pages (default #FFFFFF).
+
+[New feature] indicatorsTintColor property to change the color of unselected dots (default #c0c0c0).
+
+[New feature] indicatorsCurrentPageColor property to change the color of selected dot (default #808080).
+
+2.6.0
+
+[Udpate] Matching version number with Xamarin.Forms CarouselView
+
 2.2.0
 
 [iOS] Small fix to avoid UIPageViewController.View go outside its container bounds
+
 [Update] showIndicators property now does what it supposed to do, hide/show indicators :)
+
 [Update] itemsSourceChanged method removed, implemented as a propertyChangedEvent
 
 2.1.0

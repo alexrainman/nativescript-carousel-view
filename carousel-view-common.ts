@@ -31,16 +31,34 @@ export class CarouselView extends view.View implements definition.CarouselView {
         new proxy.PropertyMetadata(0)
         );
 
+    public static interPageSpacingColorProperty = new dependencyObservable.Property(
+        "interPageSpacingColor",
+        "CarouselView",
+        new proxy.PropertyMetadata("#FFFFFF")
+        );
+
     public static orientationProperty = new dependencyObservable.Property(
         "orientation",
         "CarouselView",
-        new proxy.PropertyMetadata(0)
+        new proxy.PropertyMetadata("horizontal")
         );
 
     public static showIndicatorsProperty = new dependencyObservable.Property(
         "showIndicators",
         "CarouselView",
         new proxy.PropertyMetadata(true)
+        );
+
+    public static indicatorsTintColorProperty = new dependencyObservable.Property(
+        "indicatorsTintColor",
+        "CarouselView",
+        new proxy.PropertyMetadata("#c0c0c0")
+        );
+
+    public static indicatorsCurrentPageColorProperty = new dependencyObservable.Property(
+        "indicatorsCurrentPageColor",
+        "CarouselView",
+        new proxy.PropertyMetadata("#808080")
         );
 
     get position(): number {
@@ -71,10 +89,17 @@ export class CarouselView extends view.View implements definition.CarouselView {
         this._setValue(CarouselView.interPageSpacingProperty, value);
     }
 
-    get orientation(): number {
+    get interPageSpacingColor(): string {
+        return this._getValue(CarouselView.interPageSpacingColorProperty);
+    }
+    set interPageSpacingColor(value: string) {
+        this._setValue(CarouselView.interPageSpacingColorProperty, value);
+    }
+
+    get orientation(): string {
         return this._getValue(CarouselView.orientationProperty);
     }
-    set orientation(value: number) {
+    set orientation(value: string) {
         this._setValue(CarouselView.orientationProperty, value);
     }
 
@@ -83,6 +108,20 @@ export class CarouselView extends view.View implements definition.CarouselView {
     }
     set showIndicators(value: boolean) {
         this._setValue(CarouselView.showIndicatorsProperty, value);
+    }
+
+    get indicatorsTintColor(): string {
+        return this._getValue(CarouselView.indicatorsTintColorProperty);
+    }
+    set indicatorsTintColor(value: string) {
+        this._setValue(CarouselView.indicatorsTintColorProperty, value);
+    }
+
+    get indicatorsCurrentPageColor(): string {
+        return this._getValue(CarouselView.indicatorsCurrentPageColorProperty);
+    }
+    set indicatorsCurrentPageColor(value: string) {
+        this._setValue(CarouselView.indicatorsCurrentPageColorProperty, value);
     }
 
     public async insertPage(position: number, bindingContext: any) {}

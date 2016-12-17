@@ -2,6 +2,7 @@
 import * as application from 'application';
 import common = require("./carousel-view-common");
 import observable= require("data/observable");
+import { Color } from "color";
 
 var VIEWS_STATES = "_viewStates";
 
@@ -25,21 +26,28 @@ export class CarouselView extends common.CarouselView
 
     public onLoaded() {
 
-        if (this.orientation == 0)
-            this._viewPager = new android.support.v4.view.ViewPager(this._context);
-        else {
-            ensureVerticalViewPagerClass();
-            this._viewPager = new VerticalViewPagerClass(application.android.currentContext);
+        switch(this.orientation)
+        {
+            case "horizontal":
+                this._viewPager = new android.support.v4.view.ViewPager(this._context);
+                break;
+            case "vertical":
+                ensureVerticalViewPagerClass();
+                this._viewPager = new VerticalViewPagerClass(application.android.currentContext);
+                break;
+            default:
+                throw new Error("CarouselView " + this.orientation + " orientation is not supported.");
         }
 
-        // TODO: Create a property for the user set the margin color (to avoid seeing a view in the background)
-        this._viewPager.setBackgroundColor(android.graphics.Color.parseColor("#FFFFFFFF"));
+        // Property for the user set the margin color (to avoid seeing a view in the background)
+        //this._viewPager.setBackgroundColor(android.graphics.Color.parseColor("#FFFFFFFF"));
+        this._viewPager.setBackgroundColor(new Color(this.interPageSpacingColor).android);
 
         var res = android.content.res.Resources;
         var margin = this.interPageSpacing * res.getSystem().getDisplayMetrics().density;
         this._viewPager.setPageMargin(margin);
 
-        var that = new WeakRef(this);
+        //var that = new WeakRef(this);
         ensurePagerAdapterClass();
         this._viewPager.setAdapter(new PagerAdapterClass(this));
         
@@ -47,18 +55,19 @@ export class CarouselView extends common.CarouselView
         this._android.addView(this._viewPager, layoutParams);
 
         ensureCirclePageIndicatorClass();
-        this._indicators = new CirclePageIndicatorClass(application.android.currentContext);
+        this._indicators = new CirclePageIndicatorClass(application.android.currentContext, this);
 
-        if (this.orientation == 0)
+        switch(this.orientation)
         {
-            layoutParams = new android.widget.RelativeLayout.LayoutParams(android.widget.RelativeLayout.LayoutParams.MATCH_PARENT, android.widget.RelativeLayout.LayoutParams.WRAP_CONTENT);
-            layoutParams.addRule(android.widget.RelativeLayout.ALIGN_PARENT_BOTTOM);
-        }
-        else {
-            this._indicators.mOrientation = 1;
-
-            layoutParams = new android.widget.RelativeLayout.LayoutParams(android.widget.RelativeLayout.LayoutParams.WRAP_CONTENT, android.widget.RelativeLayout.LayoutParams.MATCH_PARENT);
-            layoutParams.addRule(android.widget.RelativeLayout.ALIGN_PARENT_RIGHT);               
+            case "horizontal":
+                layoutParams = new android.widget.RelativeLayout.LayoutParams(android.widget.RelativeLayout.LayoutParams.MATCH_PARENT, android.widget.RelativeLayout.LayoutParams.WRAP_CONTENT);
+                layoutParams.addRule(android.widget.RelativeLayout.ALIGN_PARENT_BOTTOM);
+                break;
+            case "vertical":
+                this._indicators.mOrientation = 1;
+                layoutParams = new android.widget.RelativeLayout.LayoutParams(android.widget.RelativeLayout.LayoutParams.WRAP_CONTENT, android.widget.RelativeLayout.LayoutParams.MATCH_PARENT);
+                layoutParams.addRule(android.widget.RelativeLayout.ALIGN_PARENT_RIGHT);
+                break;
         }
 
         this._indicators.SetViewPager(this._viewPager, this.position);
@@ -99,9 +108,6 @@ export class CarouselView extends common.CarouselView
                         this.notify(eventData);
                     }
                     break;
-                //case "position":
-                    //this.setCurrentPage((<any>propertyChangeData).value);
-                    //break;
                 case "showIndicators":
                     this._indicators.setVisibility((<any>propertyChangeData).value ? android.view.View.VISIBLE : android.view.View.GONE);
                     break;
@@ -445,6 +451,8 @@ function ensureCirclePageIndicatorClass() {
 
     class CirclePageIndicatorInner extends android.view.View
     {
+        private _owner: CarouselView;
+
         HORIZONTAL : number = 0;
         VERTICAL : number = 1;
         
@@ -464,19 +472,23 @@ function ensureCirclePageIndicatorClass() {
         public mSnap : boolean;
         public mPaintStroke : android.graphics.Paint;
 
-        constructor(context: android.content.Context)
+        constructor(context: android.content.Context, owner: CarouselView)
         {
             super(context, null);
 
-            this.mCentered = true;
+            this._owner = owner;
 
-            this.mPaintFill = new android.graphics.Paint(android.graphics.Paint.ANTI_ALIAS_FLAG);
-            this.mPaintFill.setStyle(android.graphics.Paint.Style.FILL);
-            this.mPaintFill.setColor(android.graphics.Color.parseColor("#808080"));
+            this.mCentered = true;
 
             this.mPaintPageFill = new android.graphics.Paint(android.graphics.Paint.ANTI_ALIAS_FLAG);
             this.mPaintPageFill.setStyle(android.graphics.Paint.Style.FILL);
-            this.mPaintPageFill.setColor(android.graphics.Color.parseColor("#c0c0c0"));
+            //this.mPaintPageFill.setColor(android.graphics.Color.parseColor("#c0c0c0"));
+            this.mPaintPageFill.setColor(new Color(this._owner.indicatorsTintColor).android);
+
+            this.mPaintFill = new android.graphics.Paint(android.graphics.Paint.ANTI_ALIAS_FLAG);
+            this.mPaintFill.setStyle(android.graphics.Paint.Style.FILL);
+            //this.mPaintFill.setColor(android.graphics.Color.parseColor("#808080"));
+            this.mPaintFill.setColor(new Color(this._owner.indicatorsCurrentPageColor).android);
 
             this.mOrientation = this.HORIZONTAL;
             this.mRadius = this.dpToPx(3);

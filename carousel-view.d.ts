@@ -12,16 +12,22 @@ declare module "nativescript-carousel-view" {
         public static templateSelectorProperty: dependencyObservable.Property;
         public static itemsSourceProperty: dependencyObservable.Property;
         public static interPageSpacingProperty: dependencyObservable.Property;
+        public static interPageSpacingColorProperty: dependencyObservable.Property;
         public static orientation: dependencyObservable.Property;
         public static showIndicators: dependencyObservable.Property;
+        public static indicatorsTintColor: dependencyObservable.Property;
+        public static indicatorsCurrentPageColor: dependencyObservable.Property;
 
         // instance properties
         position: number;
         templateSelector: ITemplateSelector;
         itemsSource: observableArrayModule.ObservableArray<any>;
         interPageSpacing: number;
-        orientation: number; // TODO: use enum instead
+        interPageSpacingColor: string;
+        orientation: string;
         showIndicators: boolean;
+        indicatorsTintColor: string;
+        indicatorsCurrentPageColor: string;
 
         public insertPage(position: number, bindingContext: any);
         public removePage(position: number);

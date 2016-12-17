@@ -4,7 +4,7 @@ import observable = require("data/observable");
 import dependencyObservable = require("ui/core/dependency-observable");
 import proxy = require("ui/core/proxy");
 import observableArrayModule = require("data/observable-array");
-var colorModule = require("color");
+import { Color } from "color";
 
 export class CarouselView extends common.CarouselView
 {
@@ -36,10 +36,17 @@ export class CarouselView extends common.CarouselView
     public onLoaded() {
 
         let orientation;
-        if (this.orientation == 0)
-            orientation = UIPageViewControllerNavigationOrientation.UIPageViewControllerNavigationOrientationHorizontal;
-        else
-            orientation = UIPageViewControllerNavigationOrientation.UIPageViewControllerNavigationOrientationVertical;
+        switch(this.orientation)
+        {
+            case "horizontal":
+                orientation = UIPageViewControllerNavigationOrientation.UIPageViewControllerNavigationOrientationHorizontal;
+                break;
+            case "vertical":
+                orientation = UIPageViewControllerNavigationOrientation.UIPageViewControllerNavigationOrientationVertical;
+                break;
+            default:
+                throw new Error("CarouselView " + this.orientation + " orientation is not supported.");
+        }
 
         let objects = <any>[UIPageViewControllerSpineLocation.UIPageViewControllerSpineLocationNone, this.interPageSpacing];
         let keys = <any>[UIPageViewControllerOptionSpineLocationKey, UIPageViewControllerOptionInterPageSpacingKey];
@@ -49,8 +56,6 @@ export class CarouselView extends common.CarouselView
             orientation,
             NSDictionary.dictionaryWithObjectsForKeys(objects,keys));
 
-        // TODO: Create a property for the user set the margin color (background color)
-
         var that = new WeakRef(this);
         this._pageController.dataSource = DataSourceClass.initWithOwner(that);
         this._pageController.delegate = DelegateClass.initWithOwner(that);
@@ -59,12 +64,15 @@ export class CarouselView extends common.CarouselView
         let direction = UIPageViewControllerNavigationDirection.UIPageViewControllerNavigationDirectionForward;
         this._pageController.setViewControllersDirectionAnimatedCompletion (<any>[firstViewController], direction, false, (arg1) => {});
 
+        // Property for the user set the margin color (background color)
+        this._pageController.view.backgroundColor = new Color(this.interPageSpacingColor).ios;
+
         this._ios.addSubview(this._pageController.view);
 
         this._pageControl = new UIPageControl();
 
-        this._pageControl.pageIndicatorTintColor = new colorModule.Color("#c0c0c0").ios;
-        this._pageControl.currentPageIndicatorTintColor = new colorModule.Color("#808080").ios;
+        this._pageControl.pageIndicatorTintColor = new Color(this.indicatorsTintColor).ios;
+        this._pageControl.currentPageIndicatorTintColor = new Color(this.indicatorsCurrentPageColor).ios;
 
         (<any>this._pageControl).translatesAutoresizingMaskIntoConstraints = false;
         this._pageControl.enabled = false;
@@ -75,17 +83,18 @@ export class CarouselView extends common.CarouselView
         
         var viewsDictionary = NSDictionary.dictionaryWithObjectForKey(this._pageControl, "pageControl");
 
-        if (this.orientation == 0)
+        switch(this.orientation)
         {
-            this._ios.addConstraints(NSLayoutConstraint.constraintsWithVisualFormatOptionsMetricsViews("H:|-[pageControl]-|", NSLayoutFormatOptions.NSLayoutFormatAlignAllCenterX, null, viewsDictionary));
-            this._ios.addConstraints(NSLayoutConstraint.constraintsWithVisualFormatOptionsMetricsViews("V:[pageControl]|", 0, null, viewsDictionary));
-        }
-        else {
-            this._pageControl.transform = CGAffineTransformMakeRotation(3.14159265 / 2);
-
-            this._ios.addConstraints(NSLayoutConstraint.constraintsWithVisualFormatOptionsMetricsViews("[pageControl(==36)]", 0, null, viewsDictionary));
-            this._ios.addConstraints(NSLayoutConstraint.constraintsWithVisualFormatOptionsMetricsViews("H:[pageControl]|", 0, null, viewsDictionary));
-            this._ios.addConstraints(NSLayoutConstraint.constraintsWithVisualFormatOptionsMetricsViews("V:|-[pageControl]-|", NSLayoutFormatOptions.NSLayoutFormatAlignAllCenterY, null, viewsDictionary));
+            case "horizontal":
+                this._ios.addConstraints(NSLayoutConstraint.constraintsWithVisualFormatOptionsMetricsViews("H:|-[pageControl]-|", NSLayoutFormatOptions.NSLayoutFormatAlignAllCenterX, null, viewsDictionary));
+                this._ios.addConstraints(NSLayoutConstraint.constraintsWithVisualFormatOptionsMetricsViews("V:[pageControl]|", 0, null, viewsDictionary));
+                break;
+            case "vertical":
+                this._pageControl.transform = CGAffineTransformMakeRotation(3.14159265 / 2);
+                this._ios.addConstraints(NSLayoutConstraint.constraintsWithVisualFormatOptionsMetricsViews("[pageControl(==36)]", 0, null, viewsDictionary));
+                this._ios.addConstraints(NSLayoutConstraint.constraintsWithVisualFormatOptionsMetricsViews("H:[pageControl]|", 0, null, viewsDictionary));
+                this._ios.addConstraints(NSLayoutConstraint.constraintsWithVisualFormatOptionsMetricsViews("V:|-[pageControl]-|", NSLayoutFormatOptions.NSLayoutFormatAlignAllCenterY, null, viewsDictionary));
+                break;
         }
 
         this._pageControl.hidden = !this.showIndicators;
@@ -118,9 +127,6 @@ export class CarouselView extends common.CarouselView
                         this.notify(eventData);
                     }
                     break;
-                //case "position":
-                    //this.setCurrentPage((<any>propertyChangeData).value);
-                    //break;
                 case "showIndicators":
                     this._pageControl.hidden = !(<any>propertyChangeData).value;
                     break;
