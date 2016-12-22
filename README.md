@@ -45,7 +45,7 @@ Then add the control:
 
 ```showIndicators```: show page indicators (default true).
 
-```IndicatorsShape```: Circle or Square indicators shape (default Circle).
+```indicatorsShape```: Circle or Square indicators shape (default Circle).
 
 ```indicatorsTintColor```: color for the unselected dots (default #c0c0c0).
 
