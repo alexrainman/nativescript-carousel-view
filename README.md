@@ -45,6 +45,8 @@ Then add the control:
 
 ```showIndicators```: show page indicators (default true).
 
+```IndicatorsShape```: Circle or Square indicators shape (default Circle).
+
 ```indicatorsTintColor```: color for the unselected dots (default #c0c0c0).
 
 ```indicatorsCurrentPageColor```: color for the selected dot (default #808080).
@@ -209,6 +211,10 @@ https://www.nativescript.org/blog/use-async-await-with-typescript-in-nativescrip
 * [alexrainman](https://github.com/alexrainman)
 
 #### Release Notes
+
+2.7.1
+
+[New feature] Circle or Square indicatorsShape property (default Circle).
 
 2.6.1
 

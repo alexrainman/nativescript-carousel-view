@@ -15,6 +15,7 @@ declare module "nativescript-carousel-view" {
         public static interPageSpacingColorProperty: dependencyObservable.Property;
         public static orientation: dependencyObservable.Property;
         public static showIndicators: dependencyObservable.Property;
+        public static indicatorsShape: dependencyObservable.Property;
         public static indicatorsTintColor: dependencyObservable.Property;
         public static indicatorsCurrentPageColor: dependencyObservable.Property;
 
@@ -26,6 +27,7 @@ declare module "nativescript-carousel-view" {
         interPageSpacingColor: string;
         orientation: string;
         showIndicators: boolean;
+        indicatorsShape: string;
         indicatorsTintColor: string;
         indicatorsCurrentPageColor: string;
 

@@ -1,4 +1,5 @@
 demo/
+dev/
 *.npmignore
 *.log
 *.map

@@ -6,14 +6,14 @@
   "nativescript": {
     "id": "org.nativescript.demo",
     "tns-ios": {
-      "version": "2.3.0"
+      "version": "2.4.0"
     },
     "tns-android": {
-      "version": "2.3.0"
+      "version": "2.5.0-next-2016-12-16-1531"
     }
   },
   "dependencies": {
-    "nativescript-carousel-view": "^2.0.7",
+    "nativescript-carousel-view": "^2.6.1-2",
     "tns-core-modules": "2.4.0"
   },
   "devDependencies": {

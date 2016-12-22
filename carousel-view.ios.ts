@@ -21,6 +21,7 @@ export class CarouselView extends common.CarouselView
 
     private _pageController: UIPageViewController;
     private _pageControl: UIPageControl;
+    private _layoutCount: number = 0;
 
     constructor()
     {
@@ -76,8 +77,6 @@ export class CarouselView extends common.CarouselView
 
         (<any>this._pageControl).translatesAutoresizingMaskIntoConstraints = false;
         this._pageControl.enabled = false;
-
-        this.ConfigurePageControl();
 
         this._ios.addSubview(this._pageControl);
         
@@ -135,12 +134,41 @@ export class CarouselView extends common.CarouselView
         }, this);
     }
 
+    public onLayout(left: number, top: number, right: number, bottom: number): void {
+        if (this._layoutCount == 1)
+        {
+            this.ConfigurePageControl();
+        }
+        this._layoutCount++;
+    }
+
     ConfigurePageControl() : void
     {
         if (this._pageControl != null && this.itemsSource != null)
         {
             this._pageControl.numberOfPages = this.itemsSource.length;
             this._pageControl.currentPage = this.position;
+
+            switch(this.indicatorsShape)
+            {
+                case "Circle":
+                    // do nothing, default
+                    break;
+                case "Square":
+                    for (var i = 0; i < this._pageControl.subviews.count; i++)
+                    {
+                        let view = <UIView>this._pageControl.subviews[i];
+                        view.layer.cornerRadius = 0;
+                        if (view.frame.size.width == 7)
+                        {
+                            var frame = CGRectMake(view.frame.origin.x, view.frame.origin.y, view.frame.size.width - 1, view.frame.size.height - 1);
+                            view.frame = frame;
+                        }
+                    }
+                    break;
+                default:
+                    throw new Error("CarouselView " + this.indicatorsShape + " indicatorsShape is not supported.");
+            }
         }
     }
 

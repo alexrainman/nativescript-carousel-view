@@ -49,6 +49,12 @@ export class CarouselView extends view.View implements definition.CarouselView {
         new proxy.PropertyMetadata(true)
         );
 
+    public static indicatorsShapeProperty = new dependencyObservable.Property(
+        "indicatorsShape",
+        "CarouselView",
+        new proxy.PropertyMetadata("Circle")
+        );
+
     public static indicatorsTintColorProperty = new dependencyObservable.Property(
         "indicatorsTintColor",
         "CarouselView",
@@ -108,6 +114,13 @@ export class CarouselView extends view.View implements definition.CarouselView {
     }
     set showIndicators(value: boolean) {
         this._setValue(CarouselView.showIndicatorsProperty, value);
+    }
+
+    get indicatorsShape(): string {
+        return this._getValue(CarouselView.indicatorsShapeProperty);
+    }
+    set indicatorsShape(value: string) {
+        this._setValue(CarouselView.indicatorsShapeProperty, value);
     }
 
     get indicatorsTintColor(): string {

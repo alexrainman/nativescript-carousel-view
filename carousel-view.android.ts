@@ -39,13 +39,13 @@ export class CarouselView extends common.CarouselView
                 throw new Error("CarouselView " + this.orientation + " orientation is not supported.");
         }
 
-        // Property for the user set the margin color (to avoid seeing a view in the background)
-        //this._viewPager.setBackgroundColor(android.graphics.Color.parseColor("#FFFFFFFF"));
-        this._viewPager.setBackgroundColor(new Color(this.interPageSpacingColor).android);
-
         var res = android.content.res.Resources;
         var margin = this.interPageSpacing * res.getSystem().getDisplayMetrics().density;
         this._viewPager.setPageMargin(margin);
+
+        // Property for the user set the margin color (to avoid seeing a view in the background)
+        //this._viewPager.setBackgroundColor(android.graphics.Color.parseColor("#FFFFFFFF"));
+        this._viewPager.setBackgroundColor(new Color(this.interPageSpacingColor).android);
 
         //var that = new WeakRef(this);
         ensurePagerAdapterClass();
@@ -626,13 +626,39 @@ function ensureCirclePageIndicatorClass() {
                 // Only paint fill if not completely transparent
                 if (this.mPaintPageFill.getAlpha() > 0)
                 {
-                    canvas.drawCircle(dX, dY, pageFillRadius, this.mPaintPageFill);
+                    switch (this._owner.indicatorsShape)
+					{
+						case "Square":
+                            // left = dX;
+                            // top = dY;
+                            // right = dX + (pageFillRadius * 2)
+                            // bottom = dY + (pageFillRadius * 2)
+							canvas.drawRect(dX, dY, dX + (pageFillRadius * 2), dY + (pageFillRadius * 2), this.mPaintPageFill);
+							break;
+                        case "Circle":
+                            canvas.drawCircle(dX, dY, pageFillRadius, this.mPaintPageFill);
+                            break;
+						default:
+							throw new Error("CarouselView " + this._owner.indicatorsShape + " indicators shape is not supported.");
+					}
                 }
 
                 // Only paint stroke if a stroke width was non-zero
                 if (pageFillRadius != this.mRadius)
                 {
-                    canvas.drawCircle(dX, dY, this.mRadius, this.mPaintStroke);
+                    switch (this._owner.indicatorsShape)
+					{
+						case "Square":
+                            // left = dX;
+                            // top = dY;
+                            // right = dX + (this.mRadius * 2)
+                            // bottom = dY + (this.mRadius * 2)
+							canvas.drawRect(dX, dY, dX + (this.mRadius * 2), dY + (this.mRadius * 2), this.mPaintStroke);
+							break;
+						default:
+							canvas.drawCircle(dX, dY, this.mRadius, this.mPaintStroke);
+							break;
+					}
                 }
             }
 
@@ -651,7 +677,20 @@ function ensureCirclePageIndicatorClass() {
                 dX = shortOffset;
                 dY = longOffset + cx;
             }
-            canvas.drawCircle(dX, dY, this.mRadius, this.mPaintFill);
+            
+            switch (this._owner.indicatorsShape)
+            {
+                case "Square":
+                    // left = dX;
+                    // top = dY;
+                    // right = dX + (this.mRadius * 2)
+                    // bottom = dY + (this.mRadius * 2)
+                    canvas.drawRect(dX, dY, dX + (this.mRadius * 2), dY + (this.mRadius * 2), this.mPaintFill);
+                    break;
+                default:
+                    canvas.drawCircle(dX, dY, this.mRadius, this.mPaintFill);
+                    break;
+            }
         }
 
         protected onMeasure(widthMeasureSpec: number, heightMeasureSpec: number): void
