@@ -202,7 +202,7 @@ https://www.nativescript.org/blog/use-async-await-with-typescript-in-nativescrip
 
 #### Roadmap
 
-* Remove setCurrentPage, implement as propertyChangedEvent (requires lot of refactoring)
+* Remove setCurrentPage, implement as position propertyChangedEvent (requires lot of refactoring)
 * Indicators tap event
 * PullToLoadMore event
 
