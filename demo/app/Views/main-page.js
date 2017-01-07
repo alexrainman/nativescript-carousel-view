@@ -21,12 +21,16 @@ function navigatingTo(args) {
                     case 0:
                         person = new main_view_model_2.Person();
                         person.first = "Alex";
-                        person.last = "Rainman";
-                        return [4 /*yield*/, slider.insertPage(slider.position + 1, person)];
+                        person.last = Date.now().toString();
+                        if (!(slider.itemsSource != null))
+                            return [3 /*break*/, 2];
+                        return [4 /*yield*/, slider.insertPage(slider.itemsSource.length, person)];
                     case 1:
                         _a.sent();
-                        slider.setCurrentPage(slider.position + 1);
-                        return [2 /*return*/];
+                        if (slider.itemsSource.length > 1)
+                            slider.setCurrentPage(slider.itemsSource.length - 1);
+                        _a.label = 2;
+                    case 2: return [2 /*return*/];
                 }
             });
         });
@@ -36,15 +40,19 @@ exports.navigatingTo = navigatingTo;
 function onNext(args) {
     var page = frame.topmost().currentPage;
     var slider = page.getViewById("carouselView");
-    if (slider.position < slider.itemsSource.length - 1)
-        slider.setCurrentPage(slider.position + 1);
+    if (slider.itemsSource != null) {
+        if (slider.position < slider.itemsSource.length - 1)
+            slider.setCurrentPage(slider.position + 1);
+    }
 }
 exports.onNext = onNext;
 function onPrev(args) {
     var page = frame.topmost().currentPage;
     var slider = page.getViewById("carouselView");
-    if (slider.position > 0)
-        slider.setCurrentPage(slider.position - 1);
+    if (slider.itemsSource != null) {
+        if (slider.position > 0)
+            slider.setCurrentPage(slider.position - 1);
+    }
 }
 exports.onPrev = onPrev;
 //# sourceMappingURL=main-page.js.map

@@ -4,7 +4,6 @@ declare module "nativescript-carousel-view" {
     import view = require("ui/core/view");
     import dependencyObservable = require("ui/core/dependency-observable");
     import observableArrayModule = require("data/observable-array");
-    import observable = require("data/observable");
 
     export class CarouselView extends view.View {
         // static (prototype) properties
@@ -18,6 +17,7 @@ declare module "nativescript-carousel-view" {
         public static indicatorsShape: dependencyObservable.Property;
         public static indicatorsTintColor: dependencyObservable.Property;
         public static indicatorsCurrentPageColor: dependencyObservable.Property;
+        public static animateTransition: dependencyObservable.Property;
 
         // instance properties
         position: number;
@@ -30,6 +30,7 @@ declare module "nativescript-carousel-view" {
         indicatorsShape: string;
         indicatorsTintColor: string;
         indicatorsCurrentPageColor: string;
+        animateTransition: boolean;
 
         public insertPage(position: number, bindingContext: any);
         public removePage(position: number);

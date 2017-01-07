@@ -36,39 +36,7 @@ export class CarouselView extends common.CarouselView
     // Thanks to NathanWalker for the onLoaded tip
     public onLoaded() {
 
-        let orientation;
-        switch(this.orientation)
-        {
-            case "horizontal":
-                orientation = UIPageViewControllerNavigationOrientation.UIPageViewControllerNavigationOrientationHorizontal;
-                break;
-            case "vertical":
-                orientation = UIPageViewControllerNavigationOrientation.UIPageViewControllerNavigationOrientationVertical;
-                break;
-            default:
-                throw new Error("CarouselView " + this.orientation + " orientation is not supported.");
-        }
-
-        let objects = <any>[UIPageViewControllerSpineLocation.UIPageViewControllerSpineLocationNone, this.interPageSpacing];
-        let keys = <any>[UIPageViewControllerOptionSpineLocationKey, UIPageViewControllerOptionInterPageSpacingKey];
-
-        this._pageController = UIPageViewController.alloc().initWithTransitionStyleNavigationOrientationOptions(
-            UIPageViewControllerTransitionStyle.UIPageViewControllerTransitionStyleScroll,
-            orientation,
-            NSDictionary.dictionaryWithObjectsForKeys(objects,keys));
-
-        var that = new WeakRef(this);
-        this._pageController.dataSource = DataSourceClass.initWithOwner(that);
-        this._pageController.delegate = DelegateClass.initWithOwner(that);
-
-        let firstViewController = this.createViewController(this.position);
-        let direction = UIPageViewControllerNavigationDirection.UIPageViewControllerNavigationDirectionForward;
-        this._pageController.setViewControllersDirectionAnimatedCompletion (<any>[firstViewController], direction, false, (arg1) => {});
-
-        // Property for the user set the margin color (background color)
-        this._pageController.view.backgroundColor = new Color(this.interPageSpacingColor).ios;
-
-        this._ios.addSubview(this._pageController.view);
+        this.configurePageController();
 
         this._pageControl = new UIPageControl();
 
@@ -109,15 +77,10 @@ export class CarouselView extends common.CarouselView
             {
                 case "itemsSource":
                     if (this._pageController != null) {
-        
-                        if (this.position > this.itemsSource.length - 1)
-                            this.position = this.itemsSource.length - 1;
-                            
-                        let firstViewController = this.createViewController(this.position);
-                        let direction = UIPageViewControllerNavigationDirection.UIPageViewControllerNavigationDirectionForward;
-                        this._pageController.setViewControllersDirectionAnimatedCompletion (<any>[firstViewController], direction, false, (arg1) => {});
+   
+                        this.configurePageController();
 
-                        this.ConfigurePageControl();
+                        this.configurePageControl();
 
                         var eventData: observable.EventData = {
                             eventName: "positionSelected",
@@ -134,19 +97,67 @@ export class CarouselView extends common.CarouselView
         }, this);
     }
 
-    public onLayout(left: number, top: number, right: number, bottom: number): void {
-        if (this._layoutCount == 1)
-        {
-            this.ConfigurePageControl();
+    configurePageController() : void {
+
+        if (this.itemsSource != null) {       
+            if (this.position > this.itemsSource.length - 1)
+                this.position = this.itemsSource.length - 1;
         }
-        this._layoutCount++;
+        else {
+            this.position = 0;
+        }
+
+        if (this.position == -1)
+            this.position = 0;
+
+        let orientation;
+        switch(this.orientation)
+        {
+            case "horizontal":
+                orientation = UIPageViewControllerNavigationOrientation.UIPageViewControllerNavigationOrientationHorizontal;
+                break;
+            case "vertical":
+                orientation = UIPageViewControllerNavigationOrientation.UIPageViewControllerNavigationOrientationVertical;
+                break;
+            default:
+                throw new Error("CarouselView " + this.orientation + " orientation is not supported.");
+        }
+
+        let objects = <any>[UIPageViewControllerSpineLocation.UIPageViewControllerSpineLocationNone, this.interPageSpacing];
+        let keys = <any>[UIPageViewControllerOptionSpineLocationKey, UIPageViewControllerOptionInterPageSpacingKey];
+
+        this._pageController = UIPageViewController.alloc().initWithTransitionStyleNavigationOrientationOptions(
+            UIPageViewControllerTransitionStyle.UIPageViewControllerTransitionStyleScroll,
+            orientation,
+            NSDictionary.dictionaryWithObjectsForKeys(objects,keys));
+
+        var that = new WeakRef(this);
+        this._pageController.dataSource = DataSourceClass.initWithOwner(that);
+        this._pageController.delegate = DelegateClass.initWithOwner(that);
+
+        if (this.itemsSource != null) {
+            if (this.itemsSource.length > 0) {
+                let firstViewController = this.createViewController(this.position);
+                let direction = UIPageViewControllerNavigationDirection.UIPageViewControllerNavigationDirectionForward;
+                this._pageController.setViewControllersDirectionAnimatedCompletion (<any>[firstViewController], direction, false, (arg1) => {});
+            }
+        }
+
+        // Property for the user set the margin color (background color)
+        this._pageController.view.backgroundColor = new Color(this.interPageSpacingColor).ios;
+
+        if (this._ios.subviews.count > 0)
+            this._ios.subviews.objectAtIndex(0).removeFromSuperview();
+
+        this._ios.insertSubviewAtIndex(this._pageController.view, 0);
     }
 
-    ConfigurePageControl() : void
+    configurePageControl() : void
     {
-        if (this._pageControl != null && this.itemsSource != null)
+        if (this._pageControl != null)
         {
-            this._pageControl.numberOfPages = this.itemsSource.length;
+            var count = this.itemsSource != null ? this.itemsSource.length : 0;
+            this._pageControl.numberOfPages = count;
             this._pageControl.currentPage = this.position;
 
             switch(this.indicatorsShape)
@@ -172,8 +183,16 @@ export class CarouselView extends common.CarouselView
         }
     }
 
+    public onLayout(left: number, top: number, right: number, bottom: number): void {
+        if (this._layoutCount == 1)
+        {
+            this.configurePageControl();
+        }
+        this._layoutCount++;
+    }
+
     public async insertPage(position: number, bindingContext: any) {
-        if (this._pageController != null) {
+        if (this._pageController != null && this.itemsSource != null) {
 
             if (position > this.itemsSource.length)
 				throw new Error("Index out of bounds (position > itemsSource length).");
@@ -186,100 +205,124 @@ export class CarouselView extends common.CarouselView
 			else
 				this.itemsSource.splice(position, 0, bindingContext);
 
-            let firstViewController = this._pageController.viewControllers[0];
+            let firstViewController;
+            if (this._pageController.viewControllers.count > 0)
+				firstViewController = this._pageController.viewControllers[0];
+			else
+				firstViewController = this.createViewController(0);
+
             var direction = UIPageViewControllerNavigationDirection.UIPageViewControllerNavigationDirectionForward;
 
             // Using a standard JS Array here (just type-cast to any to suffice TypeScript)
             // {N} will auto-marshall this into a NSArray when making the call since the metadata knows its
             // supposed to be an NSArray :)
             // Thanks to NathanWalker for the auto-marshall tip for NSArray
-			this._pageController.setViewControllersDirectionAnimatedCompletion(<any>[firstViewController], direction, false, (arg1) => {});
+			this._pageController.setViewControllersDirectionAnimatedCompletion(<any>[firstViewController], direction, false, async (arg1) => {
+                
+                this.configurePageControl();
 
-            this.ConfigurePageControl();
-
-            await this.delay(100);
+                await this.delay(100);
+            });    
         }
     }
 
     public async removePage(position: number) {
-        if (this._pageController != null) {
+        if (this._pageController != null && this.itemsSource != null) {
 
-            if (position > this.itemsSource.length - 1)
-				throw new Error("Index out of bounds (position > itemsSource length - 1).");
+            if (this.itemsSource.length > 0) {
 
-            if (position < 0)
-                throw new Error("Index out of bounds (position < 0).");
+                if (position > this.itemsSource.length - 1)
+                    throw new Error("Index out of bounds (position > itemsSource length - 1).");
 
-            this.itemsSource.splice(position,1);
+                if (position < 0)
+                    throw new Error("Index out of bounds (position < 0).");
 
-            if (position == this.position) {
-				
-                var newPos = position - 1;
-                if (newPos == -1)
-                    newPos = 0;
+                this.itemsSource.splice(position,1);
 
-                await this.delay(100);
+                if (position == this.position) {
+                    
+                    var newPos = position - 1;
+                    if (newPos == -1)
+                        newPos = 0;
 
-                var forward = UIPageViewControllerNavigationDirection.UIPageViewControllerNavigationDirectionForward;
-                var reverse = UIPageViewControllerNavigationDirection.UIPageViewControllerNavigationDirectionReverse;
-                let direction = position == 0 ? forward : reverse;
-                
-                let firstViewController = this.createViewController(newPos);
-                this._pageController.setViewControllersDirectionAnimatedCompletion(<any>[firstViewController], direction, true, (arg1) => {});
+                    await this.delay(100);
 
-                this.position = newPos;
+                    var forward = UIPageViewControllerNavigationDirection.UIPageViewControllerNavigationDirectionForward;
+                    var reverse = UIPageViewControllerNavigationDirection.UIPageViewControllerNavigationDirectionReverse;
+                    let direction = position == 0 ? forward : reverse;
+                    
+                    let firstViewController = this.createViewController(newPos);
+                    this._pageController.setViewControllersDirectionAnimatedCompletion(<any>[firstViewController], direction, this.animateTransition, (arg1) => {
+                        
+                        this.position = newPos;
+                        
+                        this.configurePageControl();
 
-            } else {
+                        var eventData: observable.EventData = {
+                            eventName: "positionSelected",
+                            object: this
+                        }
+                        this.notify(eventData);
+                    });
 
-                let firstViewController = this._pageController.viewControllers[0];
-                let direction = UIPageViewControllerNavigationDirection.UIPageViewControllerNavigationDirectionForward;
-                this._pageController.setViewControllersDirectionAnimatedCompletion (<any>[firstViewController], direction, false, (arg1) => {});
+                } else {
 
+                    let firstViewController = this._pageController.viewControllers[0];
+                    let direction = UIPageViewControllerNavigationDirection.UIPageViewControllerNavigationDirectionForward;
+                    this._pageController.setViewControllersDirectionAnimatedCompletion (<any>[firstViewController], direction, false, (arg1) => {
+                        
+                        this.configurePageControl();
+
+                        var eventData: observable.EventData = {
+                            eventName: "positionSelected",
+                            object: this
+                        }
+                        this.notify(eventData);
+                    });
+                }           
             }
-
-            this.ConfigurePageControl();
-
-            var eventData: observable.EventData = {
-                eventName: "positionSelected",
-                object: this
-            }
-            this.notify(eventData);
         }
     }
 
     public setCurrentPage(position: number): void {
-        if (this._pageController != null) {
+        if (this._pageController != null && this.itemsSource != null) {
 
-            if (position > this.itemsSource.length - 1)
-		        throw new Error("Index out of bounds (position > itemsSource length - 1).");
+            if (this.itemsSource.length > 0) {
 
-            if (position < 0)
-                throw new Error("Index out of bounds (position < 0).");
+                if (position > this.itemsSource.length - 1)
+                    throw new Error("Index out of bounds (position > itemsSource length - 1).");
 
-            var forward = UIPageViewControllerNavigationDirection.UIPageViewControllerNavigationDirectionForward;
-            var reverse = UIPageViewControllerNavigationDirection.UIPageViewControllerNavigationDirectionReverse;
-            var direction = position > this.position ? forward : reverse;
+                if (position < 0)
+                    throw new Error("Index out of bounds (position < 0).");
 
-			this.position = position;
+                var forward = UIPageViewControllerNavigationDirection.UIPageViewControllerNavigationDirectionForward;
+                var reverse = UIPageViewControllerNavigationDirection.UIPageViewControllerNavigationDirectionReverse;
+                var direction = position > this.position ? forward : reverse;
 
-            var firstViewController = this.createViewController(position);
-			this._pageController.setViewControllersDirectionAnimatedCompletion(<any>[firstViewController], direction, true, (arg1) => {});
+                this.position = position;
 
-            this.ConfigurePageControl();
+                var firstViewController = this.createViewController(position);
+                this._pageController.setViewControllersDirectionAnimatedCompletion(<any>[firstViewController], direction, this.animateTransition, (arg1) => {
+                    this.configurePageControl();
 
-            var eventData: observable.EventData = {
-                eventName: "positionSelected",
-                object: this
+                    var eventData: observable.EventData = {
+                        eventName: "positionSelected",
+                        object: this
+                    }
+                    this.notify(eventData);
+                });     
             }
-            this.notify(eventData);
         }
     }
 
     public createViewController(position: number) : UIViewController 
     {
         var item;
-        if (this.itemsSource != null)
-            item = this.itemsSource.getItem(position);
+        if (this.itemsSource != null) {
+            if (this.itemsSource.length > 0) {
+                item = this.itemsSource.getItem(position);
+            }
+        }
 
         var view = this.templateSelector.OnSelectTemplate(position, item);
         var obj = <any>view;
@@ -319,36 +362,50 @@ class DataSourceClass extends NSObject implements UIPageViewControllerDataSource
     pageViewControllerViewControllerBeforeViewController(pageViewController: UIPageViewController, viewController: UIViewController): UIViewController
     {
         var controller = <ViewContainer>viewController;
-        var position = Number(controller.tag);
 
-        // Determine if we are on the first page
-        if (position == 0)
-        {
-            // We are on the first page, so there is no need for a controller before that
-            return null;
+        if (controller != null)
+		{
+            var position = Number(controller.tag);
+
+            // Determine if we are on the first page
+            if (position == 0)
+            {
+                // We are on the first page, so there is no need for a controller before that
+                return null;
+            }
+            else {
+                var previousPageIndex = position - 1;
+                return this.owner.createViewController(previousPageIndex);
+            }
         }
         else {
-            var previousPageIndex = position - 1;
-            return this.owner.createViewController(previousPageIndex);
-        }
+			return null;
+		}
     }
 
     pageViewControllerViewControllerAfterViewController(pageViewController: UIPageViewController, viewController: UIViewController): UIViewController
     {
         var controller = <ViewContainer>viewController;
-        var position = Number(controller.tag);
 
-        // Determine if we are on the last page
-        var count = this.presentationCountForPageViewController(pageViewController);
-        if (position == count - 1)
-        {
-            // We are on the last page, so there is no need for a controller after that
-            return null;
+        if (controller != null)
+		{
+            var position = Number(controller.tag);
+
+            // Determine if we are on the last page
+            var count = this.presentationCountForPageViewController(pageViewController);
+            if (position == count - 1)
+            {
+                // We are on the last page, so there is no need for a controller after that
+                return null;
+            }
+            else {
+                var nextPageIndex = position + 1;
+                return this.owner.createViewController(nextPageIndex);
+            }
         }
         else {
-            var nextPageIndex = position + 1;
-            return this.owner.createViewController(nextPageIndex);
-        }
+			return null;
+		}
     }
 
     presentationCountForPageViewController(pageViewController: UIPageViewController): number
@@ -390,7 +447,7 @@ class DelegateClass extends NSObject implements UIPageViewControllerDelegate
 			var position = controller.tag;
 			this.owner.position = position;
 
-            this.owner.ConfigurePageControl();
+            this.owner.configurePageControl();
 
             var eventData: observable.EventData = {
                 eventName: "positionSelected",

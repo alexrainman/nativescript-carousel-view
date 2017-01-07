@@ -1,12 +1,12 @@
 {
    "name": "nativescript-carousel-view",
-   "version": "2.7.1",
+   "version": "2.9.0",
    "main": "carousel-view.js",
    "typings": "carousel-view.d.ts",
    "nativescript": {
        "platforms": {
-           "ios": "2.3.0",
-           "android": "2.3.0"
+           "ios": "2.4.0",
+           "android": "2.4.0"
        }
    },
    "repository": {

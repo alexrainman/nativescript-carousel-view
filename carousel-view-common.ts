@@ -67,6 +67,12 @@ export class CarouselView extends view.View implements definition.CarouselView {
         new proxy.PropertyMetadata("#808080")
         );
 
+    public static animateTransitionProperty = new dependencyObservable.Property(
+        "animateTransition",
+        "CarouselView",
+        new proxy.PropertyMetadata(true)
+        );
+
     get position(): number {
         return this._getValue(CarouselView.positionProperty);
     }
@@ -135,6 +141,13 @@ export class CarouselView extends view.View implements definition.CarouselView {
     }
     set indicatorsCurrentPageColor(value: string) {
         this._setValue(CarouselView.indicatorsCurrentPageColorProperty, value);
+    }
+
+    get animateTransition(): boolean {
+        return this._getValue(CarouselView.animateTransitionProperty);
+    }
+    set animateTransition(value: boolean) {
+        this._setValue(CarouselView.animateTransitionProperty, value);
     }
 
     public async insertPage(position: number, bindingContext: any) {}

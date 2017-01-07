@@ -53,6 +53,8 @@ Then add the control:
 
 ```templateSelector```: a class implementing the provided ITemplateSelector interface.
 
+```animateTransition```: enables transition animation when swiping programmatically (default true).
+
 Template selector should return a valid {N} view. As advice, put each view in separate files and load them with builder. Also, notice that you have to assign the bindingContext of the returning view.
 
 #### TYPESCRIPT
@@ -202,7 +204,7 @@ https://www.nativescript.org/blog/use-async-await-with-typescript-in-nativescrip
 
 #### Roadmap
 
-* Remove setCurrentPage, implement as propertyChangedEvent (requires lot of refactoring)
+* Remove setCurrentPage, implement as position propertyChangedEvent (requires lot of refactoring)
 * Indicators tap event
 * PullToLoadMore event
 
@@ -211,6 +213,14 @@ https://www.nativescript.org/blog/use-async-await-with-typescript-in-nativescrip
 * [alexrainman](https://github.com/alexrainman)
 
 #### Release Notes
+
+2.9.0
+
+[New feature] animateTransition, enables transition animation when swiping programmatically (default true).
+
+2.8.0
+
+[Update] itemsSource now supports empty observable array.
 
 2.7.1
 

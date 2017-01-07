@@ -71,7 +71,8 @@ export class CarouselView extends common.CarouselView
         }
 
         this._indicators.SetViewPager(this._viewPager, this.position);
-        this._indicators.mSnapPage = this.position;
+        
+        this.configurePosition();
 
         this._android.addView(this._indicators, layoutParams);
 
@@ -93,13 +94,14 @@ export class CarouselView extends common.CarouselView
                 case "itemsSource":
                     if (this._viewPager != null) {
         
-                        if (this.position > this.itemsSource.length - 1)
-                            this.position = this.itemsSource.length - 1;
+                        this.configurePosition();
                             
                         ensurePagerAdapterClass();
                         this._viewPager.setAdapter(new PagerAdapterClass(this));
 
                         this._viewPager.setCurrentItem(this.position, false);
+
+                        this._indicators.SetViewPager(this._viewPager, this.position);
 
                         var eventData: observable.EventData = {
                             eventName: "positionSelected",
@@ -116,8 +118,23 @@ export class CarouselView extends common.CarouselView
         }, this);
     }
 
+    configurePosition() : void {
+        if (this.itemsSource != null) {       
+            if (this.position > this.itemsSource.length - 1)
+                this.position = this.itemsSource.length - 1;
+        }
+        else {
+            this.position = 0;
+        }
+
+        if (this.position == -1)
+            this.position = 0;
+
+        this._indicators.mSnapPage = this.position;
+    }
+
     public async insertPage(position: number, bindingContext: any) {
-        if (this._viewPager != null) {
+        if (this._viewPager != null && this.itemsSource != null) {
 
             if (position > this.itemsSource.length)
 				throw new Error("Index out of bounds (position > itemsSource length).");
@@ -140,71 +157,85 @@ export class CarouselView extends common.CarouselView
     }
 
     public async removePage(position: number) {
-        if (this._viewPager != null) {
+        if (this._viewPager != null && this.itemsSource != null) {
 
-            if (position > this.itemsSource.length - 1)
-				throw new Error("Index out of bounds (position > itemsSource length - 1).");
+            if (this.itemsSource.length > 0) {
 
-            if (position < 0)
-                throw new Error("Index out of bounds (position < 0).");
+                if (position > this.itemsSource.length - 1)
+                    throw new Error("Index out of bounds (position > itemsSource length - 1).");
 
-            if (position == this.position) {
+                if (position < 0)
+                    throw new Error("Index out of bounds (position < 0).");
 
-                var newPos = position - 1;
-                if (newPos == -1)
-                    newPos = 0;
+                if (position == this.position) {
 
-                if (position == 0) {
+                    var newPos = position - 1;
+                    if (newPos == -1)
+                        newPos = 0;
 
-                    this._viewPager.setCurrentItem (1, true);
+                    if (position == 0) {
 
-                    await this.delay(100);
+                        this._viewPager.setCurrentItem (1, this.animateTransition);
 
-                    this.itemsSource.splice(position,1);            
-                    
-                    //this._viewPager.setAdapter(new PagerAdapterClass(this));
-                    this._viewPager.getAdapter().notifyDataSetChanged (); 
-                    
-                    this._viewPager.setCurrentItem (0, false);  
+                        await this.delay(100);
 
-                    this.position = 0;            
+                        this.itemsSource.splice(position,1);            
+                        
+                        //this._viewPager.setAdapter(new PagerAdapterClass(this));
+                        this._viewPager.getAdapter().notifyDataSetChanged (); 
+                        
+                        this._viewPager.setCurrentItem (0, false);  
+
+                        this.position = 0;            
+
+                    } else {
+
+                        this._viewPager.setCurrentItem (newPos, this.animateTransition);
+
+                        await this.delay(100);
+
+                        this.itemsSource.splice(position,1);
+                        if (position == 1)
+                            this._viewPager.setAdapter(new PagerAdapterClass(this));                        
+                        else
+                            this._viewPager.getAdapter().notifyDataSetChanged ();                 
+                        this.position = newPos;
+                    }
 
                 } else {
-
-                    this._viewPager.setCurrentItem (newPos, true);
-
-                    await this.delay(100);
 
                     this.itemsSource.splice(position,1);
                     if (position == 1)
                         this._viewPager.setAdapter(new PagerAdapterClass(this));                        
                     else
-                        this._viewPager.getAdapter().notifyDataSetChanged ();                 
-                    this.position = newPos;
+                        this._viewPager.getAdapter().notifyDataSetChanged ();
                 }
-
-            } else {
-
-                this.itemsSource.splice(position,1);
-                if (position == 1)
-                    this._viewPager.setAdapter(new PagerAdapterClass(this));                        
-                else
-                    this._viewPager.getAdapter().notifyDataSetChanged ();
             }
         }
     }
 
     public setCurrentPage(position: number): void {
-        if (this._viewPager != null) {
+        if (this._viewPager != null && this.itemsSource != null) {
 
-            if (position > this.itemsSource.length - 1)
-		        throw new Error("Index out of bounds (position > itemsSource length - 1).");
+            if (this.itemsSource.length > 0) {
 
-            if (position < 0)
-                throw new Error("Index out of bounds (position < 0).");
+                if (position > this.itemsSource.length - 1)
+                    throw new Error("Index out of bounds (position > itemsSource length - 1).");
 
-            this.position = position;
-            this._viewPager.setCurrentItem (position, true);
+                if (position < 0)
+                    throw new Error("Index out of bounds (position < 0).");
+
+                this.position = position;
+                this._viewPager.setCurrentItem (position, this.animateTransition);
+
+                if (!this.animateTransition) {
+                    var eventData: observable.EventData = {
+                        eventName: "positionSelected",
+                        object: this
+                    }
+                    this.notify(eventData);
+                }
+            }
         }
     }
 
@@ -250,8 +281,11 @@ function ensurePagerAdapterClass() {
         {
             // FIX: populate the carousel with data after being loaded in UI
             var item;
-            if (this._owner.itemsSource != null)
-                item = this._owner.itemsSource.getItem(position);
+            if (this._owner.itemsSource != null) {
+                if (this._owner.itemsSource.length > 0) {
+                    item = this._owner.itemsSource.getItem(position);
+                }
+            }
 
             var view = this._owner.templateSelector.OnSelectTemplate(position, item);
             var obj = <any>view;
