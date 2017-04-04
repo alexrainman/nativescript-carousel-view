@@ -1,0 +1,17 @@
+<Page
+  xmlns="http://schemas.nativescript.org/tns.xsd"
+  xmlns:controls="./Component/carousel-view-common"
+  navigatingTo="navigatingTo">
+
+  <ActionBar title="Demo"/>
+
+  <GridLayout columns="*" rows="*,50">
+      <controls:CarouselView row="0" col="0" id="carouselView" animateTransition="true" indicatorsShape="Square" position="0" orientation="horizontal" interPageSpacing="5" interPageSpacingColor="darkgray" templateSelector="{{ templateSelector }}" itemsSource="{{ itemsSource }}"/>
+      <GridLayout row="1" col="0" columns="50, *, 50" rows="*" style.backgroundColor="lightgray">
+          <Label id="prevLbl" tap="onPrev" text="Prev" row="0" col="0" style.textAlignment="center" style.verticalAlignment="center"/>
+          <Label text="Add page" id="addPage" row="0" col="1" style.textAlignment="center" style.verticalAlignment="center"/>
+          <Label id="nextLbl" tap="onNext" text="Next" row="0" col="2" style.textAlignment="center" style.verticalAlignment="center"/>
+      </GridLayout>
+  </GridLayout>
+
+</Page>
